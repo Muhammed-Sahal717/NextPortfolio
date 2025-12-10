@@ -237,7 +237,7 @@ export default function ChatWidget() {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="w-8 h-8 bg-white border-2 border-black hover:bg-black hover:text-white transition-colors flex items-center justify-center rounded-md"
+                  className="w-8 h-8 bg-white border-2 text-black border-black hover:bg-black hover:text-white transition-colors flex items-center justify-center rounded-md"
                 >
                   <X size={18} strokeWidth={3} />
                 </button>

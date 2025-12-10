@@ -33,6 +33,9 @@ export const metadata: Metadata = {
 
   // SEO Keywords for Google
   keywords: [
+    "muhammed sahal ap",
+    "designer",
+    "coder",
     "Sahal",
     "System Architect",
     "Full Stack Developer",
@@ -45,7 +48,7 @@ export const metadata: Metadata = {
     "UI/UX",
   ],
 
-  authors: [{ name: "Sahal", url: "https://sahal-portfolio.vercel.app" }],
+  authors: [{ name: "Sahal", url: "https://next-portfolio-sahal.vercel.app" }],
   creator: "Sahal",
   publisher: "Sahal",
 
@@ -62,8 +65,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Sahal | System Architect",
-    description: "Building digital engines with clean code and kinetic design.",
+    title: "Sahal | Web Dev & UI/UX Designer",
+    description:
+      "Building digital websites with clean code and kinetic design.",
     url: "/",
     siteName: "Sahal Portfolio",
     locale: "en_US",
