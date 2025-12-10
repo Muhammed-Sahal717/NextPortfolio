@@ -61,8 +61,6 @@ export default function BentoGrid() {
         </div>
       </div>
 
-      {/* 2. MAIN DASHBOARD LAYOUT */}
-      {/* Mobile: Simple Stack (flex-col). Desktop: Grid (grid-cols-12). */}
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:items-stretch">
         {/* --- LEFT COLUMN GROUP --- */}
         <div className="lg:col-span-7 flex flex-col gap-6">
@@ -120,7 +118,7 @@ export default function BentoGrid() {
             {/* Socials */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-lime-400 text-black p-8 rounded-3xl flex flex-col justify-center gap-4 relative overflow-hidden group cursor-pointer h-full min-h-[140px]"
+              className="bg-lime-400 text-black p-8 rounded-3xl flex flex-col justify-center gap-4 relative overflow-hidden group h-full min-h-[140px]"
             >
               <div className="absolute top-4 right-4 bg-black/10 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                 <FiArrowUpRight size={20} />
