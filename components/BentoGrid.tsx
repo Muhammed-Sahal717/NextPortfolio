@@ -25,18 +25,20 @@ import {
 import Link from "next/link";
 
 export default function BentoGrid() {
+  // FIX: Added explicit 'name' key.
+  // Relying on 'Icon.name' breaks in production because Vercel minifies function names.
   const stackItems = [
-    { Icon: SiNextdotjs, color: "hover:text-white" },
-    { Icon: SiReact, color: "hover:text-[#61DAFB]" },
-    { Icon: SiTypescript, color: "hover:text-[#3178C6]" },
-    { Icon: SiTailwindcss, color: "hover:text-[#06B6D4]" },
-    { Icon: SiFramer, color: "hover:text-[#0055FF]" },
-    { Icon: SiSupabase, color: "hover:text-[#3FCF8E]" },
-    { Icon: SiPostgresql, color: "hover:text-[#4169E1]" },
-    { Icon: SiPython, color: "hover:text-[#3776AB]" },
-    { Icon: SiDocker, color: "hover:text-[#2496ED]" },
-    { Icon: SiVercel, color: "hover:text-white" },
-    { Icon: SiGit, color: "hover:text-[#F05032]" },
+    { name: "Next.js", Icon: SiNextdotjs, color: "hover:text-white" },
+    { name: "React", Icon: SiReact, color: "hover:text-[#61DAFB]" },
+    { name: "TypeScript", Icon: SiTypescript, color: "hover:text-[#3178C6]" },
+    { name: "Tailwind", Icon: SiTailwindcss, color: "hover:text-[#06B6D4]" },
+    { name: "Framer", Icon: SiFramer, color: "hover:text-[#0055FF]" },
+    { name: "Supabase", Icon: SiSupabase, color: "hover:text-[#3FCF8E]" },
+    { name: "PostgreSQL", Icon: SiPostgresql, color: "hover:text-[#4169E1]" },
+    { name: "Python", Icon: SiPython, color: "hover:text-[#3776AB]" },
+    { name: "Docker", Icon: SiDocker, color: "hover:text-[#2496ED]" },
+    { name: "Vercel", Icon: SiVercel, color: "hover:text-white" },
+    { name: "Git", Icon: SiGit, color: "hover:text-[#F05032]" },
   ];
 
   return (
@@ -54,7 +56,7 @@ export default function BentoGrid() {
         </div>
         <div className="max-w-md text-zinc-400 text-lg leading-relaxed">
           <p>
-            I build high-performance wbsites. Merging{" "}
+            I build high-performance websites. Merging{" "}
             <span className="text-lime-400 font-bold">clean code</span> with
             kinetic design. No bloat, just impact.
           </p>
@@ -67,7 +69,6 @@ export default function BentoGrid() {
           {/* Bio Card */}
           <motion.div
             whileHover={{ y: -5 }}
-            // Mobile: Auto height. Desktop: Fixed height to force alignment.
             className="bg-zinc-900/50 border border-zinc-800 p-8 md:p-12 rounded-3xl flex flex-col justify-between h-auto lg:h-80 relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -99,7 +100,6 @@ export default function BentoGrid() {
           </motion.div>
 
           {/* Location & Socials Row */}
-          {/* Mobile: Vertical Stack. Tablet/Desktop: Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:h-[180px]">
             {/* Location */}
             <motion.div
@@ -129,12 +129,14 @@ export default function BentoGrid() {
               <div className="flex gap-3">
                 <Link
                   href="https://github.com/Muhammed-Sahal717"
+                  target="_blank"
                   className="p-2 bg-black text-white rounded-full hover:scale-110 transition-transform"
                 >
                   <FiGithub size={20} />
                 </Link>
                 <Link
                   href="https://linkedin.com/in/mhdsahal717"
+                  target="_blank"
                   className="p-2 bg-black text-white rounded-full hover:scale-110 transition-transform"
                 >
                   <FiLinkedin size={20} />
@@ -146,14 +148,11 @@ export default function BentoGrid() {
 
         {/* --- RIGHT COLUMN (THE SCROLLER) --- */}
         <div className="lg:col-span-5 h-full">
-          <motion.div
-            // Mobile: Fixed height (400px) so it has presence. Desktop: Full height (h-full) to match neighbors.
-            className="bg-zinc-900 border border-zinc-800 w-full h-[400px] lg:h-full rounded-3xl p-6 flex flex-col relative overflow-hidden"
-          >
+          <motion.div className="bg-zinc-900 border border-zinc-800 w-full h-[400px] lg:h-full rounded-3xl p-6 flex flex-col relative overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between mb-6 relative z-10 shrink-0">
               <h3 className="text-xl font-bold flex items-center gap-2">
-                <FiZap className="text-lime-400" /> The Arsenal
+                <FiZap className="text-lime-400" /> Tech Stack
               </h3>
               <span className="text-zinc-600 text-[10px] font-mono uppercase tracking-widest">
                 SCROLL_Y
@@ -186,7 +185,8 @@ export default function BentoGrid() {
                         className={`text-lg text-zinc-500 transition-colors ${item.color}`}
                       />
                       <span className="font-mono text-zinc-400 text-xs font-bold uppercase tracking-wider group-hover:text-white transition-colors">
-                        {item.Icon.name.replace("Si", "")}
+                        {/* Use the explicit name here */}
+                        {item.name}
                       </span>
                     </div>
                   ))}
