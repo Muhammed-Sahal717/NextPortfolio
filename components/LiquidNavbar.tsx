@@ -5,7 +5,7 @@ import { FiGithub, FiLinkedin } from "react-icons/fi";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
-// 🍔 The Bento Grid Menu Icon (3x3 Dots)
+// The Bento Grid Menu Icon (3x3 Dots)
 const BentoMenuIcon = ({ isOpen }: { isOpen: boolean }) => (
   <div className="relative w-6 h-6 flex items-center justify-center">
     {/* State 1: The 3x3 Grid (Visible when CLOSED) */}
