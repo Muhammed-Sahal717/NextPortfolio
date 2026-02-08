@@ -10,7 +10,9 @@ import {
   useInView,
 } from "framer-motion";
 import LiquidNavbar from "@/components/LiquidNavbar";
-import LiquidEther from "@/components/LiquidEther";
+import CircuitBoard from "@/components/CircuitBoard";
+import TiltCard from "@/components/TiltCard";
+import Magnetic from "@/components/Magnetic";
 import Footer from "@/components/Footer";
 import SpotlightCard from "@/components/SpotlightCard";
 import {
@@ -155,25 +157,27 @@ const TimelineItem = ({
         className="absolute left-[-6px] top-0 w-3 h-3 bg-lime-400 rounded-full shadow-[0_0_15px_rgba(163,230,53,1)] z-10"
       ></motion.div>
 
-      <SpotlightCard className="p-8 backdrop-blur-md bg-black/40 hover:bg-black/60 transition-colors">
-        <span className="text-xs font-mono text-lime-400 mb-2 block tracking-widest uppercase opacity-80">
-          {phase}
-        </span>
-        <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-lime-300 transition-colors">
-          {title}
-        </h3>
-        <ul className="space-y-3">
-          {items.map((item, idx) => (
-            <li
-              key={idx}
-              className="text-zinc-400 flex items-start gap-3 text-sm md:text-base"
-            >
-              <span className="w-1.5 h-1.5 bg-lime-500/50 rounded-full mt-2 shrink-0"></span>
-              {item}
-            </li>
-          ))}
-        </ul>
-      </SpotlightCard>
+      <TiltCard className="mb-4">
+        <SpotlightCard className="p-8 backdrop-blur-md bg-black/40 hover:bg-black/60 transition-colors">
+          <span className="text-xs font-mono text-lime-400 mb-2 block tracking-widest uppercase opacity-80">
+            {phase}
+          </span>
+          <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-lime-300 transition-colors">
+            {title}
+          </h3>
+          <ul className="space-y-3">
+            {items.map((item, idx) => (
+              <li
+                key={idx}
+                className="text-zinc-400 flex items-start gap-3 text-sm md:text-base"
+              >
+                <span className="w-1.5 h-1.5 bg-lime-500/50 rounded-full mt-2 shrink-0"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </SpotlightCard>
+      </TiltCard>
     </motion.div>
   );
 };
@@ -268,19 +272,21 @@ const ConceptCard = ({
     transition={{ delay: index * 0.1 }}
     whileHover={{ y: -5 }}
   >
-    <SpotlightCard className="p-6 h-full flex flex-col justify-between group hover:bg-white/10 transition-colors duration-500">
-      <div>
-        <div className="mb-6 inline-flex items-center justify-center p-3 rounded-xl bg-lime-500/10 text-lime-400 group-hover:bg-lime-400 group-hover:text-black transition-all duration-300">
-          <Icon size={24} />
+    <TiltCard className="h-full">
+      <SpotlightCard className="p-6 h-full flex flex-col justify-between group hover:bg-white/10 transition-colors duration-500">
+        <div>
+          <div className="mb-6 inline-flex items-center justify-center p-3 rounded-xl bg-lime-500/10 text-lime-400 group-hover:bg-lime-400 group-hover:text-black transition-all duration-300">
+            <Icon size={24} />
+          </div>
+          <h3 className="text-lg font-bold mb-3 text-white group-hover:text-lime-300 transition-colors">
+            {title}
+          </h3>
+          <p className="text-zinc-400 text-sm leading-relaxed group-hover:text-zinc-300 transition-colors">
+            {desc}
+          </p>
         </div>
-        <h3 className="text-lg font-bold mb-3 text-white group-hover:text-lime-300 transition-colors">
-          {title}
-        </h3>
-        <p className="text-zinc-400 text-sm leading-relaxed group-hover:text-zinc-300 transition-colors">
-          {desc}
-        </p>
-      </div>
-    </SpotlightCard>
+      </SpotlightCard>
+    </TiltCard>
   </motion.div>
 );
 
@@ -419,18 +425,20 @@ const NoteCard = ({
         onClick={() => setIsOpen(true)}
         className="cursor-pointer h-full"
       >
-        <SpotlightCard className="p-6 h-full border border-white/5 hover:border-lime-500/30 transition-all duration-300 group">
-          <h3 className="font-bold mb-4 flex justify-between items-start text-lg">
-            {title}
-            <FiArrowRight className="text-lime-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-          </h3>
-          <p className="text-zinc-500 text-sm line-clamp-3 group-hover:text-zinc-400 transition-colors">
-            {content}
-          </p>
-          <div className="mt-4 text-xs font-mono text-lime-500/70 group-hover:text-lime-400">
-            READ MORE
-          </div>
-        </SpotlightCard>
+        <TiltCard className="h-full">
+          <SpotlightCard className="p-6 h-full border border-white/5 hover:border-lime-500/30 transition-all duration-300 group">
+            <h3 className="font-bold mb-4 flex justify-between items-start text-lg">
+              {title}
+              <FiArrowRight className="text-lime-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+            </h3>
+            <p className="text-zinc-500 text-sm line-clamp-3 group-hover:text-zinc-400 transition-colors">
+              {content}
+            </p>
+            <div className="mt-4 text-xs font-mono text-lime-500/70 group-hover:text-lime-400">
+              READ MORE
+            </div>
+          </SpotlightCard>
+        </TiltCard>
       </motion.div>
 
       <AnimatePresence>
@@ -500,13 +508,15 @@ const EngineeringNotes = () => (
     </div>
 
     <div className="mt-12 text-center">
-      <Link
-        href="/engineering/notes"
-        className="inline-flex items-center gap-2 text-lime-400 hover:text-lime-300 transition-colors font-mono uppercase tracking-widest text-sm group"
-      >
-        View Full Engineering Notes
-        <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-      </Link>
+      <Magnetic>
+        <Link
+          href="/engineering/notes"
+          className="inline-flex items-center gap-2 text-lime-400 hover:text-lime-300 transition-colors font-mono uppercase tracking-widest text-sm group"
+        >
+          View Full Engineering Notes
+          <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </Magnetic>
     </div>
   </section>
 );
@@ -541,17 +551,10 @@ export default function EngineeringPage() {
       <LiquidNavbar />
 
       {/* Background Liquid Effect */}
-      <div className="fixed inset-0 z-0 opacity-30 pointer-events-none">
-        <LiquidEther
-          colors={["#D0F0C0", "#000000"]}
-          isViscous={true}
-          viscous={15}
-          mouseForce={8}
-          cursorSize={80}
-          dt={0.016}
-          resolution={0.35}
-          iterationsViscous={16}
-          iterationsPoisson={16}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <CircuitBoard
+          lineColor="rgba(255, 255, 255, 0.05)"
+          pulseColor="rgba(163, 230, 53, 0.4)"
         />
       </div>
 

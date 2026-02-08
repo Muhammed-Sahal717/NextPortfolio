@@ -8,7 +8,9 @@ import {
   useTransform,
 } from "framer-motion";
 import LiquidNavbar from "@/components/LiquidNavbar";
-import LiquidEther from "@/components/LiquidEther";
+import CircuitBoard from "@/components/CircuitBoard";
+import TiltCard from "@/components/TiltCard";
+import Magnetic from "@/components/Magnetic";
 import Footer from "@/components/Footer";
 import SpotlightCard from "@/components/SpotlightCard";
 import {
@@ -233,62 +235,64 @@ const NoteCard = ({
       onClick={onClick}
       className={`cursor-pointer h-full ${isFundamental ? "md:col-span-1" : ""}`}
     >
-      <SpotlightCard
-        className={`p-6 h-full flex flex-col justify-between group border transition-all duration-300 bg-white/5 hover:bg-white/10 ${
-          isFundamental
-            ? "border-lime-500/20 hover:border-lime-500/50 shadow-[0_0_30px_rgba(132,204,22,0.05)]"
-            : "border-white/5 hover:border-lime-500/30"
-        }`}
-      >
-        <div>
-          <div className="flex justify-between items-start mb-4">
-            <div className="flex items-center gap-2">
-              {note.icon && (
-                <div
-                  className={`${isFundamental ? "text-lime-400" : "text-lime-500/70"} group-hover:text-lime-400 transition-colors`}
-                >
-                  <note.icon size={isFundamental ? 28 : 24} />
-                </div>
-              )}
+      <TiltCard className="h-full">
+        <SpotlightCard
+          className={`p-6 h-full flex flex-col justify-between group border transition-all duration-300 bg-white/5 hover:bg-white/10 ${
+            isFundamental
+              ? "border-lime-500/20 hover:border-lime-500/50 shadow-[0_0_30px_rgba(132,204,22,0.05)]"
+              : "border-white/5 hover:border-lime-500/30"
+          }`}
+        >
+          <div>
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex items-center gap-2">
+                {note.icon && (
+                  <div
+                    className={`${isFundamental ? "text-lime-400" : "text-lime-500/70"} group-hover:text-lime-400 transition-colors`}
+                  >
+                    <note.icon size={isFundamental ? 28 : 24} />
+                  </div>
+                )}
+              </div>
+
+              <FiArrowRight className="text-lime-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
             </div>
 
-            <FiArrowRight className="text-lime-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-          </div>
+            <div className="flex gap-2 mb-3">
+              <span
+                className={`text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border ${
+                  isFundamental
+                    ? "bg-lime-500/10 text-lime-400 border-lime-500/20"
+                    : "bg-white/5 text-zinc-500 border-white/10"
+                }`}
+              >
+                {note.difficulty}
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border bg-white/5 text-zinc-500 border-white/10">
+                {note.readingTime}
+              </span>
+            </div>
 
-          <div className="flex gap-2 mb-3">
-            <span
-              className={`text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border ${
-                isFundamental
-                  ? "bg-lime-500/10 text-lime-400 border-lime-500/20"
-                  : "bg-white/5 text-zinc-500 border-white/10"
-              }`}
+            <h3
+              className={`font-bold text-zinc-100 group-hover:text-lime-300 transition-colors mb-2 ${isFundamental ? "text-xl" : "text-lg"}`}
             >
-              {note.difficulty}
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border bg-white/5 text-zinc-500 border-white/10">
-              {note.readingTime}
-            </span>
+              {note.title}
+            </h3>
+            {note.subtitle && (
+              <p className="text-xs font-mono text-zinc-500 mb-3">
+                {note.subtitle}
+              </p>
+            )}
           </div>
 
-          <h3
-            className={`font-bold text-zinc-100 group-hover:text-lime-300 transition-colors mb-2 ${isFundamental ? "text-xl" : "text-lg"}`}
-          >
-            {note.title}
-          </h3>
-          {note.subtitle && (
-            <p className="text-xs font-mono text-zinc-500 mb-3">
-              {note.subtitle}
-            </p>
-          )}
-        </div>
-
-        <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-          <span className="text-xs font-mono text-lime-500/50 group-hover:text-lime-400 transition-colors">
-            READ NOTE
-          </span>
-          <div className="w-1.5 h-1.5 rounded-full bg-lime-500/50 group-hover:bg-lime-400 transition-colors"></div>
-        </div>
-      </SpotlightCard>
+          <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+            <span className="text-xs font-mono text-lime-500/50 group-hover:text-lime-400 transition-colors">
+              READ NOTE
+            </span>
+            <div className="w-1.5 h-1.5 rounded-full bg-lime-500/50 group-hover:bg-lime-400 transition-colors"></div>
+          </div>
+        </SpotlightCard>
+      </TiltCard>
     </motion.div>
   );
 };
@@ -333,17 +337,10 @@ export default function EngineeringNotesPage() {
       <LiquidNavbar />
 
       {/* Background Liquid Effect */}
-      <div className="fixed inset-0 z-0 opacity-25 pointer-events-none">
-        <LiquidEther
-          colors={["#D0F0C0", "#000000"]}
-          isViscous={true}
-          viscous={15}
-          mouseForce={8}
-          cursorSize={80}
-          dt={0.016}
-          resolution={0.35}
-          iterationsViscous={16}
-          iterationsPoisson={16}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <CircuitBoard
+          lineColor="rgba(255, 255, 255, 0.05)"
+          pulseColor="rgba(163, 230, 53, 0.4)"
         />
       </div>
 
@@ -401,17 +398,18 @@ export default function EngineeringNotesPage() {
             <div className="w-full md:w-auto overflow-x-auto no-scrollbar pb-2 md:pb-0">
               <div className="flex items-center gap-2">
                 {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-widest transition-all whitespace-nowrap border ${
-                      activeCategory === cat
-                        ? "bg-lime-500 text-black border-lime-500 font-bold"
-                        : "bg-white/5 text-zinc-400 border-white/5 hover:bg-white/10 hover:text-white"
-                    }`}
-                  >
-                    {cat}
-                  </button>
+                  <Magnetic key={cat}>
+                    <button
+                      onClick={() => setActiveCategory(cat)}
+                      className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-widest transition-all whitespace-nowrap border ${
+                        activeCategory === cat
+                          ? "bg-lime-500 text-black border-lime-500 font-bold"
+                          : "bg-white/5 text-zinc-400 border-white/5 hover:bg-white/10 hover:text-white"
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  </Magnetic>
                 ))}
               </div>
             </div>
