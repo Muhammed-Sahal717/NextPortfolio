@@ -8,6 +8,7 @@ export default function Magnetic({ children }: { children: React.ReactNode }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouse = (e: React.MouseEvent) => {
+    if (!e) return;
     const { clientX, clientY } = e;
     const { height, width, left, top } =
       ref.current?.getBoundingClientRect() || {

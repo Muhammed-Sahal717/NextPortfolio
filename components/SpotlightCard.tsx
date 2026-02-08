@@ -19,7 +19,7 @@ export default function SpotlightCard({
   const [opacity, setOpacity] = useState(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!divRef.current) return;
+    if (!divRef.current || !e) return;
 
     const div = divRef.current;
     const rect = div.getBoundingClientRect();

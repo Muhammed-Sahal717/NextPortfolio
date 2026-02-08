@@ -22,7 +22,7 @@ export default function TiltCard({
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+    if (!ref.current || !e) return;
 
     const rect = ref.current.getBoundingClientRect();
 
