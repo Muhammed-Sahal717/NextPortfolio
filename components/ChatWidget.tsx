@@ -45,26 +45,13 @@ export default function ChatWidget() {
     return "STATUS: ONLINE";
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (input === "/panic") {
-      setIsError(true);
-      setMessages((prev) => [
-        ...prev,
-        { id: "test", role: "assistant", content: "⚠️ TEST PANIC INITIATED" },
-      ]);
-      setInput("");
-      setTimeout(() => setIsError(false), 4000);
-      return;
-    }
-
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: input,
+      content: text,
     };
 
     const newMessages = [...messages, userMessage];
@@ -124,6 +111,21 @@ export default function ChatWidget() {
       setIsLoading(false);
       setTimeout(() => setIsError(false), 4000);
     }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input === "/panic") {
+      setIsError(true);
+      setMessages((prev) => [
+        ...prev,
+        { id: "test", role: "assistant", content: "⚠️ TEST PANIC INITIATED" },
+      ]);
+      setInput("");
+      setTimeout(() => setIsError(false), 4000);
+      return;
+    }
+    await sendMessage(input);
   };
 
   useEffect(() => {
@@ -264,7 +266,7 @@ export default function ChatWidget() {
                         {["STACK", "PROJECTS", "HIRE"].map((q) => (
                           <button
                             key={q}
-                            onClick={() => setInput(q)}
+                            onClick={() => sendMessage(q)}
                             className="text-[10px] font-mono font-bold border-2 border-black bg-white px-2 py-1 rounded-md hover:bg-lime-400 hover:shadow-[2px_2px_0px_#000] transition-all active:translate-y-0.5 active:shadow-none"
                           >
                             {"> "}
@@ -276,34 +278,69 @@ export default function ChatWidget() {
                   )}
 
                   <div className="space-y-4 pb-4">
-                    {messages.map((m) => (
-                      <div
-                        key={m.id}
-                        className={`flex gap-2 ${
-                          m.role === "user" ? "justify-end" : "justify-start"
-                        }`}
-                      >
-                        {m.role === "assistant" && (
-                          <div className="w-6 h-6 rounded-none border-2 border-black bg-lime-400 flex items-center justify-center shrink-0 mt-1 shadow-[2px_2px_0px_#000]">
-                            <Bot size={14} />
-                          </div>
-                        )}
+                    {messages.map((m) => {
+                      const [answer, suggestionsBlock] =
+                        m.content.split("---SUGGESTIONS---");
+                      const suggestions = suggestionsBlock
+                        ?.split("\n")
+                        .filter((line) => line.trim().startsWith("-"))
+                        .map((line) => line.replace("-", "").trim())
+                        .filter(Boolean);
 
+                      return (
                         <div
-                          className={`
-                            max-w-[85%] p-2.5 text-xs font-medium border-2 border-black shadow-[3px_3px_0px_#000]
-                            whitespace-pre-wrap wrap-break-words
-                            ${
-                              m.role === "user"
-                                ? "bg-black text-white rounded-lg rounded-tr-none"
-                                : "bg-white text-black rounded-lg rounded-tl-none"
-                            }
-                          `}
+                          key={m.id}
+                          className={`flex gap-2 ${
+                            m.role === "user" ? "justify-end" : "justify-start"
+                          }`}
                         >
-                          {m.content}
+                          {m.role === "assistant" && (
+                            <div className="w-6 h-6 rounded-none border-2 border-black bg-lime-400 flex items-center justify-center shrink-0 mt-1 shadow-[2px_2px_0px_#000]">
+                              <Bot size={14} />
+                            </div>
+                          )}
+
+                          <div
+                            className={`flex flex-col gap-2 max-w-[85%] ${m.role === "user" ? "items-end" : "items-start"}`}
+                          >
+                            <div
+                              className={`
+                                p-2.5 text-xs font-medium border-2 border-black shadow-[3px_3px_0px_#000]
+                                whitespace-pre-wrap wrap-break-words
+                                ${
+                                  m.role === "user"
+                                    ? "bg-black text-white rounded-lg rounded-tr-none"
+                                    : "bg-white text-black rounded-lg rounded-tl-none"
+                                }
+                              `}
+                            >
+                              {answer?.trim()}
+                            </div>
+
+                            {m.role === "assistant" &&
+                              suggestions &&
+                              suggestions.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mt-1">
+                                  {suggestions.map((s, idx) => (
+                                    <button
+                                      key={idx}
+                                      onClick={() => sendMessage(s)}
+                                      className="
+                                        text-[10px] font-bold bg-white text-black border-2 border-black px-2 py-1.5 rounded-full
+                                        hover:bg-lime-300 hover:shadow-[2px_2px_0px_#000] hover:-translate-y-0.5
+                                        active:shadow-none active:translate-y-0
+                                        transition-all duration-150 cursor-pointer
+                                      "
+                                    >
+                                      {s}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
 
                     {isLoading && (
                       <div className="flex gap-3 justify-start">
