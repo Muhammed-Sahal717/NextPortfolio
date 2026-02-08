@@ -100,7 +100,7 @@ export default function LiquidNavbar() {
             {/* Actions */}
             <div className="flex items-center gap-4 z-50">
               <Link
-                href="https://github.com/Muhammed-Sahal717"
+                href={process.env.NEXT_PUBLIC_CONTACT_GITHUB!}
                 target="_blank"
                 className="text-zinc-400 hover:text-white transition-colors hidden sm:block"
               >
@@ -108,7 +108,7 @@ export default function LiquidNavbar() {
               </Link>
 
               <a
-                href="https://linkedin.com/in/muhammedsahal717/"
+                href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!}
                 className="text-zinc-400 hover:text-white transition-colors hidden sm:block"
                 target="_blank"
                 rel="noopener noreferrer" // this for security reasons
@@ -154,14 +154,14 @@ export default function LiquidNavbar() {
 
                 <div className="flex justify-center gap-6 mt-2 pt-4 border-t border-white/10">
                   <Link
-                    href="https://github.com/Muhammed-Sahal717"
+                    href={process.env.NEXT_PUBLIC_CONTACT_GITHUB!}
                     target="_blank"
                     className="text-zinc-400 hover:text-white"
                   >
                     <FiGithub size={20} />
                   </Link>
                   <a
-                    href="https://linkedin.com/in/muhammedsahal717/"
+                    href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!}
                     className="text-zinc-400 hover:text-white"
                   >
                     <FiLinkedin size={20} />

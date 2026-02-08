@@ -36,7 +36,7 @@ export default function Footer() {
           message: formData.message,
           to_name: "Sahal",
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
       );
       setStatus("SUCCESS");
       setFormData({ email: "", message: "" });
@@ -178,15 +178,15 @@ export default function Footer() {
                   {[
                     {
                       icon: FiGithub,
-                      href: "https://github.com/Muhammed-Sahal717",
+                      href: process.env.NEXT_PUBLIC_CONTACT_GITHUB!,
                     },
                     {
                       icon: FiLinkedin,
-                      href: "https://linkedin.com/in/mhdsahal717",
+                      href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!,
                     },
                     {
                       icon: FiInstagram,
-                      href: "https://instagram.com/_mhd_sahal_ap",
+                      href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM!,
                     },
                   ].map((item, i) => (
                     <Link

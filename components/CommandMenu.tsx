@@ -87,7 +87,12 @@ export default function CommandMenu() {
             >
               <Command.Item
                 onSelect={() =>
-                  runCommand(() => window.open("https://github.com", "_blank"))
+                  runCommand(() =>
+                    window.open(
+                      process.env.NEXT_PUBLIC_CONTACT_GITHUB!,
+                      "_blank",
+                    ),
+                  )
                 }
                 className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-zinc-300 hover:bg-white hover:text-black cursor-pointer transition-colors"
               >
@@ -96,7 +101,10 @@ export default function CommandMenu() {
               <Command.Item
                 onSelect={() =>
                   runCommand(() =>
-                    window.open("mailto:your@email.com", "_blank")
+                    window.open(
+                      `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`,
+                      "_blank",
+                    ),
                   )
                 }
                 className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-zinc-300 hover:bg-white hover:text-black cursor-pointer transition-colors"

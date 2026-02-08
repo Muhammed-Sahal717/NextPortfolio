@@ -47,11 +47,11 @@ const genAI = new GoogleGenerativeAI(geminiKey!);
 
 // --- VERIFIED CONTACT DATA (Single Source of Truth) ---
 const VERIFIED_CONTACT = {
-  email: "sahalap.717@gmail.com",
-  linkedin: "https://linkedin.com/in/mhdsahal717",
-  github: "https://github.com/Muhammed-Sahal717",
-  location: "Malappuram, Kerala, India",
-  portfolio: "https://port-sahal-folio.vercel.app",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL!,
+  linkedin: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!,
+  github: process.env.NEXT_PUBLIC_CONTACT_GITHUB!,
+  location: process.env.NEXT_PUBLIC_CONTACT_LOCATION!,
+  portfolio: process.env.NEXT_PUBLIC_PORTFOLIO_URL!,
 };
 
 // --- RETRY HELPER FOR OVERLOADED MODELS ---

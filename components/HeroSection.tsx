@@ -76,7 +76,10 @@ export default function HeroSection() {
               </Button>
             </Link>
 
-            <Link href="https://github.com/Muhammed-Sahal717" target="_blank">
+            <Link
+              href={process.env.NEXT_PUBLIC_CONTACT_GITHUB!}
+              target="_blank"
+            >
               <Button
                 variant="outline"
                 size="lg"
@@ -86,7 +89,10 @@ export default function HeroSection() {
               </Button>
             </Link>
 
-            <Link href="https://linkedin.com/in/mhdsahal717" target="_blank">
+            <Link
+              href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!}
+              target="_blank"
+            >
               <Button
                 variant="outline"
                 size="lg"
