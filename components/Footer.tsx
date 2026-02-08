@@ -29,14 +29,14 @@ export default function Footer() {
 
     try {
       await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
         {
           from_email: formData.email,
           message: formData.message,
           to_name: "Sahal",
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
       );
       setStatus("SUCCESS");
       setFormData({ email: "", message: "" });
@@ -178,15 +178,15 @@ export default function Footer() {
                   {[
                     {
                       icon: FiGithub,
-                      href: process.env.NEXT_PUBLIC_CONTACT_GITHUB!,
+                      href: process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#",
                     },
                     {
                       icon: FiLinkedin,
-                      href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!,
+                      href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#",
                     },
                     {
                       icon: FiInstagram,
-                      href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM!,
+                      href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM || "#",
                     },
                   ].map((item, i) => (
                     <Link
