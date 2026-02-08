@@ -23,6 +23,7 @@ import {
   FiActivity,
   FiX,
 } from "react-icons/fi";
+import Link from "next/link";
 
 // --- COMPONENTS ---
 
@@ -496,6 +497,16 @@ const EngineeringNotes = () => (
         title="My Debugging Approach"
         content="I follow a binary search method for debugging: Isolate the system half by half. Is it the frontend sending wrong data? Or the backend failing to parse it? Logging inputs and outputs at the API boundary is usually the fastest way to find the root cause. I also rely heavily on reproducing the issue in a controlled environment before fixing."
       />
+    </div>
+
+    <div className="mt-12 text-center">
+      <Link
+        href="/engineering/notes"
+        className="inline-flex items-center gap-2 text-lime-400 hover:text-lime-300 transition-colors font-mono uppercase tracking-widest text-sm group"
+      >
+        View Full Engineering Notes
+        <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+      </Link>
     </div>
   </section>
 );
