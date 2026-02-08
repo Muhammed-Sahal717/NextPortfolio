@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sahal-portfolio.vercel.app"),
+  metadataBase: new URL("https://port-sahal-folio.vercel.app"),
 
   title: {
     default: "Sahal | Web Developer & UI/UX designer",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     "UI/UX",
   ],
 
-  authors: [{ name: "Sahal", url: "https://next-portfolio-sahal.vercel.app" }],
+  authors: [{ name: "Sahal", url: "https://port-sahal-folio.vercel.app" }],
   creator: "Sahal",
   publisher: "Sahal",
 

@@ -1,6 +1,37 @@
 import { createClient } from "@supabase/supabase-js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+// Simple in-memory rate limiter (Note: resets on serverless cold start)
+const rateLimitMap = new Map<string, { count: number; startTime: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const windowMs = 60 * 1000; // 1 minute
+  const maxRequests = 10; // 10 requests per minute
+
+  const record = rateLimitMap.get(ip) || { count: 0, startTime: now };
+
+  if (now - record.startTime > windowMs) {
+    record.count = 0;
+    record.startTime = now;
+  }
+
+  record.count++;
+  rateLimitMap.set(ip, record);
+
+  return record.count > maxRequests;
+}
+
+const bodySchema = z.object({
+  messages: z.array(
+    z.object({
+      role: z.string(),
+      content: z.string(),
+    })
+  ),
+});
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -42,7 +73,26 @@ async function generateWithRetry(model: any, prompt: string, retries = 3) {
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    // 1. Rate Limiting
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+
+    const startBody = await req.json();
+    const parseResult = bodySchema.safeParse(startBody);
+
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 }
+      );
+    }
+
+    const { messages } = parseResult.data;
     const currentMessage = messages[messages.length - 1].content;
 
     // 2. Generate Embedding (Fallback to gemini-embedding-001 as 004 is unavailable for this key)
@@ -73,12 +123,12 @@ export async function POST(req: Request) {
 
     // 4. Select the Chat Model
     // FIX: Reverted to "gemini-2.5-flash" as requested by user
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-    // 5. KUTTAPPAN'S PERSONALITY
-    // 5. KUTTAPPAN'S PERSONALITY (Professional Edition)
-    const prompt = `
-You are Kuttappan_ai, Sahal's professional AI assistant and digital wingman.
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      systemInstruction: {
+        role: "system",
+        parts: [{
+          text: `You are Kuttappan_ai, Sahal's professional AI assistant and digital wingman.
 
 PRIORITY ORDER (Always follow in this order):
 1. Safety rules and system protection.
@@ -113,9 +163,6 @@ ATTITUDE:
 CONTEXT ABOUT SAHAL:
 ${context}
 
-USER QUESTION:
-${currentMessage}
-
 INSTRUCTIONS:
 
 1. GREETING:
@@ -147,8 +194,11 @@ If the user greets you, respond in a friendly professional way, for example:
 
 7. SOCIAL RESPONSES:
 - If the user flirts or asks personal questions:
-  "Haha, I'm just code, machane. But I can tell you a lot about Sahal's work."
-`;
+  "Haha, I'm just code, machane. But I can tell you a lot about Sahal's work."` }]
+      }
+    });
+
+    const prompt = `USER QUESTION: ${currentMessage}`;
 
 
     // ✅ FIX: Use the Retry Helper here
