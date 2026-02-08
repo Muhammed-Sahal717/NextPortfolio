@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ChatWidget from "@/components/ChatWidget";
 import CustomCursor from "@/components/CustomCursor";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -109,6 +110,7 @@ export default function RootLayout({
         {/* Global Floating Elements */}
         <ChatWidget />
         <CustomCursor />
+        <SmoothScrolling />
       </body>
     </html>
   );
