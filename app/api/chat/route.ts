@@ -108,7 +108,7 @@ export async function POST(req: Request) {
       "match_documents",
       {
         query_embedding: embedding,
-        match_threshold: 0.1,
+        match_threshold: 0.5,
         match_count: 3,
       },
     );
@@ -119,7 +119,7 @@ export async function POST(req: Request) {
 
     const context =
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      documents?.map((doc: any) => doc.content).join("\n\n") || "";
+      documents?.map((doc: any) => doc.content).join("\n\n").slice(0, 3000) || "";
 
     // 4. Select the Chat Model
     // FIX: Reverted to "gemini-2.5-flash" as requested by user
@@ -160,9 +160,6 @@ ATTITUDE:
 - Never insult, roast, or shame the user.
 - Maintain a welcoming and professional tone at all times.
 
-CONTEXT ABOUT SAHAL:
-${context}
-
 INSTRUCTIONS:
 
 1. GREETING:
@@ -198,7 +195,13 @@ If the user greets you, respond in a friendly professional way, for example:
       }
     });
 
-    const prompt = `USER QUESTION: ${currentMessage}`;
+    const prompt = `
+CONTEXT ABOUT SAHAL:
+${context}
+
+USER QUESTION:
+${currentMessage}
+`;
 
 
     // ✅ FIX: Use the Retry Helper here
