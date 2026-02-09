@@ -41,13 +41,18 @@ export default function HeroSection() {
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="max-w-4xl space-y-8 pointer-events-auto"
         >
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-sm text-zinc-300 mb-4 hover:bg-white/10 transition-colors cursor-default">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          {/* Status Badge - Premium "Cyber-Chip" Design */}
+          <div className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group">
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#171717_0%,#a3e635_50%,#171717_100%)]" />
+            <span className="inline-flex h-full w-full cursor-default items-center justify-center rounded-full bg-black/90 px-4 py-2 text-sm font-medium text-white backdrop-blur-3xl border border-white/10 group-hover:bg-black/80 transition-all duration-300">
+              <span className="relative flex h-2 w-2 mr-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-lime-500"></span>
+              </span>
+              <span className="bg-gradient-to-r from-zinc-300 to-white bg-clip-text text-transparent font-semibold">
+                Available for Work & Collaborations
+              </span>
             </span>
-            Open to Work & Collaborations
           </div>
 
           {/* Main Heading */}
