@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X, Send, Bot, Terminal } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -247,64 +247,70 @@ export default function ChatWidget() {
 
               {/* Chat Content */}
               <div className="flex-1 overflow-hidden bg-white relative">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size[24px_24px]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size[24px_24px] pointer-events-none" />
 
-                <ScrollArea className="h-full p-4">
-                  {messages.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-full pt-8 opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                      <div className="w-20 h-20 bg-zinc-100 border-2 border-black rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0px_#000]">
-                        <Terminal size={32} className="text-black" />
+                <div
+                  data-lenis-prevent
+                  className="h-full w-full overflow-y-auto overscroll-contain overscroll-y-contain scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent"
+                >
+                  <div className="p-4">
+                    {messages.length === 0 && (
+                      <div className="flex flex-col items-center justify-center h-full pt-8 opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div className="w-20 h-20 bg-zinc-100 border-2 border-black rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0px_#000]">
+                          <Terminal size={32} className="text-black" />
+                        </div>
+                        <p className="font-mono font-bold text-base mb-1">
+                          SYSTEM READY
+                        </p>
+                        <p className="text-xs text-zinc-500 text-center max-w-[200px] mb-6 font-medium">
+                          Ask about Sahal&apos;s stack, projects, or hire him
+                          immediately.
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-2">
+                          {["STACK", "PROJECTS", "HIRE"].map((q) => (
+                            <button
+                              key={q}
+                              onClick={() => sendMessage(q)}
+                              className="text-[10px] font-mono font-bold border-2 border-black bg-white px-2 py-1 rounded-md hover:bg-lime-400 hover:shadow-[2px_2px_0px_#000] transition-all active:translate-y-0.5 active:shadow-none"
+                            >
+                              {"> "}
+                              {q}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                      <p className="font-mono font-bold text-base mb-1">
-                        SYSTEM READY
-                      </p>
-                      <p className="text-xs text-zinc-500 text-center max-w-[200px] mb-6 font-medium">
-                        Ask about Sahal&apos;s stack, projects, or hire him
-                        immediately.
-                      </p>
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {["STACK", "PROJECTS", "HIRE"].map((q) => (
-                          <button
-                            key={q}
-                            onClick={() => sendMessage(q)}
-                            className="text-[10px] font-mono font-bold border-2 border-black bg-white px-2 py-1 rounded-md hover:bg-lime-400 hover:shadow-[2px_2px_0px_#000] transition-all active:translate-y-0.5 active:shadow-none"
-                          >
-                            {"> "}
-                            {q}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                  <div className="space-y-4 pb-4">
-                    {messages.map((m) => {
-                      const [answer, suggestionsBlock] =
-                        m.content.split("---SUGGESTIONS---");
-                      const suggestions = suggestionsBlock
-                        ?.split("\n")
-                        .filter((line) => line.trim().startsWith("-"))
-                        .map((line) => line.replace("-", "").trim())
-                        .filter(Boolean);
+                    <div className="space-y-4 pb-4">
+                      {messages.map((m) => {
+                        const [answer, suggestionsBlock] =
+                          m.content.split("---SUGGESTIONS---");
+                        const suggestions = suggestionsBlock
+                          ?.split("\n")
+                          .filter((line) => line.trim().startsWith("-"))
+                          .map((line) => line.replace("-", "").trim())
+                          .filter(Boolean);
 
-                      return (
-                        <div
-                          key={m.id}
-                          className={`flex gap-2 ${
-                            m.role === "user" ? "justify-end" : "justify-start"
-                          }`}
-                        >
-                          {m.role === "assistant" && (
-                            <div className="w-6 h-6 rounded-none border-2 border-black bg-lime-400 flex items-center justify-center shrink-0 mt-1 shadow-[2px_2px_0px_#000]">
-                              <Bot size={14} />
-                            </div>
-                          )}
-
+                        return (
                           <div
-                            className={`flex flex-col gap-2 max-w-[85%] ${m.role === "user" ? "items-end" : "items-start"}`}
+                            key={m.id}
+                            className={`flex gap-2 ${
+                              m.role === "user"
+                                ? "justify-end"
+                                : "justify-start"
+                            }`}
                           >
+                            {m.role === "assistant" && (
+                              <div className="w-6 h-6 rounded-none border-2 border-black bg-lime-400 flex items-center justify-center shrink-0 mt-1 shadow-[2px_2px_0px_#000]">
+                                <Bot size={14} />
+                              </div>
+                            )}
+
                             <div
-                              className={`
+                              className={`flex flex-col gap-2 max-w-[85%] ${m.role === "user" ? "items-end" : "items-start"}`}
+                            >
+                              <div
+                                className={`
                                 p-2.5 text-xs font-medium border-2 border-black shadow-[3px_3px_0px_#000]
                                 whitespace-pre-wrap wrap-break-words
                                 ${
@@ -313,50 +319,51 @@ export default function ChatWidget() {
                                     : "bg-white text-black rounded-lg rounded-tl-none"
                                 }
                               `}
-                            >
-                              {answer?.trim()}
-                            </div>
+                              >
+                                {answer?.trim()}
+                              </div>
 
-                            {m.role === "assistant" &&
-                              suggestions &&
-                              suggestions.length > 0 && (
-                                <div className="flex flex-wrap gap-2 mt-1">
-                                  {suggestions.map((s, idx) => (
-                                    <button
-                                      key={idx}
-                                      onClick={() => sendMessage(s)}
-                                      className="
+                              {m.role === "assistant" &&
+                                suggestions &&
+                                suggestions.length > 0 && (
+                                  <div className="flex flex-wrap gap-2 mt-1">
+                                    {suggestions.map((s, idx) => (
+                                      <button
+                                        key={idx}
+                                        onClick={() => sendMessage(s)}
+                                        className="
                                         text-[10px] font-bold bg-white text-black border-2 border-black px-2 py-1.5 rounded-full
                                         hover:bg-lime-300 hover:shadow-[2px_2px_0px_#000] hover:-translate-y-0.5
                                         active:shadow-none active:translate-y-0
                                         transition-all duration-150 cursor-pointer
                                       "
-                                    >
-                                      {s}
-                                    </button>
-                                  ))}
-                                </div>
-                              )}
+                                      >
+                                        {s}
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+                        );
+                      })}
+
+                      {isLoading && (
+                        <div className="flex gap-3 justify-start">
+                          <div className="w-6 h-6 border-2 border-black bg-lime-400 flex items-center justify-center shrink-0 shadow-[2px_2px_0px_#000]">
+                            <Bot size={14} />
+                          </div>
+                          <div className="bg-white border-2 border-black px-3 py-2 rounded-lg rounded-tl-none shadow-[3px_3px_0px_#000] flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-black animate-bounce [animation-delay:-0.3s]"></span>
+                            <span className="w-1.5 h-1.5 bg-black animate-bounce [animation-delay:-0.15s]"></span>
+                            <span className="w-1.5 h-1.5 bg-black animate-bounce"></span>
                           </div>
                         </div>
-                      );
-                    })}
-
-                    {isLoading && (
-                      <div className="flex gap-3 justify-start">
-                        <div className="w-6 h-6 border-2 border-black bg-lime-400 flex items-center justify-center shrink-0 shadow-[2px_2px_0px_#000]">
-                          <Bot size={14} />
-                        </div>
-                        <div className="bg-white border-2 border-black px-3 py-2 rounded-lg rounded-tl-none shadow-[3px_3px_0px_#000] flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 bg-black animate-bounce [animation-delay:-0.3s]"></span>
-                          <span className="w-1.5 h-1.5 bg-black animate-bounce [animation-delay:-0.15s]"></span>
-                          <span className="w-1.5 h-1.5 bg-black animate-bounce"></span>
-                        </div>
-                      </div>
-                    )}
-                    <div ref={messagesEndRef} />
+                      )}
+                      <div ref={messagesEndRef} />
+                    </div>
                   </div>
-                </ScrollArea>
+                </div>
               </div>
 
               {/* Input Area */}

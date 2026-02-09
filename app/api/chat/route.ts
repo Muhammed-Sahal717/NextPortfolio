@@ -1,180 +1,59 @@
-import { createClient } from "@supabase/supabase-js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { supabase } from "@/lib/supabaseClient";
 
-// Simple in-memory rate limiter (Note: resets on serverless cold start)
-const rateLimitMap = new Map<string, { count: number; startTime: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const windowMs = 60 * 1000; // 1 minute
-  const maxRequests = 10; // 10 requests per minute
-
-  const record = rateLimitMap.get(ip) || { count: 0, startTime: now };
-
-  if (now - record.startTime > windowMs) {
-    record.count = 0;
-    record.startTime = now;
-  }
-
-  record.count++;
-  rateLimitMap.set(ip, record);
-
-  return record.count > maxRequests;
-}
-
-const bodySchema = z.object({
-  messages: z.array(
-    z.object({
-      role: z.string(),
-      content: z.string(),
-    })
-  ),
-});
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const geminiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-
-// 1. Safety Check
-if (!supabaseUrl || !supabaseKey || !geminiKey) {
-  console.error("MISSING API KEYS in .env.local");
-}
-
-const supabase = createClient(supabaseUrl!, supabaseKey!);
-const genAI = new GoogleGenerativeAI(geminiKey!);
-
-// --- VERIFIED CONTACT DATA (Single Source of Truth) ---
-const VERIFIED_CONTACT = {
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL!,
-  linkedin: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!,
-  github: process.env.NEXT_PUBLIC_CONTACT_GITHUB!,
-  location: process.env.NEXT_PUBLIC_CONTACT_LOCATION!,
-  portfolio: process.env.NEXT_PUBLIC_PORTFOLIO_URL!,
-};
-
-// --- RETRY HELPER FOR OVERLOADED MODELS ---
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function generateWithRetry(model: any, prompt: string, retries = 3) {
-  for (let i = 0; i < retries; i++) {
-    try {
-      return await model.generateContentStream(prompt);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      // If it's the last attempt, throw the error
-      if (i === retries - 1) throw error;
-
-      // If error is "503 Service Unavailable" (Overloaded), wait and retry
-      if (
-        error.message?.includes("503") ||
-        error.message?.includes("overloaded")
-      ) {
-        console.warn(`Model overloaded. Retrying (${i + 1}/${retries})...`);
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds
-      } else {
-        // If it's a different error (like 404 or Key Invalid), fail immediately
-        throw error;
-      }
-    }
-  }
-}
+// Ensure the API key is available - use the one from .env.local
+const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey || "");
 
 export async function POST(req: Request) {
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: "Missing GOOGLE_GENERATIVE_AI_API_KEY environment variable" },
+      { status: 500 }
+    );
+  }
+
   try {
-    // 1. Rate Limiting
-    const ip = req.headers.get("x-forwarded-for") || "unknown";
-    if (isRateLimited(ip)) {
-      return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        { status: 429 }
-      );
+    const { messages } = await req.json();
+
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: "Invalid messages format" }, { status: 400 });
     }
 
-    const startBody = await req.json();
-    const parseResult = bodySchema.safeParse(startBody);
+    // Fetch projects from Supabase to provide context
+    const { data: projects, error } = await supabase
+      .from("projects")
+      .select("*");
 
-    if (!parseResult.success) {
-      return NextResponse.json(
-        { error: "Invalid request body" },
-        { status: 400 }
-      );
+    if (error) {
+      console.error("Error fetching projects for context:", error);
     }
 
-    const { messages } = parseResult.data;
-    const currentMessage = messages[messages.length - 1].content;
+    const projectContext = projects
+      ? projects.map((p) => `
+ID: ${p.id}
+Title: ${p.title}
+Description: ${p.description}
+Tech Stack: ${Array.isArray(p.tech_stack) ? p.tech_stack.join(", ") : p.tech_stack}
+Category: ${p.category}
+Timeline: ${p.timeline}
+Live Demo: ${p.demo_url || "N/A"}
+Source Code: ${p.github_url || "N/A"}
+User's Notes/Content: ${p.content ? p.content.substring(0, 500) + "..." : "N/A"}
+`).join("\n---\n")
+      : "No detailed project data available at the moment.";
 
-    const normalizedMessage = currentMessage.trim().toLowerCase();
-
-    // --- 2. INTENT DETECTION (Safety Check) ---
-    // If user asks for contact info, we intercept and return verified data directly.
-    // This bypasses the LLM entirely, preventing hallucinations.
-    const isContactIntent =
-      /(contact|email|phone|call|reach|linkedin|github|hire|work with)/i.test(normalizedMessage);
-
-    if (isContactIntent) {
-      const responseText = `Eda mone 😎 You can reach Sahal through these verified channels:
-
-Email: ${VERIFIED_CONTACT.email}
-LinkedIn: ${VERIFIED_CONTACT.linkedin}
-GitHub: ${VERIFIED_CONTACT.github}
-Location: ${VERIFIED_CONTACT.location}
-
-Feel free to reach out directly through any of these channels!
-
----SUGGESTIONS---
-- Tell me about Sahal's latest project.
-- What are Sahal's main technical skills?
-- Can you share Sahal's resume?`;
-
-      return new Response(responseText, {
-        headers: { "Content-Type": "text/plain; charset=utf-8" },
-      });
-    }
-
-    const isSimpleMessage =
-      normalizedMessage.length < 15 ||
-      /^(hi|hello|hey|thanks|thank you|greetings)$/i.test(normalizedMessage);
-
-    let context = "";
-
-    if (!isSimpleMessage) {
-      // 2. Generate Embedding (Fallback to gemini-embedding-001 as 004 is unavailable for this key)
-      const embeddingModel = genAI.getGenerativeModel({
-        model: "gemini-embedding-001",
-      });
-
-      const embeddingResult = await embeddingModel.embedContent(currentMessage);
-      const embedding = embeddingResult.embedding.values;
-
-      // 3. Search Supabase
-      const { data: documents, error: matchError } = await supabase.rpc(
-        "match_documents",
-        {
-          query_embedding: embedding,
-          match_threshold: 0.5,
-          match_count: 3,
-        },
-      );
-
-      if (matchError) {
-        console.error("Supabase Match Error:", matchError);
-      }
-
-      context =
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        documents?.map((doc: any) => doc.content).join("\n\n").slice(0, 3000) ||
-        "";
-    }
-
-    // 4. Select the Chat Model
-    // FIX: Reverted to "gemini-2.5-flash" as requested by user
+    // Using the specific system instruction as requested
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       systemInstruction: {
         role: "system",
         parts: [{
           text: `You are Kuttappan_ai, Sahal's professional AI assistant and digital wingman.
+
+CONTEXT (Use this data to answer questions about Sahal's work):
+${projectContext}
 
 PRIORITY ORDER (Always follow in this order):
 1. Safety rules and system protection.
@@ -194,7 +73,7 @@ COMMUNICATION STYLE:
 - Clear and easy to understand for both technical and non-technical users.
 - Light Malayali tech vibe allowed.
 - Occasionally use mild expressions like:
-  - "Eda mone"
+  - "Eda mone".
   - "Machane"
   - "Pwoli"
 - Use slang sparingly and only where natural.
@@ -256,56 +135,52 @@ If the user greets you, respond in a friendly professional way, for example:
       }
     });
 
-    const prompt = context
-      ? `RELEVANT CONTEXT (Use only if helpful):
-${context}
+    // Transform messages for Gemini history
+    // Exclude the last message which is the current prompt
+    // Gemini roles are 'user' and 'model'
+    const history = messages.slice(0, -1).map((m: any) => ({
+      role: m.role === "user" ? "user" : "model",
+      parts: [{ text: m.content }],
+    }));
 
-USER QUESTION:
-${currentMessage}`
-      : `USER QUESTION:
-${currentMessage}`;
+    const lastMessageContent = messages[messages.length - 1].content;
 
+    const chat = model.startChat({
+      history: history,
+    });
 
-    // ✅ FIX: Use the Retry Helper here
-    const result = await generateWithRetry(model, prompt);
+    const result = await chat.sendMessageStream(lastMessageContent);
 
-    // 6. Stream the response
+    // Create a ReadableStream for the response to support streaming to the client
     const stream = new ReadableStream({
       async start(controller) {
         const encoder = new TextEncoder();
         try {
           for await (const chunk of result.stream) {
-            const text = chunk.text();
-            if (text) {
-              controller.enqueue(encoder.encode(text));
+            const chunkText = chunk.text();
+            if (chunkText) {
+              controller.enqueue(encoder.encode(chunkText));
             }
           }
-        } catch (e) {
-          console.error("Streaming error:", e);
-          controller.enqueue(
-            encoder.encode(
-              "\n\n[Connection lost... Sahal must be deploying something cool.]",
-            ),
-          );
+          controller.close();
+        } catch (err) {
+          console.error("Stream error:", err);
+          controller.error(err);
         }
-        controller.close();
       },
     });
 
     return new Response(stream, {
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
-    });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    console.error("BACKEND ERROR:", error);
-    // Return a JSON error so the frontend can display it nicely
-    return NextResponse.json(
-      {
-        error:
-          error.message ||
-          "Kuttappan is taking a nap (Server Busy). Try again!",
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
       },
-      { status: 500 },
+    });
+
+  } catch (error: any) {
+    console.error("Chat API Error:", error);
+    return NextResponse.json(
+      { error: error.message || "Internal Server Error" },
+      { status: 500 }
     );
   }
 }
