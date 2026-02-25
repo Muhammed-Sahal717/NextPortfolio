@@ -28,17 +28,17 @@ export default function BentoGrid() {
   // FIX: Added explicit 'name' key.
   // Relying on 'Icon.name' breaks in production because Vercel minifies function names.
   const stackItems = [
-    { name: "Next.js", Icon: SiNextdotjs, color: "hover:text-white" },
-    { name: "React", Icon: SiReact, color: "hover:text-[#61DAFB]" },
-    { name: "TypeScript", Icon: SiTypescript, color: "hover:text-[#3178C6]" },
-    { name: "Tailwind", Icon: SiTailwindcss, color: "hover:text-[#06B6D4]" },
-    { name: "Framer", Icon: SiFramer, color: "hover:text-[#0055FF]" },
-    { name: "Supabase", Icon: SiSupabase, color: "hover:text-[#3FCF8E]" },
-    { name: "PostgreSQL", Icon: SiPostgresql, color: "hover:text-[#4169E1]" },
-    { name: "Python", Icon: SiPython, color: "hover:text-[#3776AB]" },
-    { name: "Docker", Icon: SiDocker, color: "hover:text-[#2496ED]" },
-    { name: "Vercel", Icon: SiVercel, color: "hover:text-white" },
-    { name: "Git", Icon: SiGit, color: "hover:text-[#F05032]" },
+    { name: "Next.js", Icon: SiNextdotjs, color: "text-white" },
+    { name: "React", Icon: SiReact, color: "text-[#61DAFB]" },
+    { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]" },
+    { name: "Tailwind", Icon: SiTailwindcss, color: "text-[#06B6D4]" },
+    { name: "Framer", Icon: SiFramer, color: "text-[#0055FF]" },
+    { name: "Supabase", Icon: SiSupabase, color: "text-[#3FCF8E]" },
+    { name: "PostgreSQL", Icon: SiPostgresql, color: "text-[#4169E1]" },
+    { name: "Python", Icon: SiPython, color: "text-[#3776AB]" },
+    { name: "Docker", Icon: SiDocker, color: "text-[#2496ED]" },
+    { name: "Vercel", Icon: SiVercel, color: "text-white" },
+    { name: "Git", Icon: SiGit, color: "text-[#F05032]" },
   ];
 
   return (
@@ -182,7 +182,7 @@ export default function BentoGrid() {
                       className="flex items-center gap-3 p-3 bg-black/40 border border-white/5 rounded-xl hover:border-lime-400/30 transition-colors group shrink-0"
                     >
                       <item.Icon
-                        className={`text-lg text-zinc-500 transition-colors ${item.color}`}
+                        className={`text-lg transition-colors ${item.color}`}
                       />
                       <span className="font-mono text-zinc-400 text-xs font-bold uppercase tracking-wider group-hover:text-white transition-colors">
                         {/* Use the explicit name here */}
