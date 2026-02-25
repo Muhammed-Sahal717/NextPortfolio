@@ -5,6 +5,7 @@ import ChatWidget from "@/components/ChatWidget";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import Preloader from "@/components/Preloader";
+import PageTransitionLoader from "@/components/PageTransitionLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -109,6 +110,7 @@ export default function RootLayout({
         {children}
 
         {/* Global Floating Elements */}
+        <PageTransitionLoader />
         <Preloader />
         <ChatWidget />
         <CustomCursor />

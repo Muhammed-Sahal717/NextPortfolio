@@ -43,9 +43,8 @@ export default function Preloader() {
   return (
     <AnimatePresence>
       {isLoading && (
-        <div className="fixed inset-0 z-[99999] flex items-start overflow-hidden pointer-events-none">
-          {/* MULTI-LAYERED PANEL WIPE 
-              Layer 1: Black backdrop */}
+        <div className="fixed inset-0 z-[99999] flex items-start overflow-hidden pointer-events-none bg-[#111]">
+          {/* Layer 1: Black backdrop */}
           {[...Array(5)].map((_, i) => (
             <motion.div
               key={`black-${i}`}
@@ -83,11 +82,45 @@ export default function Preloader() {
                 }}
                 initial="initial"
                 exit="exit"
-                className="flex-1 bg-[#EBEBEB] relative border-r border-[#111]/5 last:border-r-0"
+                className="flex-1 bg-[#EBEBEB] relative border-r border-[#111]/5 last:border-r-0 overflow-hidden"
               >
                 <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
+
+                {/* Flowing gradient lines for more background design */}
+                <motion.div
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: "-100%", opacity: 0.15 }}
+                  transition={{
+                    duration: 3 + i * 0.5,
+                    ease: "linear",
+                    repeat: Infinity,
+                  }}
+                  className="absolute left-0 right-0 h-1/2 bg-gradient-to-t from-transparent via-[#111] to-transparent blur-md"
+                />
               </motion.div>
             ))}
+
+            {/* Global floating shapes & patterns for enriched background */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none mix-blend-overlay"
+            >
+              {/* Dynamic topographics / grid */}
+              <motion.div
+                initial={{ backgroundPosition: "0px 0px" }}
+                animate={{ backgroundPosition: "100px 100px" }}
+                transition={{ duration: 10, ease: "linear", repeat: Infinity }}
+                className="absolute inset-0 opacity-[0.04]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px)",
+                  backgroundSize: "40px 40px",
+                }}
+              />
+            </motion.div>
           </div>
 
           {/* Main Content Overlay */}
@@ -98,61 +131,82 @@ export default function Preloader() {
             className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none"
           >
             {/* The primary focal point */}
-            <div className="relative flex flex-col items-center justify-center">
+            <div className="relative flex flex-col items-center justify-center w-full h-full">
               {/* Complex Geometry Behind Text */}
               <motion.div
                 initial={{ scale: 0, rotate: -45, borderRadius: "50%" }}
-                animate={{ scale: 1, rotate: 45, borderRadius: "10%" }}
-                transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-                className="absolute inset-0 w-64 h-64 -ml-[calc(8rem-100%)] -mt-10 border-[1px] border-[#111] opacity-[0.05]"
+                animate={{ scale: 1, rotate: 180, borderRadius: "20%" }}
+                transition={{ duration: 3, ease: [0.76, 0, 0.24, 1] }}
+                className="absolute w-[20rem] h-[20rem] md:w-[32rem] md:h-[32rem] border-[1px] border-[#111] opacity-[0.05]"
               />
               <motion.div
                 initial={{ scale: 0, rotate: 45, opacity: 0 }}
-                animate={{ scale: 1, rotate: -15, opacity: 0.05 }}
+                animate={{ scale: 1.1, rotate: -90, opacity: 0.05 }}
                 transition={{
                   delay: 0.3,
-                  duration: 1.5,
+                  duration: 2.5,
                   ease: [0.76, 0, 0.24, 1],
                 }}
-                className="absolute inset-0 w-72 h-72 -ml-[calc(9rem-100%)] -mt-14 border-[2px] border-[#111] border-dashed rounded-full pointer-events-none"
+                className="absolute w-[22rem] h-[22rem] md:w-[34rem] md:h-[34rem] border-[2px] border-[#111] border-dashed rounded-full pointer-events-none"
+              />
+              {/* Added a third geometric layer */}
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1.3, opacity: 0.03 }}
+                transition={{
+                  delay: 0.5,
+                  duration: 3,
+                  ease: [0.76, 0, 0.24, 1],
+                }}
+                className="absolute w-[18rem] h-[18rem] md:w-[28rem] md:h-[28rem] border-[1px] border-[#111] rotate-45 pointer-events-none"
               />
 
-              {/* Advanced Text Reveal */}
-              <div className="relative overflow-hidden pt-8 pb-10 px-6">
-                <motion.div
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "100%" }}
-                  transition={{ duration: 1.2, ease: "easeInOut", delay: 0.2 }}
-                  className="absolute inset-0 z-20 bg-[#111]"
-                />
-
-                <h1
-                  className={`${pacifico.className} text-7xl md:text-[8rem] text-[#111] drop-shadow-xl relative z-10 flex`}
+              {/* Advanced Text Writing Animation */}
+              <div className="relative overflow-visible z-20 flex justify-center items-center w-full max-w-4xl px-4">
+                <svg
+                  viewBox="0 0 800 300"
+                  className="w-full h-auto drop-shadow-2xl"
+                  preserveAspectRatio="xMidYMid meet"
                 >
-                  {"Sahal".split("").map((char, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ y: "150%", rotate: 20, opacity: 0 }}
-                      animate={{ y: "0%", rotate: 0, opacity: 1 }}
-                      transition={{
-                        duration: 1,
-                        ease: [0.6, 0.01, 0.05, 0.95] as const,
-                        delay: 0.6 + index * 0.08,
-                      }}
-                      className="inline-block origin-bottom transform-gpu"
-                      style={{ textShadow: "4px 4px 0px rgba(0,0,0,0.05)" }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                </h1>
+                  <motion.text
+                    x="50%"
+                    y="50%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className={`${pacifico.className} text-[6rem] md:text-[10rem] font-bold`}
+                    initial={{
+                      strokeDasharray: 2000,
+                      strokeDashoffset: 2000,
+                      fill: "rgba(17,17,17,0)",
+                    }}
+                    animate={{
+                      strokeDashoffset: 0,
+                      fill: "rgba(17,17,17,1)",
+                    }}
+                    transition={{
+                      strokeDashoffset: {
+                        duration: 2.5,
+                        ease: "easeInOut",
+                        delay: 0.2,
+                      },
+                      fill: { duration: 1.5, ease: "easeIn", delay: 1.5 },
+                    }}
+                    stroke="#111"
+                    strokeWidth="3"
+                    style={{
+                      paintOrder: "stroke fill",
+                    }}
+                  >
+                    Sahal
+                  </motion.text>
+                </svg>
 
                 {/* Secondary highlight swipe */}
                 <motion.div
-                  initial={{ width: 0, left: 0 }}
-                  animate={{ width: "100%", left: "100%" }}
-                  transition={{ duration: 1, ease: "circIn", delay: 1.6 }}
-                  className="absolute bottom-6 h-[4px] bg-lime-500 z-0 origin-left"
+                  initial={{ width: 0, left: "50%", x: "-50%" }}
+                  animate={{ width: "200px" }}
+                  transition={{ duration: 1, ease: "circOut", delay: 2.5 }}
+                  className="absolute bottom-[35%] h-[4px] bg-lime-500 z-0 rounded-full"
                 />
               </div>
             </div>
