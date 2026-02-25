@@ -116,6 +116,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -125,42 +126,53 @@
 
 /* 1. The Geometry */
 ::-webkit-scrollbar {
-  width: 12px; /* Slightly wider to show off the sharp boxy shape */
+  width: 12px;
+  /* Slightly wider to show off the sharp boxy shape */
   height: 12px;
 }
 
 /* 2. The Track (The rail it sits in) */
 ::-webkit-scrollbar-track {
-  background: #000000; /* Pure Black */
-  border-left: 1px solid #1a1a1a; /* Subtle separation line */
+  background: #000000;
+  /* Pure Black */
+  border-left: 1px solid #1a1a1a;
+  /* Subtle separation line */
 }
 
 /* 3. The Thumb (The moving block) */
 ::-webkit-scrollbar-thumb {
-  background: #365314; /* Deep Lime (Lime-900): Visible but stealthy */
-  border: 2px solid #000000; /* Black border makes it look like a physical block */
-  border-radius: 0px; /* PURE RECTANGLE - NO CURVES */
+  background: #365314;
+  /* Deep Lime (Lime-900): Visible but stealthy */
+  border: 2px solid #000000;
+  /* Black border makes it look like a physical block */
+  border-radius: 0px;
+  /* PURE RECTANGLE - NO CURVES */
 }
 
 /* 4. Hover State (Lighting up) */
 ::-webkit-scrollbar-thumb:hover {
-  background: #65a30d; /* Mid Lime (Lime-600): "System Ready" */
+  background: #65a30d;
+  /* Mid Lime (Lime-600): "System Ready" */
 }
 
 /* 5. Active/Grabbing State (High Voltage) */
 ::-webkit-scrollbar-thumb:active {
-  background: #a3e635; /* Bright Lime (Lime-400): "Engaged" */
+  background: #a3e635;
+  /* Bright Lime (Lime-400): "Engaged" */
   border-color: #000000;
 }
 
 /* --- FIREFOX SUPPORT --- */
 html {
   scrollbar-width: auto;
-  scrollbar-color: #365314 #000000; /* Thumb Track */
+  scrollbar-color: #365314 #000000;
+  /* Thumb Track */
 }
+
 @media (hover: hover) and (pointer: fine) {
   body {
-    cursor: none; /* Hides default cursor */
+    cursor: none;
+    /* Hides default cursor */
   }
 
   /* Ensure links/buttons don't force the pointer back */
@@ -172,14 +184,17 @@ html {
     cursor: none !important;
   }
 }
+
 /* --- SAD ROBOT ANIMATIONS --- */
 
 /* A slow, heavy, depressed floating motion */
 @keyframes sad-float {
+
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
   }
+
   50% {
     transform: translateY(10px) rotate(-2deg);
   }
@@ -187,12 +202,14 @@ html {
 
 /* Slow, weary blinking */
 @keyframes sad-blink {
+
   0%,
   90%,
   100% {
     transform: scaleY(1);
     opacity: 0.8;
   }
+
   95% {
     transform: scaleY(0.1);
     opacity: 0.5;
@@ -205,6 +222,7 @@ html {
     opacity: 1;
     transform: scale(1);
   }
+
   100% {
     opacity: 0;
     transform: scale(0);
@@ -223,6 +241,7 @@ html {
 .animate-fizzle {
   animation: fizzle 2s ease-out infinite;
 }
+
 /* --- GLOBAL FILM GRAIN --- */
 .bg-noise {
   position: fixed;
@@ -231,8 +250,10 @@ html {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 50; /* Above background, below content */
-  opacity: 0.05; /* Very subtle */
+  z-index: 50;
+  /* Above background, below content */
+  opacity: 0.05;
+  /* Very subtle */
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
   filter: contrast(120%) brightness(100%);
 }
@@ -241,14 +262,17 @@ html {
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.2);
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(163, 230, 53, 0.4); 
+  background: rgba(163, 230, 53, 0.4);
   border-radius: 4px;
   border: none;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(163, 230, 53, 0.8);
 }

@@ -48,6 +48,8 @@ const NoteModal = ({
 }) => {
   if (!note) return null;
 
+  const uniqueId = `note-${note.id}`;
+
   const relatedNotes = note.relatedIds
     ? NOTES.filter((n) => note.relatedIds?.includes(n.id))
     : [];
@@ -55,29 +57,34 @@ const NoteModal = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
           onClick={onClose}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+          />
+
+          <motion.div
+            layoutId={`card-container-${uniqueId}`}
+            className="bg-[#0a0a0a] border border-white/10 rounded-2xl md:rounded-3xl p-6 md:p-10 max-w-4xl w-full relative shadow-[0_0_50px_rgba(132,204,22,0.1)] overflow-hidden max-h-[85vh] flex flex-col z-10"
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-10 max-w-3xl w-full relative shadow-[0_0_50px_rgba(132,204,22,0.1)] overflow-hidden max-h-[85vh] flex flex-col"
           >
             {/* Modal decorative blob */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-lime-500/10 rounded-full blur-[80px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
 
-            <button
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
               onClick={onClose}
-              className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors bg-white/5 p-2 rounded-full hover:bg-white/10 z-50"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors bg-white/5 p-2 rounded-full hover:bg-white/10 z-50 ring-1 ring-white/10"
             >
               <FiX size={20} />
-            </button>
+            </motion.button>
 
             <div className="mb-6 shrink-0 relative z-10">
               <div className="flex items-center gap-3 mb-4 flex-wrap">
@@ -97,9 +104,12 @@ const NoteModal = ({
                 </span>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+              <motion.h3
+                layoutId={`card-title-${uniqueId}`}
+                className="text-2xl md:text-3xl font-bold text-white mb-2"
+              >
                 {note.title}
-              </h3>
+              </motion.h3>
               {note.subtitle && (
                 <p className="text-zinc-500 text-sm font-mono uppercase tracking-widest">
                   {note.subtitle}
@@ -107,7 +117,12 @@ const NoteModal = ({
               )}
             </div>
 
-            <div className="text-zinc-300 leading-relaxed text-base space-y-6 overflow-y-auto pr-2 custom-scrollbar relative z-10 pb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-zinc-300 leading-relaxed text-base space-y-6 overflow-y-auto pr-2 custom-scrollbar relative z-10 pb-8"
+            >
               {note.content}
 
               {/* Applied Learning Section */}
@@ -182,10 +197,6 @@ const NoteModal = ({
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {relatedNotes.map((relNote) => (
-                      // Note: To make this clickable to switch notes, we would need to pass a handler
-                      // For now we just display them. Or better, we can make them generic links if we had routing.
-                      // Since we are using state for modal, we can't easily switch without passing setSelectedNote down.
-                      // For this iteration, let's just display them as cards
                       <div
                         key={relNote.id}
                         className="p-4 bg-white/5 border border-white/5 rounded-xl opacity-75"
@@ -209,9 +220,9 @@ const NoteModal = ({
                   </div>
                 </div>
               )}
-            </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
@@ -225,9 +236,11 @@ const NoteCard = ({
   onClick: () => void;
 }) => {
   const isFundamental = note.category === "Fundamentals";
+  const uniqueId = `note-${note.id}`;
 
   return (
     <motion.div
+      layoutId={`card-container-${uniqueId}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -273,11 +286,12 @@ const NoteCard = ({
               </span>
             </div>
 
-            <h3
+            <motion.h3
+              layoutId={`card-title-${uniqueId}`}
               className={`font-bold text-zinc-100 group-hover:text-lime-300 transition-colors mb-2 ${isFundamental ? "text-xl" : "text-lg"}`}
             >
               {note.title}
-            </h3>
+            </motion.h3>
             {note.subtitle && (
               <p className="text-xs font-mono text-zinc-500 mb-3">
                 {note.subtitle}

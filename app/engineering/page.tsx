@@ -563,7 +563,7 @@ export default function EngineeringPage() {
         <LearningEvolution />
         <ConceptsGrid />
         <WorkflowSection />
-        <EngineeringNotes />
+        {/* <EngineeringNotes /> */}
         <CurrentlyLearning />
         <Footer />
       </div>
