@@ -54,7 +54,7 @@ export default function LiquidNavbar() {
 
   const navLinks = [
     { name: "Work", href: "/#projects" },
-    { name: "Engineering", href: "/engineering" },
+    { name: "Journey", href: "/engineering" },
     { name: "About", href: "/#about" },
     { name: "Contact", href: "/#contact" },
   ];
