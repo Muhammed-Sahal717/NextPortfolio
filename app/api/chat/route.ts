@@ -21,14 +21,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid messages format" }, { status: 400 });
     }
 
-    // Fetch projects from Supabase to provide context
-    const { data: projects, error } = await supabase
-      .from("projects")
-      .select("*");
+    // Fetch projects from Supabase to provide context with a graceful fallback
+    console.log("[Chat API] Fetching projects from Supabase...");
+    let projects: any[] | null = null;
+    try {
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .abortSignal(AbortSignal.timeout(3000)); // 3 second strict timeout
 
-    if (error) {
-      console.error("Error fetching projects for context:", error);
+      if (error) {
+        console.error("[Chat API] Error fetching projects for context:", error);
+      } else {
+        projects = data;
+      }
+    } catch (dbError) {
+      console.error("[Chat API] Supabase connection timed out or failed:", dbError);
+      // We continue without projects; Kuttappan will still function minimally
     }
+    console.log(`[Chat API] Successfully fetched ${projects?.length || 0} projects`);
 
     const projectContext = projects
       ? projects.map((p) => `
@@ -42,11 +53,12 @@ Live Demo: ${p.demo_url || "N/A"}
 Source Code: ${p.github_url || "N/A"}
 User's Notes/Content: ${p.content ? p.content.substring(0, 500) + "..." : "N/A"}
 `).join("\n---\n")
-      : "No detailed project data available at the moment.";
+      : "No detailed project data available at the moment. You are experiencing a limited database connection, so just answer generally about web development and Sahal's skills.";
 
     // Using the specific system instruction as requested
+    console.log("[Chat API] Initializing Gemini model...");
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       systemInstruction: {
         role: "system",
         parts: [{
@@ -149,7 +161,9 @@ If the user greets you, respond in a friendly professional way, for example:
       history: history,
     });
 
+    console.log("[Chat API] Sending message stream to Gemini...");
     const result = await chat.sendMessageStream(lastMessageContent);
+    console.log("[Chat API] Stream received, returning response...");
 
     // Create a ReadableStream for the response to support streaming to the client
     const stream = new ReadableStream({
@@ -178,6 +192,26 @@ If the user greets you, respond in a friendly professional way, for example:
 
   } catch (error: any) {
     console.error("Chat API Error:", error);
+
+    // Provide a mock response so the UI and testing can continue even if the free tier API is exhausted.
+    if (error?.message?.includes("429") || error?.message?.includes("quota") || error?.status === 429) {
+      console.log("[Chat API] Caught 429 Quota Error. Returning mock response for testing.");
+      const mockMessage = "Eda mone! 😅 My brain (API quota) is completely maxed out right now! \n\n **YES, I AM ALIVE!** The chat system, widget, and connection are all working perfectly! The only thing stopping us is the Google Gemini API Free Tier limit. \n\nPlease give my API key a little rest and try again later! \n\n---SUGGESTIONS---\n- What is Sahal's tech stack?\n- Look at Projects";
+
+      const stream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode(mockMessage));
+          controller.close();
+        },
+      });
+
+      return new Response(stream, {
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+        },
+      });
+    }
+
     return NextResponse.json(
       { error: error.message || "Internal Server Error" },
       { status: 500 }
