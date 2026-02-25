@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import ChatWidget from "@/components/ChatWidget";
 import CustomCursor from "@/components/CustomCursor";
@@ -110,7 +111,9 @@ export default function RootLayout({
         {children}
 
         {/* Global Floating Elements */}
-        <PageTransitionLoader />
+        <Suspense fallback={null}>
+          <PageTransitionLoader />
+        </Suspense>
         <Preloader />
         <ChatWidget />
         <CustomCursor />
