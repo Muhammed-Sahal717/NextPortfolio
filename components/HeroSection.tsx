@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiEye, FiDownload } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -9,6 +10,17 @@ import LiquidEther from "@/components/LiquidEther";
 import LiquidNavbar from "@/components/LiquidNavbar";
 
 export default function HeroSection() {
+  const [resumeUrl, setResumeUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/resume")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.url) setResumeUrl(data.url);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black text-white font-sans">
       {/* NAVBAR */}
@@ -80,6 +92,33 @@ export default function HeroSection() {
                 View Work <FiArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
+
+            {/* Resume Buttons */}
+            {resumeUrl && (
+              <>
+                <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full h-14 px-8 border-lime-400/30 bg-lime-400/5 backdrop-blur-md text-lime-400 hover:bg-lime-400 hover:text-black font-semibold transition-all duration-300"
+                  >
+                    <FiEye className="mr-2 w-5 h-5" />
+                    View Resume
+                  </Button>
+                </a>
+
+                <a href={resumeUrl} download>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="rounded-full h-14 px-8 border-white/20 bg-black/20 backdrop-blur-md text-white hover:bg-white hover:text-black font-semibold transition-all duration-300"
+                  >
+                    <FiDownload className="mr-2 w-5 h-5" />
+                    Download CV
+                  </Button>
+                </a>
+              </>
+            )}
 
             <Link
               href={process.env.NEXT_PUBLIC_CONTACT_GITHUB!}
