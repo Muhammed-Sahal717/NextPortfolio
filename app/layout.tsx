@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     "UI/UX",
   ],
 
-  authors: [{ name: "Sahal", url: "https://port-sahal-folio.vercel.app" }],
+  authors: [{ name: "Sahal", url: "https://sahal-web.vercel.app" }],
   creator: "Sahal",
   publisher: "Sahal",
 
