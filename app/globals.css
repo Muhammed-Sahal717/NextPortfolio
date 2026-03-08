@@ -129,10 +129,15 @@
 }
 
 /* --- THEME TRANSITION VIEWS --- */
+::view-transition-group(root) {
+  animation-duration: inherit;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+  background-color: var(--theme-black);
 }
 
 ::view-transition-old(root) {
