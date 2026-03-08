@@ -8,9 +8,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import LiquidEther from "@/components/LiquidEther";
 import LiquidNavbar from "@/components/LiquidNavbar";
+import { useTheme } from "next-themes";
 
 export default function HeroSection() {
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
+  const { theme } = useTheme();
+
+  const isLight = theme === "light";
+  const liquidColors = isLight
+    ? ["#C9ACEB", "#9A5CF2"]
+    : ["#D0F0C0", "#ADFF2F"];
 
   useEffect(() => {
     fetch("/api/resume")
@@ -29,7 +36,8 @@ export default function HeroSection() {
       {/* BACKGROUND ANIMATION — Optimized & Smooth */}
       <div className="absolute inset-0 z-0 opacity-60">
         <LiquidEther
-          colors={["#D0F0C0", "#ADFF2F"]}
+          key={theme}
+          colors={liquidColors}
           // --- PERFORMANCE OPTIMIZATION (Butter Smooth) ---
           isViscous={true}
           viscous={12} // Lower viscosity = smoother + faster
@@ -55,7 +63,7 @@ export default function HeroSection() {
         >
           {/* Status Badge - Premium "Cyber-Chip" Design */}
           <div className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group">
-            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#171717_0%,#a3e635_50%,#171717_100%)]" />
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,var(--theme-zinc-900)_0%,var(--theme-lime-400)_50%,var(--theme-zinc-900)_100%)]" />
             <span className="inline-flex h-full w-full cursor-default items-center justify-center rounded-full bg-black/90 px-4 py-2 text-sm font-medium text-white backdrop-blur-3xl border border-white/10 group-hover:bg-black/80 transition-all duration-300">
               <span className="relative flex h-2 w-2 mr-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime-400 opacity-75"></span>
@@ -70,7 +78,7 @@ export default function HeroSection() {
           {/* Main Heading */}
           <h1 className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9]">
             Crafting the <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-[#aaf280] drop-shadow-[0_0_35px_rgba(163,230,53,0.55)]">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-green-400 drop-shadow-[0_0_35px_var(--theme-lime-500)]">
               Next-Gen Web.
             </span>
           </h1>
@@ -86,8 +94,7 @@ export default function HeroSection() {
             <Link href="#projects">
               <Button
                 size="lg"
-                // FIXED: Added 'border border-white' and 'hover:bg-black' to create high-contrast invert effect
-                className="rounded-full h-14 px-10 text-lg bg-white text-black border border-white font-bold hover:scale-105 hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:bg-black hover:text-white transition-all duration-300"
+                className="rounded-full h-14 px-10 text-lg bg-white text-black border border-white font-bold hover:scale-105 hover:shadow-[0_0_40px_var(--theme-white)] hover:bg-black hover:text-white transition-all duration-300"
               >
                 View Work <FiArrowRight className="ml-2 w-5 h-5" />
               </Button>

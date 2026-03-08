@@ -7,6 +7,7 @@ import CustomCursor from "@/components/CustomCursor";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import Preloader from "@/components/Preloader";
 import PageTransitionLoader from "@/components/PageTransitionLoader";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -100,24 +101,31 @@ export default function RootLayout({
 }>) {
   return (
     // Added 'scroll-smooth' for better navigation feel
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white selection:bg-lime-400 selection:text-black`}
       >
-        {/* Optional: Global Film Grain Overlay */}
-        <div className="bg-noise" />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* Optional: Global Film Grain Overlay */}
+          <div className="bg-noise" />
 
-        {/* Main Content */}
-        {children}
+          {/* Main Content */}
+          {children}
 
-        {/* Global Floating Elements */}
-        <Suspense fallback={null}>
-          <PageTransitionLoader />
-        </Suspense>
-        <Preloader />
-        <ChatWidget />
-        <CustomCursor />
-        <SmoothScrolling />
+          {/* Global Floating Elements */}
+          <Suspense fallback={null}>
+            <PageTransitionLoader />
+          </Suspense>
+          <Preloader />
+          <ChatWidget />
+          <CustomCursor />
+          <SmoothScrolling />
+        </ThemeProvider>
       </body>
     </html>
   );

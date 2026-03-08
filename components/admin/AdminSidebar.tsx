@@ -14,6 +14,7 @@ import {
 } from "react-icons/fi";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: FiHome },
@@ -32,8 +33,8 @@ export default function AdminSidebar() {
 
   const SidebarContent = () => (
     <>
-      {/* Logo / Brand */}
-      <div className="p-6 border-b border-white/[0.06]">
+      {/* Logo / Brand & Theme Toggle */}
+      <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
         <Link
           href="/admin"
           className="flex items-center gap-3 group"
@@ -51,6 +52,7 @@ export default function AdminSidebar() {
             </span>
           </div>
         </Link>
+        <ThemeToggle />
       </div>
 
       {/* Navigation */}

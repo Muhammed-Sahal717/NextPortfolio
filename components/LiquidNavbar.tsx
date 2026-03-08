@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // The Bento Grid Menu Icon (3x3 Dots)
 const BentoMenuIcon = ({ isOpen }: { isOpen: boolean }) => (
@@ -100,6 +101,7 @@ export default function LiquidNavbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-4 z-50">
+              <ThemeToggle />
               <Link
                 href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                 target="_blank"
@@ -153,7 +155,8 @@ export default function LiquidNavbar() {
                   </Link>
                 ))}
 
-                <div className="flex justify-center gap-6 mt-2 pt-4 border-t border-white/10">
+                <div className="flex justify-center items-center gap-6 mt-2 pt-4 border-t border-white/10">
+                  <ThemeToggle />
                   <Link
                     href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                     target="_blank"
