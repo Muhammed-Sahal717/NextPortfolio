@@ -70,7 +70,7 @@ const NoteModal = ({
 
           <motion.div
             layoutId={`card-container-${uniqueId}`}
-            className="bg-[#0a0a0a] border border-white/10 rounded-2xl md:rounded-3xl p-6 md:p-10 max-w-4xl w-full relative shadow-[0_0_50px_rgba(132,204,22,0.1)] overflow-hidden max-h-[85vh] flex flex-col z-10"
+            className="bg-zinc-950 border border-white/10 rounded-2xl md:rounded-3xl p-6 md:p-10 max-w-4xl w-full relative shadow-[0_0_50px_rgba(132,204,22,0.1)] overflow-hidden max-h-[85vh] flex flex-col z-10"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal decorative blob */}

@@ -43,7 +43,7 @@ export default function BentoGrid() {
 
   return (
     <section
-      className="py-24 px-6 max-w-[1400px] mx-auto bg-black text-white"
+      className="py-24 px-6 max-w-[1400px] mx-auto bg-black text-white transition-colors"
       id="about"
     >
       {/* 1. HEADER */}
@@ -69,7 +69,7 @@ export default function BentoGrid() {
           {/* Bio Card */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="bg-zinc-900/50 border border-zinc-800 p-8 md:p-12 rounded-3xl flex flex-col justify-between h-auto lg:h-80 relative overflow-hidden group"
+            className="bg-zinc-900/50 border-2 border-[var(--theme-white)] dark:border-zinc-800 dark:border-[1px] p-8 md:p-12 rounded-3xl flex flex-col justify-between h-auto lg:h-80 relative overflow-hidden group transition-all shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none"
           >
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
               <FiCode size={120} />
@@ -83,15 +83,19 @@ export default function BentoGrid() {
                 Developing scalable solutions for the modern web.
               </h3>
             </div>
-            <div className="flex gap-8 items-end border-t border-white/5 pt-6 lg:border-none lg:pt-0">
+            <div className="flex gap-8 items-end border-t border-black/10 dark:border-white/5 pt-6 lg:border-none lg:pt-0">
               <div>
-                <span className="block text-4xl font-bold text-white">2+</span>
+                <span className="block text-4xl font-bold text-white">
+                  2+
+                </span>
                 <span className="text-zinc-500 text-xs uppercase tracking-wider">
                   Years Exp
                 </span>
               </div>
               <div>
-                <span className="block text-4xl font-bold text-white">15+</span>
+                <span className="block text-4xl font-bold text-white">
+                  15+
+                </span>
                 <span className="text-zinc-500 text-xs uppercase tracking-wider">
                   Projects
                 </span>
@@ -104,7 +108,7 @@ export default function BentoGrid() {
             {/* Location */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-zinc-950 border border-zinc-800 p-8 rounded-3xl flex items-center gap-6 h-full min-h-[140px]"
+              className="bg-zinc-950 border-2 border-[var(--theme-white)] dark:border-zinc-800 dark:border-[1px] p-8 rounded-3xl flex items-center gap-6 h-full min-h-[140px] transition-all shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none"
             >
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black shrink-0">
                 <FiMapPin size={24} />
@@ -118,7 +122,7 @@ export default function BentoGrid() {
             {/* Socials */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-lime-400 text-black p-8 rounded-3xl flex flex-col justify-center gap-4 relative overflow-hidden group h-full min-h-[140px]"
+              className="bg-lime-400 text-[var(--theme-white)] border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-transparent dark:shadow-none shadow-[4px_4px_0px_0px_var(--theme-white)] p-8 rounded-3xl flex flex-col justify-center gap-4 relative overflow-hidden group h-full min-h-[140px] transition-all"
             >
               <div className="absolute top-4 right-4 bg-black/10 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                 <FiArrowUpRight size={20} />
@@ -148,7 +152,7 @@ export default function BentoGrid() {
 
         {/* --- RIGHT COLUMN (THE SCROLLER) --- */}
         <div className="lg:col-span-5 h-full">
-          <motion.div className="bg-zinc-900 border border-zinc-800 w-full h-[400px] lg:h-full rounded-3xl p-6 flex flex-col relative overflow-hidden">
+          <motion.div className="bg-zinc-900 border-2 border-[var(--theme-white)] dark:border-zinc-800 dark:border-[1px] w-full h-[400px] lg:h-full rounded-3xl p-6 flex flex-col relative overflow-hidden shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none transition-all">
             {/* Header */}
             <div className="flex items-center justify-between mb-6 relative z-10 shrink-0">
               <h3 className="text-xl font-bold flex items-center gap-2">
@@ -163,8 +167,8 @@ export default function BentoGrid() {
             <div className="relative flex-1 w-full overflow-hidden">
               <div className="absolute inset-0">
                 {/* Gradients */}
-                <div className="absolute top-0 left-0 w-full h-12 bg-linear-to-b from-zinc-900 to-transparent z-10 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-full h-12 bg-linear-to-t from-zinc-900 to-transparent z-10 pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full h-12 bg-linear-to-b from-zinc-900 to-transparent z-10 pointer-events-none transition-colors" />
+                <div className="absolute bottom-0 left-0 w-full h-12 bg-linear-to-t from-zinc-900 to-transparent z-10 pointer-events-none transition-colors" />
 
                 <motion.div
                   className="flex flex-col gap-3 pb-6"
@@ -179,7 +183,7 @@ export default function BentoGrid() {
                   {[...stackItems, ...stackItems].map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-3 bg-black/40 border border-white/5 rounded-xl hover:border-lime-400/30 transition-colors group shrink-0"
+                      className="flex items-center gap-3 p-3 bg-black/40 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/5 rounded-xl hover:border-lime-400/30 transition-all group shrink-0"
                     >
                       <item.Icon
                         className={`text-lg transition-colors ${item.color}`}

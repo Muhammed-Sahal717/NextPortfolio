@@ -20,6 +20,9 @@
   --color-zinc-600: var(--theme-zinc-600);
   --color-zinc-500: var(--theme-zinc-500);
   --color-zinc-400: var(--theme-zinc-400);
+  --color-zinc-300: var(--theme-zinc-300);
+  --color-zinc-200: var(--theme-zinc-200);
+  --color-zinc-100: var(--theme-zinc-100);
 
   --color-lime-300: var(--theme-lime-300);
   --color-lime-400: var(--theme-lime-400);
@@ -59,12 +62,15 @@
   /* muted gray panels */
   --theme-zinc-800: #DCDCC9;
   /* borders */
-  --theme-zinc-700: #B4B4B0;
-  --theme-zinc-600: #8E8E85;
+  --theme-zinc-700: #A1A19A;
+  --theme-zinc-600: #7A7A73;
   /* dim gray */
-  --theme-zinc-500: #8E8E85;
-  --theme-zinc-400: #5E5E55;
+  --theme-zinc-500: #5E5E55;
+  --theme-zinc-400: #42423B;
   /* soft gray text */
+  --theme-zinc-300: #272723;
+  --theme-zinc-200: #181816;
+  --theme-zinc-100: #0C0C0B;
 
   --theme-lime-300: #410D9B;
   /* hover violet */
@@ -96,6 +102,9 @@
   --theme-zinc-600: #52525b;
   --theme-zinc-500: #71717a;
   --theme-zinc-400: #a1a1aa;
+  --theme-zinc-300: #d4d4d8;
+  --theme-zinc-200: #e4e4e7;
+  --theme-zinc-100: #f4f4f5;
 
   --theme-lime-300: #bef264;
   --theme-lime-400: #a3e635;

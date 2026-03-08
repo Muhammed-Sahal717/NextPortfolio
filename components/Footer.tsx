@@ -56,16 +56,16 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-black text-white relative border-t border-zinc-900"
+      className="bg-black text-white relative border-t-2 border-[var(--theme-white)] dark:border-t-[1px] dark:border-zinc-900 transition-all"
       id="contact"
     >
       {/* 1. TOP HEADER SECTION */}
-      <div className="border-b border-zinc-900">
+      <div className="border-b-2 border-[var(--theme-white)] dark:border-b-[1px] dark:border-zinc-900 transition-all">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-24">
           <div className="max-w-4xl">
             <ScrollReveal
               text="LET'S BUILD"
-              className="text-6xl md:text-9xl font-black tracking-tighter text-white leading-[0.85] mb-2"
+              className="text-6xl md:text-9xl font-black tracking-tighter text-white leading-[0.85] mb-2 transition-all"
             />
             <ScrollReveal
               text="THE FUTURE."
@@ -78,7 +78,7 @@ export default function Footer() {
       {/* 2. MAIN GRID LAYOUT */}
       <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2">
         {/* LEFT COLUMN: THE FORM */}
-        <div className="border-b lg:border-b-0 lg:border-r border-zinc-900 p-6 md:p-12 lg:py-24">
+        <div className="border-b-2 lg:border-b-0 lg:border-r-2 border-[var(--theme-white)] dark:border-zinc-900 dark:border-b-[1px] dark:lg:border-b-0 dark:lg:border-r-[1px] p-6 md:p-12 lg:py-24 transition-all">
           <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
             <span className="w-2 h-2 bg-[var(--theme-lime-400)] rounded-full animate-pulse" />
             Contact
@@ -97,7 +97,7 @@ export default function Footer() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 placeholder="email@address.com"
-                className="w-full bg-[var(--theme-zinc-900)]/30 border-b border-[var(--theme-zinc-800)] py-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all"
+                className="w-full bg-[var(--theme-zinc-900)]/30 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-t-0 dark:border-l-0 dark:border-r-0 dark:border-[var(--theme-zinc-800)] p-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none mb-4"
               />
             </div>
 
@@ -113,13 +113,13 @@ export default function Footer() {
                   setFormData({ ...formData, message: e.target.value })
                 }
                 placeholder="Your message..."
-                className="w-full bg-[var(--theme-zinc-900)]/30 border-b border-[var(--theme-zinc-800)] py-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all resize-none"
+                className="w-full bg-[var(--theme-zinc-900)]/30 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-t-0 dark:border-l-0 dark:border-r-0 dark:border-[var(--theme-zinc-800)] p-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none mb-6 resize-none"
               />
             </div>
 
             <button
               disabled={status === "SENDING" || status === "SUCCESS"}
-              className={`w-full py-5 px-8 font-bold text-lg uppercase tracking-widest flex items-center justify-between group transition-all ${
+              className={`w-full py-5 px-8 font-bold text-lg uppercase tracking-widest flex items-center justify-between group transition-all border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-transparent rounded-xl shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none ${
                 status === "SUCCESS"
                   ? "bg-green-600 text-[var(--theme-white)]"
                   : "bg-[var(--theme-white)] text-[var(--theme-black)] hover:bg-[var(--theme-lime-400)]"
@@ -147,7 +147,7 @@ export default function Footer() {
         {/* RIGHT COLUMN: LINKS & INFO */}
         <div className="grid grid-rows-2">
           {/* Top Half: Navigation */}
-          <div className="border-b border-zinc-900 p-6 md:p-12 flex flex-col justify-center">
+          <div className="border-b-2 border-[var(--theme-white)] dark:border-b-[1px] dark:border-zinc-900 p-6 md:p-12 flex flex-col justify-center transition-all">
             <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-8">
               Directory
             </span>
@@ -168,7 +168,7 @@ export default function Footer() {
           </div>
 
           {/* Bottom Half: Socials & Location */}
-          <div className="p-6 md:p-12 flex flex-col justify-between gap-12 bg-zinc-950">
+          <div className="p-6 md:p-12 flex flex-col justify-between gap-12 bg-zinc-950 transition-all">
             <div className="grid grid-cols-2 gap-8">
               <div>
                 <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-4 block">
@@ -193,7 +193,7 @@ export default function Footer() {
                       key={i}
                       href={item.href}
                       target="_blank"
-                      className="w-12 h-12 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-[var(--theme-black)] hover:bg-[var(--theme-lime-400)] hover:border-[var(--theme-lime-400)] transition-all rounded-lg"
+                      className="w-12 h-12 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-zinc-800 shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none flex items-center justify-center text-zinc-400 hover:text-[var(--theme-black)] hover:bg-[var(--theme-lime-400)] hover:border-[var(--theme-lime-400)] transition-all rounded-lg"
                     >
                       <item.icon size={20} />
                     </Link>
@@ -206,7 +206,7 @@ export default function Footer() {
                   Base of Operations
                 </span>
                 <div className="flex items-center gap-3 text-zinc-300">
-                  <div className="p-2 bg-[var(--theme-zinc-900)] rounded-full text-[var(--theme-lime-400)]">
+                  <div className="p-2 bg-[var(--theme-zinc-900)] rounded-full text-[var(--theme-lime-400)] border-2 border-[var(--theme-white)] dark:border-0 shadow-[2px_2px_0px_0px_var(--theme-white)] dark:shadow-none">
                     <FiMapPin />
                   </div>
                   <div>
@@ -217,7 +217,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-8 border-t border-zinc-900/50 text-xs font-mono text-zinc-600 uppercase">
+            <div className="flex items-center justify-between pt-8 border-t-2 border-[var(--theme-white)] dark:border-t-[1px] dark:border-zinc-900/50 text-xs font-mono text-zinc-600 uppercase transition-all">
               <p>© 2025 Sahal. Web Developer.</p>
               <p>All rights reserved.</p>
             </div>

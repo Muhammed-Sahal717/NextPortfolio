@@ -455,7 +455,7 @@ const NoteCard = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 max-w-lg w-full relative shadow-2xl overflow-hidden"
+              className="bg-zinc-950 border border-white/10 rounded-2xl p-8 max-w-lg w-full relative shadow-2xl overflow-hidden"
             >
               {/* Modal decorative blob */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-lime-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
