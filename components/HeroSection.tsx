@@ -36,7 +36,6 @@ export default function HeroSection() {
       {/* BACKGROUND ANIMATION — Optimized & Smooth */}
       <div className="absolute inset-0 z-0 opacity-60">
         <LiquidEther
-          key={theme}
           colors={liquidColors}
           // --- PERFORMANCE OPTIMIZATION (Butter Smooth) ---
           isViscous={true}
