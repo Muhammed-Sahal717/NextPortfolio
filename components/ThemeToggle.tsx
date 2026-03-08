@@ -48,14 +48,29 @@ export function ThemeToggle() {
         `circle(${endRadius}px at ${x}px ${y}px)`,
       ];
 
-      document.documentElement.animate(
-        { clipPath },
+      // If switching to dark, the old view (light) shrinks.
+      // Put old view on top using a custom class.
+      if (!isDark) {
+        document.documentElement.classList.add("dark-transition");
+      }
+
+      const animation = document.documentElement.animate(
         {
-          duration: 500,
-          easing: "ease-in-out",
-          pseudoElement: "::view-transition-new(root)",
+          clipPath: isDark ? clipPath : [...clipPath].reverse(),
+        },
+        {
+          duration: 1200, // slower transition
+          easing: "cubic-bezier(0.76, 0, 0.24, 1)", // buttery smooth expressive ease-in-out
+          pseudoElement: isDark
+            ? "::view-transition-new(root)"
+            : "::view-transition-old(root)",
         },
       );
+
+      // Clean up class when animation finishes
+      animation.finished.then(() => {
+        document.documentElement.classList.remove("dark-transition");
+      });
     });
   };
 

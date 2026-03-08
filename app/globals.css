@@ -143,6 +143,15 @@
   z-index: 999;
 }
 
+/* When going to dark mode, the old (light mode) view must stay on top to compress into the button */
+.dark-transition::view-transition-old(root) {
+  z-index: 999;
+}
+
+.dark-transition::view-transition-new(root) {
+  z-index: 1;
+}
+
 ::view-transition-image-pair(root) {
   isolation: auto;
 }
