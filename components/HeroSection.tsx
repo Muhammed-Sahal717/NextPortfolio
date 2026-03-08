@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FiArrowRight, FiEye, FiDownload } from "react-icons/fi";
+import { FiArrowRight, FiDownload } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -93,31 +93,18 @@ export default function HeroSection() {
               </Button>
             </Link>
 
-            {/* Resume Buttons */}
+            {/* Resume Button */}
             {resumeUrl && (
-              <>
-                <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="rounded-full h-14 px-8 border-lime-400/30 bg-lime-400/5 backdrop-blur-md text-lime-400 hover:bg-lime-400 hover:text-black font-semibold transition-all duration-300"
-                  >
-                    <FiEye className="mr-2 w-5 h-5" />
-                    View Resume
-                  </Button>
-                </a>
-
-                <a href={resumeUrl} download>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="rounded-full h-14 px-8 border-white/20 bg-black/20 backdrop-blur-md text-white hover:bg-white hover:text-black font-semibold transition-all duration-300"
-                  >
-                    <FiDownload className="mr-2 w-5 h-5" />
-                    Download CV
-                  </Button>
-                </a>
-              </>
+              <a href={resumeUrl} download>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full h-14 px-8 border-lime-400/30 bg-lime-400/5 backdrop-blur-md text-lime-400 hover:bg-lime-400 hover:text-white font-semibold transition-all duration-300"
+                >
+                  <FiDownload className="mr-2 w-5 h-5" />
+                  Download Resume
+                </Button>
+              </a>
             )}
 
             <Link
