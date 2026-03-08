@@ -123,6 +123,7 @@
     @apply border-border outline-ring/50;
   }
 
+  html,
   body {
     @apply bg-background text-foreground;
   }
@@ -137,7 +138,7 @@
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
-  background-color: var(--theme-black);
+  display: block;
 }
 
 ::view-transition-old(root) {
