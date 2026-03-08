@@ -59,7 +59,7 @@ export function ThemeToggle() {
           clipPath: isDark ? clipPath : [...clipPath].reverse(),
         },
         {
-          duration: 1200, // slower transition
+          duration: 600, // Halved duration to prevent dropped frames on mobile
           easing: "cubic-bezier(0.76, 0, 0.24, 1)", // buttery smooth expressive ease-in-out
           pseudoElement: isDark
             ? "::view-transition-new(root)"
