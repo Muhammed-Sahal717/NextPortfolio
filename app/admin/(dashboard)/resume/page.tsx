@@ -52,13 +52,11 @@ export default function AdminResumePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (file.type !== "application/pdf") {
       setMessage({ type: "error", text: "Only PDF files are allowed." });
       return;
     }
 
-    // Validate file size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       setMessage({ type: "error", text: "File size must be under 10MB." });
       return;
@@ -67,29 +65,31 @@ export default function AdminResumePage() {
     setUploading(true);
     setMessage(null);
 
-    // Delete existing resume first
+    const formData = new FormData();
+    formData.append("file", file);
     if (resumeName) {
-      await supabase.storage.from("resume").remove([resumeName]);
+      formData.append("oldFileName", resumeName);
     }
 
-    // Upload with a clean filename
-    const fileName = `resume_${Date.now()}.pdf`;
-    const { error } = await supabase.storage
-      .from("resume")
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: true,
+    try {
+      const res = await fetch("/api/admin/resume", {
+        method: "POST",
+        body: formData,
       });
 
-    if (error) {
-      setMessage({ type: "error", text: error.message });
-      setUploading(false);
-      return;
-    }
+      const data = await res.json();
 
-    setMessage({ type: "success", text: "Resume uploaded successfully!" });
-    setUploading(false);
-    await fetchResume();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to upload resume.");
+      }
+
+      setMessage({ type: "success", text: "Resume uploaded successfully!" });
+      await fetchResume();
+    } catch (err: any) {
+      setMessage({ type: "error", text: err.message });
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleDelete = async () => {
@@ -98,20 +98,28 @@ export default function AdminResumePage() {
     setDeleting(true);
     setMessage(null);
 
-    const { error } = await supabase.storage
-      .from("resume")
-      .remove([resumeName]);
+    try {
+      const res = await fetch(
+        `/api/admin/resume?fileName=${encodeURIComponent(resumeName)}`,
+        {
+          method: "DELETE",
+        },
+      );
 
-    if (error) {
-      setMessage({ type: "error", text: error.message });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to delete resume.");
+      }
+
+      setResumeUrl(null);
+      setResumeFileName(null);
+      setMessage({ type: "success", text: "Resume deleted." });
+    } catch (err: any) {
+      setMessage({ type: "error", text: err.message });
+    } finally {
       setDeleting(false);
-      return;
     }
-
-    setResumeUrl(null);
-    setResumeFileName(null);
-    setMessage({ type: "success", text: "Resume deleted." });
-    setDeleting(false);
   };
 
   return (
