@@ -62,8 +62,10 @@ export default function CustomCursor() {
           // Hover: Snap to center, fill lime, stop rotating
           width: isHovering ? 12 : 40,
           height: isHovering ? 12 : 40,
-          backgroundColor: isHovering ? "#84cc16" : "transparent",
-          borderColor: isHovering ? "#84cc16" : "rgba(255,255,255,0.4)",
+          backgroundColor: isHovering ? "var(--theme-lime-400)" : "transparent",
+          borderColor: isHovering
+            ? "var(--theme-lime-400)"
+            : "rgba(255,255,255,0.4)",
           rotate: isHovering ? 0 : 45, // 45deg diamond in idle, 0deg square in hover
           scale: isClicking ? 1.5 : 1, // Explode slightly on click
         }}
@@ -77,7 +79,7 @@ export default function CustomCursor() {
 
       {/* 2. THE LEADER PIXEL (Solid Lime Square) */}
       <motion.div
-        className="fixed top-0 left-0 bg-lime-400 shadow-[0_0_15px_rgba(132,204,22,0.6)]"
+        className="fixed top-0 left-0 bg-[var(--theme-lime-400)] shadow-[0_0_15px_var(--theme-lime-400)]"
         style={{
           x: mousePosition.x,
           y: mousePosition.y,

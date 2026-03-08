@@ -24,7 +24,7 @@ export default async function Home() {
         <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center gap-3">
-              <span className="w-1 h-8 bg-lime-400 block rounded-full" />
+              <span className="w-1 h-8 bg-[var(--theme-lime-400)] block rounded-full" />
               Selected Works
             </h2>
             <p className="text-zinc-400 max-w-xl">

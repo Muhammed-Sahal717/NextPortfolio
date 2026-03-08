@@ -34,7 +34,7 @@ export default function PageTransitionLoader() {
           className="fixed top-0 left-0 right-0 z-[100000] pointer-events-none"
         >
           {/* Subtle blurred backdrop for the line */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-lime-500/10 backdrop-blur-sm" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--theme-lime-500)]/10 backdrop-blur-sm" />
 
           {/* The actual progress line */}
           <motion.div
@@ -48,7 +48,7 @@ export default function PageTransitionLoader() {
               ease: "easeInOut",
               times: [0, 0.5, 1],
             }}
-            className="h-[3px] bg-gradient-to-r from-lime-400 via-green-400 to-lime-300 shadow-[0_0_10px_rgba(163,230,53,0.8)]"
+            className="h-[3px] bg-gradient-to-r from-[var(--theme-lime-400)] via-[var(--theme-lime-500)] to-[var(--theme-lime-300)] shadow-[0_0_10px_var(--theme-lime-500)]"
           />
         </motion.div>
       )}

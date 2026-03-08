@@ -80,13 +80,13 @@ export default function Footer() {
         {/* LEFT COLUMN: THE FORM */}
         <div className="border-b lg:border-b-0 lg:border-r border-zinc-900 p-6 md:p-12 lg:py-24">
           <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
-            <span className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-[var(--theme-lime-400)] rounded-full animate-pulse" />
             Contact
           </h3>
 
           <form onSubmit={handleSubmit} className="space-y-8 max-w-lg">
             <div className="group">
-              <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 group-focus-within:text-lime-400 transition-colors">
+              <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 group-focus-within:text-[var(--theme-lime-400)] transition-colors">
                 Email
               </label>
               <input
@@ -97,12 +97,12 @@ export default function Footer() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 placeholder="email@address.com"
-                className="w-full bg-zinc-900/30 border-b border-zinc-800 py-4 text-sm text-white placeholder:text-zinc-700 focus:outline-none focus:border-lime-400 transition-all"
+                className="w-full bg-[var(--theme-zinc-900)]/30 border-b border-[var(--theme-zinc-800)] py-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all"
               />
             </div>
 
             <div className="group">
-              <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 group-focus-within:text-lime-400 transition-colors">
+              <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 group-focus-within:text-[var(--theme-lime-400)] transition-colors">
                 Message
               </label>
               <textarea
@@ -113,7 +113,7 @@ export default function Footer() {
                   setFormData({ ...formData, message: e.target.value })
                 }
                 placeholder="Your message..."
-                className="w-full bg-zinc-900/30 border-b border-zinc-800 py-4 text-sm text-white placeholder:text-zinc-700 focus:outline-none focus:border-lime-400 transition-all resize-none"
+                className="w-full bg-[var(--theme-zinc-900)]/30 border-b border-[var(--theme-zinc-800)] py-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all resize-none"
               />
             </div>
 
@@ -121,8 +121,8 @@ export default function Footer() {
               disabled={status === "SENDING" || status === "SUCCESS"}
               className={`w-full py-5 px-8 font-bold text-lg uppercase tracking-widest flex items-center justify-between group transition-all ${
                 status === "SUCCESS"
-                  ? "bg-green-600 text-white"
-                  : "bg-white text-black hover:bg-lime-400"
+                  ? "bg-green-600 text-[var(--theme-white)]"
+                  : "bg-[var(--theme-white)] text-[var(--theme-black)] hover:bg-[var(--theme-lime-400)]"
               }`}
             >
               <span className="flex items-center gap-3">
@@ -156,9 +156,9 @@ export default function Footer() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="group flex items-baseline gap-6 text-3xl md:text-5xl font-bold text-zinc-500 hover:text-white transition-colors"
+                  className="group flex items-baseline gap-6 text-3xl md:text-5xl font-bold text-zinc-500 hover:text-[var(--theme-white)] transition-colors"
                 >
-                  <span className="text-sm font-mono text-lime-400/50 group-hover:text-lime-400 transition-colors -translate-y-2">
+                  <span className="text-sm font-mono text-[var(--theme-lime-400)]/50 group-hover:text-[var(--theme-lime-400)] transition-colors -translate-y-2">
                     {link.label}
                   </span>
                   <span>{link.name}</span>
@@ -193,7 +193,7 @@ export default function Footer() {
                       key={i}
                       href={item.href}
                       target="_blank"
-                      className="w-12 h-12 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-black hover:bg-lime-400 hover:border-lime-400 transition-all rounded-lg"
+                      className="w-12 h-12 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-[var(--theme-black)] hover:bg-[var(--theme-lime-400)] hover:border-[var(--theme-lime-400)] transition-all rounded-lg"
                     >
                       <item.icon size={20} />
                     </Link>
@@ -206,7 +206,7 @@ export default function Footer() {
                   Base of Operations
                 </span>
                 <div className="flex items-center gap-3 text-zinc-300">
-                  <div className="p-2 bg-zinc-900 rounded-full text-lime-400">
+                  <div className="p-2 bg-[var(--theme-zinc-900)] rounded-full text-[var(--theme-lime-400)]">
                     <FiMapPin />
                   </div>
                   <div>

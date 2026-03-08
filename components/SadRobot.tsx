@@ -6,9 +6,9 @@ export default function SadRobot() {
     <div className="relative w-32 h-32 md:w-40 md:h-40 mb-6 animate-sad-float z-10">
       {/* Optional: Fizzling sparks behind him indicating failure */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <span className="absolute top-[20%] left-[10%] w-1 h-1 bg-lime-500 rounded-full animate-fizzle [animation-delay:0.2s]"></span>
-        <span className="absolute top-[50%] right-[10%] w-1.5 h-1.5 bg-lime-500 rounded-full animate-fizzle [animation-delay:0.5s]"></span>
-        <span className="absolute bottom-[20%] left-[30%] w-1 h-1 bg-lime-500 rounded-full animate-fizzle [animation-delay:1s]"></span>
+        <span className="absolute top-[20%] left-[10%] w-1 h-1 bg-[var(--theme-lime-500)] rounded-full animate-fizzle [animation-delay:0.2s]"></span>
+        <span className="absolute top-[50%] right-[10%] w-1.5 h-1.5 bg-[var(--theme-lime-500)] rounded-full animate-fizzle [animation-delay:0.5s]"></span>
+        <span className="absolute bottom-[20%] left-[30%] w-1 h-1 bg-[var(--theme-lime-500)] rounded-full animate-fizzle [animation-delay:1s]"></span>
       </div>
 
       <svg
@@ -23,7 +23,7 @@ export default function SadRobot() {
           width="120"
           height="100"
           rx="20"
-          className="fill-zinc-900 stroke-lime-500/50 stroke-2"
+          className="fill-zinc-900 stroke-[var(--theme-lime-500)]/50 stroke-2"
         />
         {/* Inner Screen Area */}
         <rect
@@ -44,7 +44,7 @@ export default function SadRobot() {
             width="20"
             height="12"
             rx="2"
-            className="fill-lime-500/60 animate-sad-blink [animation-delay:0.2s]"
+            className="fill-[var(--theme-lime-500)]/60 animate-sad-blink [animation-delay:0.2s]"
           />
           {/* Right Eye (Dim Lime, Blinking) */}
           <rect
@@ -53,7 +53,7 @@ export default function SadRobot() {
             width="20"
             height="12"
             rx="2"
-            className="fill-lime-500/60 animate-sad-blink"
+            className="fill-[var(--theme-lime-500)]/60 animate-sad-blink"
           />
 
           {/* BROW RIDGE (Slanted down for sadness) */}
@@ -68,7 +68,7 @@ export default function SadRobot() {
         {/* MOUTH (A simple frown line) */}
         <path
           d="M 80 120 Q 100 110 120 120"
-          className="stroke-lime-500/40 stroke-2 fill-none"
+          className="stroke-[var(--theme-lime-500)]/40 stroke-2 fill-none"
           strokeLinecap="round"
         />
 

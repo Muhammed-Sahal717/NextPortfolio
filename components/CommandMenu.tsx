@@ -37,7 +37,7 @@ export default function CommandMenu() {
 
   return (
     <div className="fixed inset-0 z-99999 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-zinc-950 border-2 border-lime-500 rounded-xl shadow-[0_0_50px_rgba(132,204,22,0.3)] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="w-full max-w-lg bg-[var(--theme-black)] border-2 border-[var(--theme-lime-500)] rounded-xl shadow-[0_0_50px_var(--theme-lime-500)] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         <Command label="Global Command Menu" className="w-full">
           <div className="flex items-center border-b border-white/10 px-4">
             <FiArrowRight className="mr-2 h-4 w-4 shrink-0 opacity-50" />
@@ -58,7 +58,7 @@ export default function CommandMenu() {
             >
               <Command.Item
                 onSelect={() => runCommand(() => router.push("/"))}
-                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-zinc-300 hover:bg-lime-500 hover:text-black cursor-pointer transition-colors group"
+                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[var(--theme-zinc-400)] hover:bg-[var(--theme-lime-500)] hover:text-[var(--theme-black)] cursor-pointer transition-colors group"
               >
                 <FiHome /> <span>Home</span>
                 <span className="ml-auto text-[10px] opacity-50 group-hover:text-black font-mono">
@@ -68,14 +68,14 @@ export default function CommandMenu() {
 
               <Command.Item
                 onSelect={() => runCommand(() => router.push("/#projects"))}
-                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-zinc-300 hover:bg-lime-500 hover:text-black cursor-pointer transition-colors"
+                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[var(--theme-zinc-400)] hover:bg-[var(--theme-lime-500)] hover:text-[var(--theme-black)] cursor-pointer transition-colors"
               >
                 <FiCpu /> <span>Projects</span>
               </Command.Item>
 
               <Command.Item
                 onSelect={() => runCommand(() => router.push("/#about"))}
-                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-zinc-300 hover:bg-lime-500 hover:text-black cursor-pointer transition-colors"
+                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[var(--theme-zinc-400)] hover:bg-[var(--theme-lime-500)] hover:text-[var(--theme-black)] cursor-pointer transition-colors"
               >
                 <FiUser /> <span>About Me</span>
               </Command.Item>
@@ -94,7 +94,7 @@ export default function CommandMenu() {
                     ),
                   )
                 }
-                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-zinc-300 hover:bg-white hover:text-black cursor-pointer transition-colors"
+                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[var(--theme-zinc-400)] hover:bg-[var(--theme-white)] hover:text-[var(--theme-black)] cursor-pointer transition-colors"
               >
                 <FiGithub /> <span>GitHub</span>
               </Command.Item>
@@ -107,7 +107,7 @@ export default function CommandMenu() {
                     ),
                   )
                 }
-                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-zinc-300 hover:bg-white hover:text-black cursor-pointer transition-colors"
+                className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[var(--theme-zinc-400)] hover:bg-[var(--theme-white)] hover:text-[var(--theme-black)] cursor-pointer transition-colors"
               >
                 <FiMail /> <span>Contact Email</span>
               </Command.Item>

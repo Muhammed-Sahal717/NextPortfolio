@@ -47,7 +47,7 @@ export default function ContactConsole() {
             message: formData.message,
             to_name: "Sahal", // Your name
           },
-          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
         );
 
         setStatus("SUCCESS");
@@ -88,7 +88,7 @@ export default function ContactConsole() {
       <form onSubmit={handleSubmit} className="px-4 pb-4 space-y-6">
         {/* Email Input */}
         <div className="space-y-1">
-          <label className="text-[10px] text-lime-400/70 uppercase tracking-widest block">
+          <label className="text-[10px] text-[var(--theme-lime-400)]/70 uppercase tracking-widest block">
             01 // ENTER_SOURCE_ID (EMAIL)
           </label>
           <input
@@ -98,14 +98,14 @@ export default function ContactConsole() {
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
-            className="w-full bg-transparent border-b border-zinc-800 text-zinc-300 py-2 focus:outline-none focus:border-lime-400 transition-colors placeholder:text-zinc-700"
+            className="w-full bg-transparent border-b border-zinc-800 text-zinc-300 py-2 focus:outline-none focus:border-[var(--theme-lime-400)] transition-colors placeholder:text-zinc-700"
             required
           />
         </div>
 
         {/* Message Input */}
         <div className="space-y-1">
-          <label className="text-[10px] text-lime-400/70 uppercase tracking-widest block">
+          <label className="text-[10px] text-[var(--theme-lime-400)]/70 uppercase tracking-widest block">
             02 // INPUT_PAYLOAD (MESSAGE)
           </label>
           <textarea
@@ -115,7 +115,7 @@ export default function ContactConsole() {
             onChange={(e) =>
               setFormData({ ...formData, message: e.target.value })
             }
-            className="w-full bg-transparent border-b border-zinc-800 text-zinc-300 py-2 focus:outline-none focus:border-lime-400 transition-colors placeholder:text-zinc-700 resize-none"
+            className="w-full bg-transparent border-b border-zinc-800 text-zinc-300 py-2 focus:outline-none focus:border-[var(--theme-lime-400)] transition-colors placeholder:text-zinc-700 resize-none"
             required
           />
         </div>
@@ -128,7 +128,9 @@ export default function ContactConsole() {
               <p
                 key={i}
                 className={
-                  i === logs.length - 1 ? "text-lime-400/80 animate-pulse" : ""
+                  i === logs.length - 1
+                    ? "text-[var(--theme-lime-400)]/80 animate-pulse"
+                    : ""
                 }
               >
                 {log}
@@ -143,7 +145,9 @@ export default function ContactConsole() {
             className={`
               flex items-center gap-2 px-6 py-3 font-bold text-xs uppercase tracking-widest transition-all
               ${
-                status === "IDLE" ? "bg-white text-black hover:bg-lime-400" : ""
+                status === "IDLE"
+                  ? "bg-white text-black hover:bg-[var(--theme-lime-400)]"
+                  : ""
               }
               ${
                 status === "SENDING"

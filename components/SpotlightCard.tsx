@@ -1,22 +1,31 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 interface SpotlightCardProps {
   children: React.ReactNode;
   className?: string;
-  spotlightColor?: string;
+  spotlightColor?: string; // Optional override
 }
 
 export default function SpotlightCard({
   children,
   className = "",
-  spotlightColor = "rgba(163, 230, 53, 0.15)", // Default lime tint
+  spotlightColor,
 }: SpotlightCardProps) {
   const divRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
+  const { theme } = useTheme();
+
+  // Determine the default spotlight tint based on theme if not explicitly provided
+  const isLight = theme === "light";
+  const defaultSpotlight = isLight
+    ? "rgba(92, 25, 202, 0.15)" // Cyber Violet tint
+    : "rgba(163, 230, 53, 0.15)"; // Cyber Lime tint
+
+  const activeColor = spotlightColor || defaultSpotlight;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!divRef.current || !e) return;
@@ -57,7 +66,7 @@ export default function SpotlightCard({
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 40%)`,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${activeColor}, transparent 40%)`,
         }}
       />
       <div className="relative h-full">{children}</div>

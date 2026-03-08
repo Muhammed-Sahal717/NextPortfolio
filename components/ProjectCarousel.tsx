@@ -60,7 +60,7 @@ export default function ProjectCarousel({ images }: { images: string[] }) {
           {/* Left Arrow */}
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-lime-400 hover:text-black z-10"
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[var(--theme-lime-400)] hover:text-black z-10"
             aria-label="Previous slide"
           >
             <FiChevronLeft size={20} />
@@ -69,7 +69,7 @@ export default function ProjectCarousel({ images }: { images: string[] }) {
           {/* Right Arrow */}
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-lime-400 hover:text-black z-10"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[var(--theme-lime-400)] hover:text-black z-10"
             aria-label="Next slide"
           >
             <FiChevronRight size={20} />
@@ -83,7 +83,7 @@ export default function ProjectCarousel({ images }: { images: string[] }) {
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? "bg-lime-400 w-6"
+                    ? "bg-[var(--theme-lime-400)] w-6"
                     : "bg-white/30 hover:bg-white"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}

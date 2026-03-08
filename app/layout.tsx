@@ -103,7 +103,7 @@ export default function RootLayout({
     // Added 'scroll-smooth' for better navigation feel
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white selection:bg-lime-400 selection:text-black`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white selection:bg-[var(--theme-lime-400)] selection:text-[var(--theme-black)]`}
       >
         <ThemeProvider
           attribute="class"

@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // --- ROBUST HELPER: PARSE SUPABASE IMAGE DATA ---
 const getCleanImages = (
   imageColumn: unknown,
-  galleryColumn: unknown
+  galleryColumn: unknown,
 ): string[] => {
   const images: string[] = [];
 
@@ -89,7 +89,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
       }}
     >
       <div className="absolute inset-0 bg-white/2 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-0" />
-      <div className="absolute left-0 top-0 w-1 h-full bg-lime-400 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top z-10" />
+      <div className="absolute left-0 top-0 w-1 h-full bg-[var(--theme-lime-400)] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top z-10" />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-10 px-4 md:px-8">
         {/* Index */}
@@ -103,13 +103,13 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
         {/* Info */}
         <div className="col-span-1 lg:col-span-6 flex flex-col justify-center">
           <div className="flex items-start justify-between mb-4 lg:hidden">
-            <span className="font-mono text-xs text-lime-400">
+            <span className="font-mono text-xs text-[var(--theme-lime-400)]">
               0{index + 1}PROJECT
             </span>
           </div>
           <h3 className="text-3xl md:text-5xl font-bold text-zinc-300 group-hover:text-white transition-colors tracking-tight mb-4 flex items-center gap-4">
             {project.title}
-            <FiArrowUpRight className="text-2xl text-lime-400 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
+            <FiArrowUpRight className="text-2xl text-[var(--theme-lime-400)] opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
           </h3>
           <p className="text-zinc-500 text-base md:text-lg leading-relaxed max-w-xl group-hover:text-zinc-400 transition-colors">
             {project.description}
@@ -120,7 +120,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
                 key={tech}
                 className="flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 group-hover:border-zinc-700 transition-colors"
               >
-                <div className="w-1.5 h-1.5 rounded-full bg-lime-500/50 group-hover:bg-lime-400" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-lime-500)]/50 group-hover:bg-[var(--theme-lime-400)]" />
                 <span className="text-xs font-mono uppercase text-zinc-400 group-hover:text-white tracking-wider">
                   {tech}
                 </span>
@@ -170,7 +170,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
                     key={i}
                     className={`h-1 rounded-full transition-all duration-300 ${
                       i === currentImageIndex % allImages.length
-                        ? "w-4 bg-lime-400"
+                        ? "w-4 bg-[var(--theme-lime-400)]"
                         : "w-1 bg-white/30"
                     }`}
                   />
@@ -181,12 +181,12 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             {/* Actions */}
             <div className="absolute top-4 right-4 z-30 flex gap-2 -translate-y-2.5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
               {project.github_url && (
-                <div className="p-2 bg-black text-white rounded-lg hover:bg-lime-400 hover:text-black transition-colors shadow-lg">
+                <div className="p-2 bg-black text-white rounded-lg hover:bg-[var(--theme-lime-400)] hover:text-black transition-colors shadow-lg">
                   <FiGithub />
                 </div>
               )}
               {project.demo_url && (
-                <div className="p-2 bg-white text-black rounded-lg hover:bg-lime-400 hover:text-black transition-colors shadow-lg">
+                <div className="p-2 bg-white text-black rounded-lg hover:bg-[var(--theme-lime-400)] hover:text-black transition-colors shadow-lg">
                   <FiExternalLink />
                 </div>
               )}

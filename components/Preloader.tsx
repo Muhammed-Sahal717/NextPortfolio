@@ -206,7 +206,7 @@ export default function Preloader() {
                   initial={{ width: 0, left: "50%", x: "-50%" }}
                   animate={{ width: "200px" }}
                   transition={{ duration: 1, ease: "circOut", delay: 2.5 }}
-                  className="absolute bottom-[35%] h-[4px] bg-lime-500 z-0 rounded-full"
+                  className="absolute bottom-[35%] h-[4px] bg-[var(--theme-lime-500)] z-0 rounded-full"
                 />
               </div>
             </div>
