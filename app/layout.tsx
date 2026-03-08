@@ -121,7 +121,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <PageTransitionLoader />
           </Suspense>
-          <Preloader />
+          {/* <Preloader /> */}
           <ChatWidget />
           <CustomCursor />
           <SmoothScrolling />

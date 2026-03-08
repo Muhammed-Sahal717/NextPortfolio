@@ -56,13 +56,32 @@ export default function HeroSection() {
       {/* HERO CONTENT */}
       <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-6 pointer-events-none">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2, // Slightly slower stagger
+                delayChildren: 0.4, // Let hydration finish
+              },
+            },
+          }}
           className="max-w-4xl space-y-8 pointer-events-auto"
         >
           {/* Status Badge - Premium "Cyber-Chip" Design */}
-          <div className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { type: "spring", stiffness: 100, damping: 15 },
+              },
+            }}
+            className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group"
+          >
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,var(--theme-zinc-900)_0%,var(--theme-lime-400)_50%,var(--theme-zinc-900)_100%)]" />
             <span className="inline-flex h-full w-full cursor-default items-center justify-center rounded-full bg-[var(--theme-black)]/90 px-4 py-2 text-sm font-medium text-[var(--theme-white)] backdrop-blur-3xl border border-[var(--theme-white)]/10 group-hover:bg-[var(--theme-black)]/80 transition-all duration-300">
               <span className="relative flex h-2 w-2 mr-2">
@@ -73,24 +92,54 @@ export default function HeroSection() {
                 Available for Work & Collaborations
               </span>
             </span>
-          </div>
+          </motion.div>
 
           {/* Main Heading */}
-          <h1 className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9]">
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { type: "spring", stiffness: 100, damping: 15 },
+              },
+            }}
+            className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9]"
+          >
             Crafting the <br />
             <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-green-400 drop-shadow-[0_0_35px_var(--theme-lime-500)]">
               Next-Gen Web.
             </span>
-          </h1>
+          </motion.h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto mix-blend-screen">
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { type: "spring", stiffness: 100, damping: 15 },
+              },
+            }}
+            className="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto mix-blend-screen"
+          >
             I am Sahal. A Web Developer merging modern web stacks with AI
             agents.
-          </p>
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 pt-6">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { type: "spring", stiffness: 100, damping: 15 },
+              },
+            }}
+            className="flex flex-wrap justify-center gap-4 pt-6"
+          >
             <Link href="#projects">
               <Button
                 size="lg"
@@ -139,7 +188,7 @@ export default function HeroSection() {
                 <FaLinkedin className="w-6 h-6" />
               </Button>
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* 4. INFINITE TECH MARQUEE (Responsive & Functional) */}
