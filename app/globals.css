@@ -129,6 +129,10 @@
   }
 }
 
+html {
+  background-color: var(--theme-black);
+}
+
 /* --- THEME TRANSITION VIEWS --- */
 ::view-transition-group(root) {
   animation-duration: inherit;
@@ -147,6 +151,11 @@
 
 ::view-transition-new(root) {
   z-index: 999;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  background: var(--theme-black);
 }
 
 /* When going to dark mode, the old (light mode) view must stay on top to compress into the button */

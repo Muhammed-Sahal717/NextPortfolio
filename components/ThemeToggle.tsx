@@ -35,11 +35,7 @@ export function ThemeToggle() {
     );
 
     const transition = document.startViewTransition(() => {
-      // Small setTimeout to ensure next-themes has applied the DOM update before snapshotting
-      return new Promise<void>((resolve) => {
-        setTheme(nextTheme);
-        setTimeout(resolve, 0);
-      });
+      setTheme(nextTheme);
     });
 
     transition.ready.then(() => {

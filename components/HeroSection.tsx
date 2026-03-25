@@ -161,9 +161,8 @@ export default function HeroSection() {
             {resumeUrl && (
               <a href={resumeUrl} download>
                 <Button
-                  variant="outline"
                   size="lg"
-                  className="rounded-full h-14 px-8 border-[var(--theme-lime-400)]/30 bg-[var(--theme-lime-400)]/5 backdrop-blur-md text-[var(--theme-lime-400)] hover:bg-[var(--theme-lime-400)] hover:text-[var(--theme-black)] font-semibold transition-all duration-300"
+                  className="rounded-full h-14 px-8 border border-[var(--theme-lime-400)]/30 bg-[var(--theme-lime-400)]/5 backdrop-blur-md text-[var(--theme-lime-400)] hover:bg-[var(--theme-lime-400)] hover:text-[var(--theme-black)] font-semibold transition-all duration-300"
                 >
                   <FiDownload className="mr-2 w-5 h-5" />
                   Download Resume
@@ -176,9 +175,8 @@ export default function HeroSection() {
               target="_blank"
             >
               <Button
-                variant="outline"
                 size="lg"
-                className="rounded-full h-14 w-14 p-0 border-[var(--theme-white)]/20 bg-[var(--theme-black)]/20 backdrop-blur-md text-[var(--theme-white)] hover:bg-[var(--theme-white)] hover:text-[var(--theme-black)] transition-all duration-300"
+                className="rounded-full h-14 w-14 p-0 border border-[var(--theme-white)]/20 bg-[var(--theme-black)]/20 backdrop-blur-md text-[var(--theme-white)] hover:bg-[var(--theme-white)] hover:text-[var(--theme-black)] transition-all duration-300"
               >
                 <FaGithub className="w-6 h-6" />
               </Button>
@@ -189,9 +187,8 @@ export default function HeroSection() {
               target="_blank"
             >
               <Button
-                variant="outline"
                 size="lg"
-                className="rounded-full h-14 w-14 p-0 border-[var(--theme-white)]/20 bg-[var(--theme-black)]/20 backdrop-blur-md text-[var(--theme-white)] hover:bg-[var(--theme-white)] hover:text-[var(--theme-black)] transition-all duration-300"
+                className="rounded-full h-14 w-14 p-0 border border-[var(--theme-white)]/20 bg-[var(--theme-black)]/20 backdrop-blur-md text-[var(--theme-white)] hover:bg-[var(--theme-white)] hover:text-[var(--theme-black)] transition-all duration-300"
               >
                 <FaLinkedin className="w-6 h-6" />
               </Button>
