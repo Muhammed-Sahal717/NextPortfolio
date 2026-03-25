@@ -165,7 +165,7 @@ export default function HeroSection() {
                   className="rounded-full h-14 px-8 border border-[var(--theme-lime-400)]/30 bg-[var(--theme-lime-400)]/5 backdrop-blur-md text-[var(--theme-lime-400)] hover:bg-[var(--theme-lime-400)] hover:text-[var(--theme-black)] font-semibold transition-all duration-300"
                 >
                   <FiDownload className="mr-2 w-5 h-5" />
-                  Download Resume
+                  View My Resume
                 </Button>
               </a>
             )}

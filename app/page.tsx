@@ -28,7 +28,7 @@ export default async function Home() {
               Selected Works
             </h2>
             <p className="text-zinc-400 max-w-xl">
-              Full Stack development, UI/UX Design.
+              Full Stack development, Designing.
             </p>
           </div>
         </div>

@@ -14,7 +14,7 @@ import {
   SiReact,
   SiTypescript,
   SiTailwindcss,
-  SiFramer,
+  SiTsnode,
   SiSupabase,
   SiPostgresql,
   SiPython,
@@ -30,9 +30,9 @@ export default function BentoGrid() {
   const stackItems = [
     { name: "Next.js", Icon: SiNextdotjs, color: "text-white" },
     { name: "React", Icon: SiReact, color: "text-[#61DAFB]" },
-    { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]" },
     { name: "Tailwind", Icon: SiTailwindcss, color: "text-[#06B6D4]" },
-    { name: "Framer", Icon: SiFramer, color: "text-[#0055FF]" },
+    { name: "TypeScript", Icon: SiTypescript, color: "text-[#3178C6]" },
+    { name: "Node.js", Icon: SiTsnode, color: "text-[#339933]" },
     { name: "Supabase", Icon: SiSupabase, color: "text-[#3FCF8E]" },
     { name: "PostgreSQL", Icon: SiPostgresql, color: "text-[#4169E1]" },
     { name: "Python", Icon: SiPython, color: "text-[#3776AB]" },
@@ -85,17 +85,13 @@ export default function BentoGrid() {
             </div>
             <div className="flex gap-8 items-end border-t border-black/10 dark:border-white/5 pt-6 lg:border-none lg:pt-0">
               <div>
-                <span className="block text-4xl font-bold text-white">
-                  2+
-                </span>
+                <span className="block text-4xl font-bold text-white">2+</span>
                 <span className="text-zinc-500 text-xs uppercase tracking-wider">
                   Years Exp
                 </span>
               </div>
               <div>
-                <span className="block text-4xl font-bold text-white">
-                  15+
-                </span>
+                <span className="block text-4xl font-bold text-white">15+</span>
                 <span className="text-zinc-500 text-xs uppercase tracking-wider">
                   Projects
                 </span>

@@ -54,6 +54,7 @@ export default function LiquidNavbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
+    { name: "Profile", href: "/profile" },
     { name: "Work", href: "/#projects" },
     { name: "Journey", href: "/engineering" },
     { name: "About", href: "/#about" },
@@ -61,7 +62,7 @@ export default function LiquidNavbar() {
   ];
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-10000 w-[90%] max-w-[500px]">
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-10000 w-[90%] max-w-[700px]">
       <div className="relative group rounded-full">
         {/* --- MAIN GLASS BAR --- */}
         <div className="relative z-50 overflow-hidden rounded-full">
@@ -81,7 +82,7 @@ export default function LiquidNavbar() {
             {/* Logo */}
             <Link
               href="/"
-              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer hover:text-blue-400 transition-colors z-50"
+              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer hover:text-blue-400 transition-colors z-50 mr-4 md:mr-6"
             >
               SAHAL.
             </Link>

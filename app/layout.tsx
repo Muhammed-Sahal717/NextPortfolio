@@ -30,11 +30,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://port-sahal-folio.vercel.app"),
 
   title: {
-    default: "Sahal | Web Developer & UI/UX designer",
+    default: "Sahal | Full-Stack Developer",
     template: "%s | Sahal",
   },
   description:
-    "Portfolio of Sahal, a Full-Stack Engineer specializing in MERN, Python, integration of AI and also skilled in UI/UX designing",
+    "Portfolio of Sahal, a Full-Stack Engineer specializing in MERN, Python, integration of AI and also skilled in Designing",
 
   // SEO Keywords for Google
   keywords: [
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     "AI Engineer",
     "Kerala Developer",
     "Web Design",
-    "UI/UX",
+    "Designing",
   ],
 
   authors: [{ name: "Sahal", url: "https://sahal-web.vercel.app" }],
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Sahal | Web Dev & UI/UX Designer",
+    title: "Sahal | Full-Stack Developer",
     description:
       "Building digital websites with clean code and kinetic design.",
     url: "/",
