@@ -72,7 +72,7 @@ export default function LiquidNavbar() {
         {/* --- MAIN GLASS BAR --- */}
         <div className="relative z-50 rounded-full">
           {/* Base Layer: Heavy blur and saturation for liquid feel */}
-          <div className="absolute inset-0 bg-white/5 dark:bg-white/5 backdrop-blur-[40px] backdrop-saturate-[200%] rounded-full transition-colors duration-500 group-hover:bg-white/10" />
+          <div className="absolute inset-0 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-[40px] backdrop-saturate-[200%] rounded-full transition-colors duration-500 group-hover:bg-white/80 dark:group-hover:bg-zinc-900/80" />
           
           {/* Mid Layer: Subtle grain/noise texture to diffuse light internally */}
           <div 
@@ -93,22 +93,22 @@ export default function LiquidNavbar() {
           {/* Smooth light streak reflection on hover */}
           <div className="absolute inset-x-12 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-          <div className="relative flex items-center justify-between px-6 py-3 text-white">
+          <div className="relative flex items-center justify-between px-6 py-3 text-black dark:text-white">
             {/* Logo */}
             <Link
               href="/"
-              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer hover:text-white transition-colors z-50 mr-4 md:mr-6 group/logo drop-shadow-[0_0_8px_rgba(255,255,255,0)] hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] duration-500"
+              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer transition-colors z-50 mr-4 md:mr-6 group/logo drop-shadow-[0_0_8px_rgba(0,0,0,0)] dark:drop-shadow-[0_0_8px_rgba(255,255,255,0)] hover:drop-shadow-[0_0_12px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] duration-500"
             >
               SAHAL.
             </Link>
 
             {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-widest text-zinc-300 dark:text-zinc-400">
+            <div className="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-widest text-zinc-700 dark:text-zinc-300 font-semibold">
               {navLinks.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="hover:text-white transition-all duration-300 hover:scale-[1.05] hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] inline-block"
+                  className="hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-[1.05] hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] inline-block"
                 >
                   {item.name}
                 </Link>
@@ -116,19 +116,19 @@ export default function LiquidNavbar() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-4 z-50 text-zinc-300 dark:text-zinc-400">
+            <div className="flex items-center gap-4 z-50 text-zinc-700 dark:text-zinc-300">
               <ThemeToggle />
               <Link
                 href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                 target="_blank"
-                className="hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
+                className="hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
               >
                 <FiGithub size={18} />
               </Link>
 
               <a
                 href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
-                className="hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
+                className="hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -138,7 +138,7 @@ export default function LiquidNavbar() {
               {/* Mobile Trigger with Bento Icon */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden hover:text-white transition-all duration-300 hover:scale-110 flex items-center justify-center p-1 rounded-full active:scale-95"
+                className="md:hidden hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-110 flex items-center justify-center p-1 rounded-full active:scale-95"
                 aria-label="Toggle Menu"
               >
                 <BentoMenuIcon isOpen={isOpen} />
