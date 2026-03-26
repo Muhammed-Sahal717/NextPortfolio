@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiGithub, FiLinkedin } from "react-icons/fi";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -52,6 +52,20 @@ const BentoMenuIcon = ({ isOpen }: { isOpen: boolean }) => (
 
 export default function LiquidNavbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const progress = Math.min(scrollY / 120, 1);
+      setScrollProgress(progress);
+      setIsScrolled(scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "Profile", href: "/profile" },
@@ -62,8 +76,11 @@ export default function LiquidNavbar() {
   ];
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000] w-[90%] max-w-[700px] perspective-[2000px]">
+    <nav 
+      className={`fixed left-1/2 -translate-x-1/2 z-[10000] w-[90%] max-w-[700px] perspective-[2000px] transition-all duration-500 ease-in-out ${isScrolled ? "top-4" : "top-6"}`}
+    >
       <motion.div 
+        animate={{ scale: 1 }}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
@@ -71,44 +88,61 @@ export default function LiquidNavbar() {
       >
         {/* --- MAIN GLASS BAR --- */}
         <div className="relative z-50 rounded-full">
-          {/* Base Layer: Heavy blur and saturation for liquid feel */}
-          <div className="absolute inset-0 bg-white/70 dark:bg-zinc-900/70 backdrop-blur-[40px] backdrop-saturate-[200%] rounded-full transition-colors duration-500 group-hover:bg-white/80 dark:group-hover:bg-zinc-900/80" />
+          {/* Base Blur Layer (interpolated continuously) */}
+          <div 
+            className="absolute inset-0 rounded-full pointer-events-none transition-all duration-75"
+            style={{ 
+              backdropFilter: `blur(${6 + scrollProgress * 18}px) saturate(${100 + scrollProgress * 50}%)`,
+              WebkitBackdropFilter: `blur(${6 + scrollProgress * 18}px) saturate(${100 + scrollProgress * 50}%)`,
+            }} 
+          />
+          
+          {/* Base Background Opacity Layer */}
+          <div 
+            className="absolute inset-0 rounded-full bg-white dark:bg-zinc-900 transition-colors duration-500 pointer-events-none"
+            style={{ opacity: 0.05 + scrollProgress * 0.55 }}
+          />
           
           {/* Mid Layer: Subtle grain/noise texture to diffuse light internally */}
           <div 
-            className="absolute inset-0 rounded-full opacity-[0.03] mix-blend-overlay pointer-events-none"
+            className="absolute inset-0 rounded-full mix-blend-overlay pointer-events-none opacity-[0.015]"
             style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}
           />
 
-          {/* Top/Bottom Edge Lighting: Simulates light source from top, shadow on bottom */}
-          <div className="absolute inset-0 rounded-full border border-white/20 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
-          <div className="absolute inset-0 rounded-full border border-black/10 dark:border-white/10 [mask-image:linear-gradient(to_top,white,transparent)] pointer-events-none" />
+          {/* Single Border Highlight (interpolated opacity) */}
+          <div 
+            className="absolute inset-0 rounded-full border border-white/20 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none transition-opacity duration-300" 
+            style={{ opacity: scrollProgress }} 
+          />
           
           {/* Inner Depth Shadows: Creates the capsule thickness feel */}
-          <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-2px_4px_rgba(0,0,0,0.1)] pointer-events-none" />
+          <div 
+            className="absolute inset-0 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] pointer-events-none transition-opacity duration-300" 
+            style={{ opacity: scrollProgress }} 
+          />
           
           {/* Multi-layer External Elevation: Floating look, lifts slightly on hover */}
-          <div className="absolute inset-0 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.1),0_16px_48px_rgba(0,0,0,0.05)] group-hover:shadow-[0_16px_48px_rgba(0,0,0,0.2),0_24px_64px_rgba(0,0,0,0.1)] transition-shadow duration-500 pointer-events-none -z-10" />
+          <div 
+            className="absolute inset-0 rounded-full pointer-events-none -z-10 transition-opacity duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)]" 
+            style={{ opacity: scrollProgress }} 
+          />
 
-          {/* Smooth light streak reflection on hover */}
-          <div className="absolute inset-x-12 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-          <div className="relative flex items-center justify-between px-6 py-3 text-black dark:text-white">
+          <div className={`relative flex items-center justify-between px-7 py-3 transition-colors duration-500 ${isScrolled ? "text-black dark:text-white" : "text-white/80 dark:text-white/70"}`}>
             {/* Logo */}
             <Link
               href="/"
-              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer transition-colors z-50 mr-4 md:mr-6 group/logo drop-shadow-[0_0_8px_rgba(0,0,0,0)] dark:drop-shadow-[0_0_8px_rgba(255,255,255,0)] hover:drop-shadow-[0_0_12px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] duration-500"
+              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer transition-all duration-500 z-50 mr-6 group/logo drop-shadow-[0_0_8px_rgba(0,0,0,0)] dark:drop-shadow-[0_0_8px_rgba(255,255,255,0)] hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
             >
               SAHAL.
             </Link>
 
             {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-widest text-zinc-700 dark:text-zinc-300 font-semibold">
+            <div className="hidden md:flex items-center gap-7 text-xs font-mono uppercase tracking-widest font-semibold">
               {navLinks.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-[1.05] hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] inline-block"
+                  className="relative transition-all duration-300 inline-block after:absolute after:bottom-[-6px] after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:w-0 hover:after:w-full after:bg-current after:transition-all ease-out"
                 >
                   {item.name}
                 </Link>
@@ -116,19 +150,19 @@ export default function LiquidNavbar() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-4 z-50 text-zinc-700 dark:text-zinc-300">
+            <div className="flex items-center gap-7 z-50">
               <ThemeToggle />
               <Link
                 href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                 target="_blank"
-                className="hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
+                className="transition-all duration-300 hover:scale-[1.05] hidden sm:block"
               >
                 <FiGithub size={18} />
               </Link>
 
               <a
                 href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
-                className="hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
+                className="transition-all duration-300 hover:scale-[1.05] hidden sm:block"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -138,7 +172,7 @@ export default function LiquidNavbar() {
               {/* Mobile Trigger with Bento Icon */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden hover:text-black dark:hover:text-white transition-all duration-300 hover:scale-110 flex items-center justify-center p-1 rounded-full active:scale-95"
+                className="md:hidden transition-all duration-300 hover:scale-[1.05] flex items-center justify-center p-1 rounded-full active:scale-95"
                 aria-label="Toggle Menu"
               >
                 <BentoMenuIcon isOpen={isOpen} />
@@ -154,27 +188,23 @@ export default function LiquidNavbar() {
               initial={{ opacity: 0, y: -10, scale: 0.98, filter: "blur(4px)" }}
               animate={{ opacity: 1, y: 12, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, y: -10, scale: 0.98, filter: "blur(4px)" }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30, delay: 0.02 }}
               className="absolute top-full left-0 w-full rounded-[2rem] overflow-hidden md:hidden shadow-[0_16px_48px_rgba(0,0,0,0.1),0_24px_64px_rgba(0,0,0,0.05)] origin-top group/mobile"
             >
               {/* Liquid dropdown background (Base Layer) */}
-              <div className="absolute inset-0 rounded-[2rem] bg-white/85 dark:bg-black/85 backdrop-blur-[60px] backdrop-saturate-[250%] transition-colors duration-500" />
+              <div className="absolute inset-0 rounded-[2rem] bg-white/70 dark:bg-zinc-900/70 backdrop-blur-[24px] backdrop-saturate-[150%] transition-colors duration-500" />
               
               {/* Mid Layer: Noise Texture */}
               <div 
-                className="absolute inset-0 rounded-[2rem] opacity-[0.03] mix-blend-overlay pointer-events-none"
+                className="absolute inset-0 rounded-[2rem] opacity-[0.015] mix-blend-overlay pointer-events-none"
                 style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}
               />
 
-              {/* Top/Bottom Edge Lighting */}
+              {/* Single Border Highlight */}
               <div className="absolute inset-0 rounded-[2rem] border border-white/20 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
-              <div className="absolute inset-0 rounded-[2rem] border border-black/10 dark:border-white/10 [mask-image:linear-gradient(to_top,white,transparent)] pointer-events-none" />
               
               {/* Inner Depth Shadows */}
-              <div className="absolute inset-0 rounded-[2rem] shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-2px_4px_rgba(0,0,0,0.1)] pointer-events-none" />
-
-              {/* Light reflection streak */}
-              <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 rounded-[2rem] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] pointer-events-none" />
 
               <div className="relative flex flex-col p-5 gap-2 text-center z-10">
                 {navLinks.map((item) => (
@@ -182,24 +212,24 @@ export default function LiquidNavbar() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block py-3 text-sm font-mono uppercase tracking-widest text-black dark:text-white font-bold hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 rounded-xl transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                    className="block py-3 text-sm font-mono uppercase tracking-widest text-black dark:text-white font-bold hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 rounded-xl transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
                   >
                     {item.name}
                   </Link>
                 ))}
 
-                <div className="flex justify-center items-center gap-6 mt-2 pt-4 border-t border-black/10 dark:border-white/10">
+                <div className="flex justify-center items-center gap-7 mt-2 pt-4 border-t border-black/10 dark:border-white/10">
                   <ThemeToggle />
                   <Link
                     href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                     target="_blank"
-                    className="text-black dark:text-white hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all duration-300"
+                    className="text-black dark:text-white hover:scale-110 transition-all duration-300"
                   >
                     <FiGithub size={20} />
                   </Link>
                   <a
                     href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
-                    className="text-black dark:text-white hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all duration-300"
+                    className="text-black dark:text-white hover:scale-110 transition-all duration-300"
                   >
                     <FiLinkedin size={20} />
                   </a>
