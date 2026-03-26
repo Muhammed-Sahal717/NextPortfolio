@@ -47,7 +47,7 @@ export default function ScrollReveal({ text, className }: ScrollRevealProps) {
       variants={container}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, margin: "-10%" }}
+      viewport={{ once: true, margin: "-10%" }}
     >
       {words.map((word, index) => (
         <span key={index} className="inline-block overflow-hidden">

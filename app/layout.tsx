@@ -2,12 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
-import ChatWidget from "@/components/ChatWidget";
-import CustomCursor from "@/components/CustomCursor";
-import SmoothScrolling from "@/components/SmoothScrolling";
-import Preloader from "@/components/Preloader";
 import PageTransitionLoader from "@/components/PageTransitionLoader";
 import { ThemeProvider } from "@/components/theme-provider";
+import ClientProviders from "@/components/ClientProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +20,6 @@ export const viewport: Viewport = {
   themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export const metadata: Metadata = {
@@ -120,10 +116,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <PageTransitionLoader />
           </Suspense>
-          {/* <Preloader /> */}
-          <ChatWidget />
-          <CustomCursor />
-          <SmoothScrolling />
+          <ClientProviders />
         </ThemeProvider>
       </body>
     </html>

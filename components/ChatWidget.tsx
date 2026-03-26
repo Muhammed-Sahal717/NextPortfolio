@@ -34,9 +34,9 @@ export default function ChatWidget() {
   }, [isOpen]);
 
   const getKuttappanFace = () => {
-    if (isError) return "/kuttappan-aiyyoo.png";
-    if (isLoading) return "/kuttappan-loading.png";
-    return "/kuttappan-idle.png";
+    if (isError) return "/kuttappan-aiyyoo.webp";
+    if (isLoading) return "/kuttappan-loading.webp";
+    return "/kuttappan-idle.webp";
   };
 
   const getKuttappanMood = () => {
@@ -239,7 +239,7 @@ export default function ChatWidget() {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="w-8 h-8 bg-white border-2 text-black border-black hover:bg-black hover:text-white transition-colors flex items-center justify-center rounded-md"
+                  className="w-11 h-11 bg-white border-2 text-black border-black hover:bg-black hover:text-white transition-colors flex items-center justify-center rounded-md"
                 >
                   <X size={18} strokeWidth={3} />
                 </button>

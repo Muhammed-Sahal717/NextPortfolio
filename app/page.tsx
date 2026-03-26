@@ -4,7 +4,7 @@ import ProjectGrid from "@/components/ProjectGrid";
 import BentoGrid from "@/components/BentoGrid"; // <--- Import this
 import Footer from "@/components/Footer"; // <--- Import this
 
-export const revalidate = 0;
+export const revalidate = 3600; // Cache for 1 hour instead of every request
 
 export default async function Home() {
   const { data: projects } = await supabase

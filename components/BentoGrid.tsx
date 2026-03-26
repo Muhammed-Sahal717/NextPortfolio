@@ -168,7 +168,9 @@ export default function BentoGrid() {
 
                 <motion.div
                   className="flex flex-col gap-3 pb-6"
-                  animate={{ y: ["0%", "-50%"] }}
+                  initial={{ y: "0%" }}
+                  whileInView={{ y: ["0%", "-50%"] }}
+                  viewport={{ once: false, amount: 0.1 }}
                   transition={{
                     repeat: Infinity,
                     ease: "linear",

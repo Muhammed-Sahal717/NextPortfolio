@@ -1,20 +1,77 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+
+import { useEffect, useRef, useCallback } from "react";
 
 export default function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
-  const [hasMoved, setHasMoved] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const crosshairRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef({ x: -100, y: -100 });
+  const hoveringRef = useRef(false);
+  const clickingRef = useRef(false);
+  const hasMovedRef = useRef(false);
+  const rafRef = useRef<number | null>(null);
+
+  // Check if device supports hover (no touch-only devices)
+  const isTouchDevice = useCallback(() => {
+    if (typeof window === "undefined") return true;
+    return !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  }, []);
 
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      if (!hasMoved) setHasMoved(true);
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    // Don't mount on touch devices at all
+    if (isTouchDevice()) return;
+
+    const cursor = cursorRef.current;
+    const dot = dotRef.current;
+    const crosshair = crosshairRef.current;
+    if (!cursor || !dot || !crosshair) return;
+
+    // Initially hidden
+    cursor.style.display = "none";
+
+    const updateCursorStyle = () => {
+      const hovering = hoveringRef.current;
+      const clicking = clickingRef.current;
+
+      // Trailing scanner
+      cursor.style.width = hovering ? "12px" : "40px";
+      cursor.style.height = hovering ? "12px" : "40px";
+      cursor.style.backgroundColor = hovering
+        ? "var(--theme-lime-400)"
+        : "transparent";
+      cursor.style.borderColor = hovering
+        ? "var(--theme-lime-400)"
+        : "rgba(255,255,255,0.4)";
+      cursor.style.transform = `translate(-50%, -50%) rotate(${hovering ? 0 : 45}deg) scale(${clicking ? 1.5 : 1})`;
+
+      // Leader pixel
+      dot.style.transform = `translate(-50%, -50%) scale(${hovering ? 0 : 1}) rotate(${clicking ? 90 : 0}deg)`;
+
+      // Crosshair
+      crosshair.style.opacity = hovering ? "0" : "0.2";
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (!hasMovedRef.current) {
+        hasMovedRef.current = true;
+        cursor.style.display = "";
+      }
+      posRef.current.x = e.clientX;
+      posRef.current.y = e.clientY;
+
+      // Direct DOM update — no React re-render
+      const xPx = `${e.clientX}px`;
+      const yPx = `${e.clientY}px`;
+      cursor.style.left = xPx;
+      cursor.style.top = yPx;
+      dot.style.left = xPx;
+      dot.style.top = yPx;
+      crosshair.style.left = xPx;
+      crosshair.style.top = yPx;
+    };
+
+    const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isInteractive =
         target.tagName === "BUTTON" ||
@@ -26,100 +83,78 @@ export default function CustomCursor() {
         target.closest(".group") ||
         target.getAttribute("role") === "button";
 
-      setIsHovering(!!isInteractive);
+      const wasHovering = hoveringRef.current;
+      hoveringRef.current = !!isInteractive;
+      if (wasHovering !== hoveringRef.current) updateCursorStyle();
     };
 
-    const handleMouseDown = () => setIsClicking(true);
-    const handleMouseUp = () => setIsClicking(false);
+    const onMouseDown = () => {
+      clickingRef.current = true;
+      updateCursorStyle();
+    };
+    const onMouseUp = () => {
+      clickingRef.current = false;
+      updateCursorStyle();
+    };
 
-    window.addEventListener("mousemove", updateMousePosition);
-    window.addEventListener("mouseover", handleMouseOver);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseover", onMouseOver, { passive: true });
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
 
     return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-      window.removeEventListener("mouseover", handleMouseOver);
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseover", onMouseOver);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [hasMoved]);
+  }, [isTouchDevice]);
 
-  if (!hasMoved) return null;
+  // Don't render on touch devices
+  if (typeof window !== "undefined" && !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    return null;
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-10001 hidden md:block overflow-hidden">
       {/* 1. THE TRAILING SCANNER (Wireframe Box) */}
-      <motion.div
-        className="fixed top-0 left-0 border-[1.5px] border-white/40 backdrop-blur-[1px]"
+      <div
+        ref={cursorRef}
+        className="fixed top-0 left-0 border-[1.5px] backdrop-blur-[1px]"
         style={{
-          x: mousePosition.x,
-          y: mousePosition.y,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-        animate={{
-          // Hover: Snap to center, fill lime, stop rotating
-          width: isHovering ? 12 : 40,
-          height: isHovering ? 12 : 40,
-          backgroundColor: isHovering ? "var(--theme-lime-400)" : "transparent",
-          borderColor: isHovering
-            ? "var(--theme-lime-400)"
-            : "rgba(255,255,255,0.4)",
-          rotate: isHovering ? 0 : 45, // 45deg diamond in idle, 0deg square in hover
-          scale: isClicking ? 1.5 : 1, // Explode slightly on click
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 200,
-          damping: 20,
-          mass: 0.8, // Heavy feel
+          transition: "width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, transform 0.3s",
+          willChange: "left, top",
         }}
       />
 
       {/* 2. THE LEADER PIXEL (Solid Lime Square) */}
-      <motion.div
+      <div
+        ref={dotRef}
         className="fixed top-0 left-0 bg-[var(--theme-lime-400)] shadow-[0_0_15px_var(--theme-lime-400)]"
         style={{
-          x: mousePosition.x,
-          y: mousePosition.y,
-          translateX: "-50%",
-          translateY: "-50%",
+          width: "8px",
+          height: "8px",
+          transition: "transform 0.1s ease-out",
+          willChange: "left, top",
         }}
-        animate={{
-          // Hover: Disappear (merge into the trailer)
-          scale: isHovering ? 0 : 1,
-          rotate: isClicking ? 90 : 0, // Spin on click
-        }}
-        transition={{
-          type: "tween",
-          ease: "backOut",
-          duration: 0.1,
-        }}
-        // Dimensions directly on the element
-        // Use a style object to avoid duplicate className prop issues
-      >
-        <div style={{ width: "8px", height: "8px" }} />
-      </motion.div>
+      />
 
-      {/* 3. CROSSHAIR LINES (Subtle Guide) */}
-      {/* Only visible when NOT hovering, gives a 'Sniper' feel */}
-      <motion.div
+      {/* 3. CROSSHAIR LINES */}
+      <div
+        ref={crosshairRef}
         className="fixed top-0 left-0"
         style={{
-          x: mousePosition.x,
-          y: mousePosition.y,
+          transition: "opacity 0.2s",
+          willChange: "left, top",
         }}
-        animate={{
-          opacity: isHovering ? 0 : 0.2,
-        }}
-        transition={{ duration: 0.2 }}
       >
-        {/* Horizontal Guide */}
         <div className="absolute top-0 -left-5 w-10 h-px bg-white" />
-        {/* Vertical Guide */}
         <div className="absolute left-0 -top-5 w-px h-10 bg-white" />
-      </motion.div>
+      </div>
     </div>
   );
 }
+
+
+

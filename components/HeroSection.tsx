@@ -6,9 +6,15 @@ import { FiArrowRight, FiDownload } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import LiquidEther from "@/components/LiquidEther";
+import dynamic from "next/dynamic";
 import LiquidNavbar from "@/components/LiquidNavbar";
 import { useTheme } from "next-themes";
+
+// Heavy WebGL component — only load when needed
+const LiquidEther = dynamic(() => import("@/components/LiquidEther"), {
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-black" />,
+});
 
 export default function HeroSection() {
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
@@ -57,7 +63,6 @@ export default function HeroSection() {
         <motion.div
           initial="hidden"
           animate="visible"
-          style={{ willChange: "transform, opacity" }}
           variants={{
             hidden: { opacity: 0 },
             visible: {
@@ -81,7 +86,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            style={{ willChange: "transform, opacity" }}
+
             className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group"
           >
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,var(--theme-zinc-900)_0%,var(--theme-lime-400)_50%,var(--theme-zinc-900)_100%)]" />
@@ -107,8 +112,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            style={{ willChange: "transform, opacity" }}
-            className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9]"
+            className="text-4xl sm:text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9]"
           >
             Crafting the <br />
             <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-green-400 drop-shadow-[0_0_35px_var(--theme-lime-500)]">
@@ -127,7 +131,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            style={{ willChange: "transform, opacity" }}
+
             className="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto mix-blend-screen"
           >
             I am Sahal. A Web Developer merging modern web stacks with AI
@@ -145,7 +149,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            style={{ willChange: "transform, opacity" }}
+
             className="flex flex-wrap justify-center gap-4 pt-6"
           >
             <Link href="#projects">
@@ -199,9 +203,9 @@ export default function HeroSection() {
         {/* 4. INFINITE TECH MARQUEE (Responsive & Functional) */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
           transition={{ delay: 1.5, duration: 1 }}
-          style={{ willChange: "opacity" }}
           className="absolute bottom-8 w-full overflow-hidden z-20 pointer-events-auto"
         >
           {/* We duplicate the content to create a seamless loop */}
@@ -209,7 +213,7 @@ export default function HeroSection() {
             <motion.div
               className="flex gap-8 md:gap-16 whitespace-nowrap px-4"
               animate={{ x: ["0%", "-50%"] }}
-              style={{ willChange: "transform" }}
+
               transition={{
                 repeat: Infinity,
                 ease: "linear",

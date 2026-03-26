@@ -244,6 +244,10 @@ export default function ProfilePage() {
                       name: "RAG Concepts",
                       icon: <FiDatabase className="text-lime-400" />,
                     },
+                    {
+                      name: "Prompt Engineering",
+                      icon: <FiTerminal className="text-lime-400" />,
+                    },
                   ]}
                 />
               </div>

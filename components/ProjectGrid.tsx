@@ -150,8 +150,9 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
                     src={activeImage}
                     alt={project.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 40vw"
                     className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
-                    unoptimized // Forces browser to load image directly (Fixes Private IP error)
+                    unoptimized // Required: Supabase URLs resolve to private IPs on NAT64 networks
                   />
                 </motion.div>
               </AnimatePresence>

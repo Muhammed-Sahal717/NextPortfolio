@@ -295,7 +295,7 @@ html {
   /* Above background, below content */
   opacity: 0.05;
   /* Very subtle */
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  background-image: url("/noise.svg");
   filter: contrast(120%) brightness(100%);
 }
 

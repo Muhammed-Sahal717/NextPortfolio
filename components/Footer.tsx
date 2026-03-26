@@ -12,7 +12,6 @@ import {
 } from "react-icons/fi";
 import { useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
-import emailjs from "@emailjs/browser";
 
 export default function Footer() {
   // --- FORM STATE ---
@@ -28,6 +27,8 @@ export default function Footer() {
     setStatus("SENDING");
 
     try {
+      // Dynamic import — only load emailjs when user actually submits
+      const emailjs = (await import("@emailjs/browser")).default;
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
