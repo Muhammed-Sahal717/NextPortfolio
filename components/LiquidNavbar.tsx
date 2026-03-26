@@ -62,38 +62,53 @@ export default function LiquidNavbar() {
   ];
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-10000 w-[90%] max-w-[700px]">
-      <div className="relative group rounded-full">
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[10000] w-[90%] max-w-[700px] perspective-[2000px]">
+      <motion.div 
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        className="relative group rounded-full"
+      >
         {/* --- MAIN GLASS BAR --- */}
-        <div className="relative z-50 overflow-hidden rounded-full">
-          <div
-            className="
-            absolute inset-0 
-            bg-white/5 
-            backdrop-blur-2xl 
-            backdrop-saturate-150
-            border border-white/10
-            shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]
-            transition-all duration-500
-          "
+        <div className="relative z-50 rounded-full">
+          {/* Base Layer: Heavy blur and saturation for liquid feel */}
+          <div className="absolute inset-0 bg-white/5 dark:bg-white/5 backdrop-blur-[40px] backdrop-saturate-[200%] rounded-full transition-colors duration-500 group-hover:bg-white/10" />
+          
+          {/* Mid Layer: Subtle grain/noise texture to diffuse light internally */}
+          <div 
+            className="absolute inset-0 rounded-full opacity-[0.03] mix-blend-overlay pointer-events-none"
+            style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}
           />
+
+          {/* Top/Bottom Edge Lighting: Simulates light source from top, shadow on bottom */}
+          <div className="absolute inset-0 rounded-full border border-white/20 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
+          <div className="absolute inset-0 rounded-full border border-black/10 dark:border-white/10 [mask-image:linear-gradient(to_top,white,transparent)] pointer-events-none" />
+          
+          {/* Inner Depth Shadows: Creates the capsule thickness feel */}
+          <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-2px_4px_rgba(0,0,0,0.1)] pointer-events-none" />
+          
+          {/* Multi-layer External Elevation: Floating look, lifts slightly on hover */}
+          <div className="absolute inset-0 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.1),0_16px_48px_rgba(0,0,0,0.05)] group-hover:shadow-[0_16px_48px_rgba(0,0,0,0.2),0_24px_64px_rgba(0,0,0,0.1)] transition-shadow duration-500 pointer-events-none -z-10" />
+
+          {/* Smooth light streak reflection on hover */}
+          <div className="absolute inset-x-12 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
           <div className="relative flex items-center justify-between px-6 py-3 text-white">
             {/* Logo */}
             <Link
               href="/"
-              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer hover:text-blue-400 transition-colors z-50 mr-4 md:mr-6"
+              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer hover:text-white transition-colors z-50 mr-4 md:mr-6 group/logo drop-shadow-[0_0_8px_rgba(255,255,255,0)] hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] duration-500"
             >
               SAHAL.
             </Link>
 
             {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-widest text-zinc-400">
+            <div className="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-widest text-zinc-300 dark:text-zinc-400">
               {navLinks.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="hover:text-white transition-colors hover:scale-105"
+                  className="hover:text-white transition-all duration-300 hover:scale-[1.05] hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] inline-block"
                 >
                   {item.name}
                 </Link>
@@ -101,21 +116,21 @@ export default function LiquidNavbar() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-4 z-50">
+            <div className="flex items-center gap-4 z-50 text-zinc-300 dark:text-zinc-400">
               <ThemeToggle />
               <Link
                 href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                 target="_blank"
-                className="text-zinc-400 hover:text-white transition-colors hidden sm:block"
+                className="hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
               >
                 <FiGithub size={18} />
               </Link>
 
               <a
                 href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
-                className="text-zinc-400 hover:text-white transition-colors hidden sm:block"
+                className="hover:text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hidden sm:block"
                 target="_blank"
-                rel="noopener noreferrer" // this for security reasons
+                rel="noopener noreferrer"
               >
                 <FiLinkedin size={18} />
               </a>
@@ -123,7 +138,7 @@ export default function LiquidNavbar() {
               {/* Mobile Trigger with Bento Icon */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden text-zinc-400 hover:text-white transition-colors flex items-center justify-center"
+                className="md:hidden hover:text-white transition-all duration-300 hover:scale-110 flex items-center justify-center p-1 rounded-full active:scale-95"
                 aria-label="Toggle Menu"
               >
                 <BentoMenuIcon isOpen={isOpen} />
@@ -136,13 +151,17 @@ export default function LiquidNavbar() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 12, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-full left-0 w-full rounded-2xl overflow-hidden md:hidden"
+              initial={{ opacity: 0, y: -20, scale: 0.95, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 12, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -20, scale: 0.95, filter: "blur(10px)" }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="absolute top-full left-0 w-full rounded-3xl overflow-hidden md:hidden shadow-[0_16px_48px_rgba(0,0,0,0.2)]"
             >
-              <div className="absolute inset-0 bg-black/80 backdrop-blur-3xl border border-white/10" />
+              {/* Liquid dropdown background */}
+              <div className="absolute inset-0 bg-white/5 dark:bg-black/60 backdrop-blur-[40px] backdrop-saturate-[200%]" />
+              
+              <div className="absolute inset-0 border border-white/20 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
+              <div className="absolute inset-0 shadow-[inset_0_1px_2px_rgba(255,255,255,0.3)] pointer-events-none" />
 
               <div className="relative flex flex-col p-4 gap-2 text-center">
                 {navLinks.map((item) => (
@@ -150,24 +169,24 @@ export default function LiquidNavbar() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block py-3 text-sm font-mono uppercase tracking-widest text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                    className="block py-3 text-sm font-mono uppercase tracking-widest text-zinc-700 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 rounded-xl transition-all duration-300"
                   >
                     {item.name}
                   </Link>
                 ))}
 
-                <div className="flex justify-center items-center gap-6 mt-2 pt-4 border-t border-white/10">
+                <div className="flex justify-center items-center gap-6 mt-2 pt-4 border-t border-black/5 dark:border-white/10">
                   <ThemeToggle />
                   <Link
                     href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                     target="_blank"
-                    className="text-zinc-400 hover:text-white"
+                    className="text-zinc-700 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all duration-300"
                   >
                     <FiGithub size={20} />
                   </Link>
                   <a
                     href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
-                    className="text-zinc-400 hover:text-white"
+                    className="text-zinc-700 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all duration-300"
                   >
                     <FiLinkedin size={20} />
                   </a>
@@ -176,7 +195,7 @@ export default function LiquidNavbar() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </nav>
   );
 }
