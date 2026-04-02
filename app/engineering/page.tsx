@@ -115,7 +115,10 @@ const HeroSection = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
         >
-          <p className="text-xl md:text-2xl text-zinc-300 leading-relaxed font-light backdrop-blur-sm bg-black/20 p-6 rounded-2xl border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/5 shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none transition-all">
+          <p 
+            className="text-xl md:text-2xl text-zinc-300 leading-relaxed font-light backdrop-blur-sm bg-black/20 p-6 rounded-2xl border border-zinc-200 dark:border-[1px] dark:border-white/5 transition-all"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
             I learn by building systems, experimenting with ideas, and refining
             my understanding through real projects. This page reflects how my
             technical thinking evolved while building modern web and AI-driven
@@ -158,7 +161,7 @@ const TimelineItem = ({
       ></motion.div>
 
       <TiltCard className="mb-4">
-        <SpotlightCard className="p-8 backdrop-blur-md bg-black/40 hover:bg-black/60 transition-all border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/10 shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none">
+        <SpotlightCard className="p-8 backdrop-blur-md bg-black/40 hover:bg-black/60 transition-all border border-zinc-200 dark:border-[1px] dark:border-white/10">
           <span className="text-xs font-mono text-lime-400 mb-2 block tracking-widest uppercase opacity-80">
             {phase}
           </span>
@@ -273,7 +276,7 @@ const ConceptCard = ({
     whileHover={{ y: -5 }}
   >
     <TiltCard className="h-full">
-      <SpotlightCard className="p-6 h-full flex flex-col justify-between group hover:bg-white/10 transition-all duration-500 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/10 shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none">
+      <SpotlightCard className="p-6 h-full flex flex-col justify-between group hover:bg-white/10 transition-all duration-500 border border-zinc-200 dark:border-[1px] dark:border-white/10">
         <div>
           <div className="mb-6 inline-flex items-center justify-center p-3 rounded-xl bg-lime-500/10 text-lime-400 group-hover:bg-lime-400 group-hover:text-black transition-all duration-300">
             <Icon size={24} />
@@ -370,7 +373,7 @@ const WorkflowStep = ({
 
 const WorkflowSection = () => (
   <section className="py-32 px-6 max-w-5xl mx-auto">
-    <SpotlightCard className="relative overflow-hidden p-10 md:p-14 bg-gradient-to-br from-zinc-900/50 to-black/50 backdrop-blur-xl border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/10 shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none transition-all">
+    <SpotlightCard className="relative overflow-hidden p-10 md:p-14 bg-gradient-to-br from-zinc-900/50 to-black/50 backdrop-blur-xl border border-zinc-200 dark:border-[1px] dark:border-white/10 transition-all">
       <div className="relative z-10">
         <h2 className="text-3xl font-bold mb-6 text-white">
           How I Build Software
@@ -426,7 +429,7 @@ const NoteCard = ({
         className="cursor-pointer h-full"
       >
         <TiltCard className="h-full">
-          <SpotlightCard className="p-6 h-full transition-all duration-300 group border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/5 hover:border-[var(--theme-lime-400)] dark:hover:border-lime-500/30 shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none group-hover:shadow-[4px_4px_0px_0px_var(--theme-lime-400)] dark:group-hover:shadow-none">
+          <SpotlightCard className="p-6 h-full transition-all duration-300 group border border-zinc-200 dark:border-[1px] dark:border-white/5 hover:border-[var(--theme-lime-400)] dark:hover:border-lime-500/30">
             <h3 className="font-bold mb-4 flex justify-between items-start text-lg">
               {title}
               <FiArrowRight className="text-lime-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -455,7 +458,7 @@ const NoteCard = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-zinc-950 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/10 rounded-2xl p-8 max-w-lg w-full relative shadow-[8px_8px_0px_0px_var(--theme-white)] dark:shadow-2xl overflow-hidden transition-all"
+              className="bg-zinc-950 border border-zinc-200 dark:border-[1px] dark:border-white/10 rounded-2xl p-8 max-w-lg w-full relative shadow-lg dark:shadow-2xl overflow-hidden transition-all"
             >
               {/* Modal decorative blob */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-lime-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2"></div>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk, Outfit } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import PageTransitionLoader from "@/components/PageTransitionLoader";
@@ -13,6 +13,16 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -99,7 +109,7 @@ export default function RootLayout({
     // Added 'scroll-smooth' for better navigation feel
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white selection:bg-[var(--theme-lime-400)] selection:text-[var(--theme-black)]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${outfit.variable} antialiased bg-black text-white selection:bg-[var(--theme-lime-400)] selection:text-[var(--theme-black)]`}
       >
         <ThemeProvider
           attribute="class"

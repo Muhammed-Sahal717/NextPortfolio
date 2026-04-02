@@ -37,7 +37,7 @@ export default function CommandMenu() {
 
   return (
     <div className="fixed inset-0 z-99999 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-[var(--theme-black)] border-2 border-[var(--theme-lime-500)] rounded-xl shadow-[0_0_50px_var(--theme-lime-500)] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="w-full max-w-lg bg-[var(--theme-black)] border border-zinc-200 dark:border-[var(--theme-lime-500)] rounded-xl shadow-[0_0_50px_var(--theme-white)] dark:shadow-[0_0_50px_var(--theme-lime-500)] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         <Command label="Global Command Menu" className="w-full">
           <div className="flex items-center border-b border-white/10 px-4">
             <FiArrowRight className="mr-2 h-4 w-4 shrink-0 opacity-50" />

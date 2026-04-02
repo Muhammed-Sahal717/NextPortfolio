@@ -81,7 +81,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group relative w-full border-b-2 border-[var(--theme-white)] dark:border-b dark:border-zinc-800 overflow-hidden block transition-all"
+      className="group relative w-full border-b border-zinc-200 dark:border-zinc-800 overflow-hidden block transition-all"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -93,7 +93,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-10 px-4 md:px-8">
         {/* Index */}
-        <div className="hidden lg:flex col-span-1 flex-col items-center justify-center border-r-2 border-[var(--theme-white)] dark:border-r dark:border-zinc-800/50 h-full pr-8 transition-all">
+        <div className="hidden lg:flex col-span-1 flex-col items-center justify-center border-r border-zinc-200 dark:border-zinc-800/50 h-full pr-8 transition-all">
           <span className="text-xs font-mono text-zinc-600 mb-2">
             ID
           </span>
@@ -120,7 +120,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             {project.tech_stack?.slice(0, 4).map((tech: string) => (
               <div
                 key={tech}
-                className="flex items-center gap-2 px-3 py-1 rounded-full border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-zinc-800 bg-zinc-900/50 group-hover:border-zinc-700 shadow-[2px_2px_0px_0px_var(--theme-white)] dark:shadow-none transition-all"
+                className="flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-900/50 group-hover:border-zinc-700 transition-all"
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--theme-lime-500)]/50 group-hover:bg-[var(--theme-lime-400)]" />
                 <span className="text-xs font-mono uppercase text-zinc-400 group-hover:text-white tracking-wider">
@@ -133,7 +133,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
 
         {/* Image Carousel */}
         <div className="col-span-1 lg:col-span-5 mt-6 lg:mt-0">
-          <div className="relative h-64 lg:h-48 w-full overflow-hidden rounded-xl bg-zinc-900 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-zinc-800 group-hover:border-[currentColor] dark:group-hover:border-zinc-600 shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none transition-all">
+          <div className="relative h-64 lg:h-48 w-full overflow-hidden rounded-xl bg-zinc-900 border border-zinc-200 dark:border-zinc-800 group-hover:border-[currentColor] dark:group-hover:border-zinc-600 transition-all">
             <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-500 z-20 pointer-events-none" />
 
             {activeImage ? (
@@ -205,7 +205,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ProjectGrid({ projects }: { projects: any[] }) {
   return (
-    <div className="flex flex-col w-full border-t-2 border-[var(--theme-white)] dark:border-t-[1px] dark:border-zinc-800 transition-all">
+    <div className="flex flex-col w-full border-t border-zinc-200 dark:border-zinc-800 transition-all">
       {projects.map((project, index) => (
         <ProjectCard key={project.id} project={project} index={index} />
       ))}

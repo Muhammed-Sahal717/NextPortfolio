@@ -112,18 +112,22 @@ export default function CustomCursor() {
   }, [isTouchDevice]);
 
   // Don't render on touch devices
-  if (typeof window !== "undefined" && !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  if (
+    typeof window !== "undefined" &&
+    !window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  ) {
     return null;
   }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-10001 hidden md:block overflow-hidden">
+    <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-1000000001 hidden md:block overflow-hidden">
       {/* 1. THE TRAILING SCANNER (Wireframe Box) */}
       <div
         ref={cursorRef}
         className="fixed top-0 left-0 border-[1.5px] backdrop-blur-[1px]"
         style={{
-          transition: "width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, transform 0.3s",
+          transition:
+            "width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s, transform 0.3s",
           willChange: "left, top",
         }}
       />
@@ -155,6 +159,3 @@ export default function CustomCursor() {
     </div>
   );
 }
-
-
-

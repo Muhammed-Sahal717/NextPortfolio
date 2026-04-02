@@ -86,15 +86,10 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-
             className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group"
           >
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,var(--theme-zinc-900)_0%,var(--theme-lime-400)_50%,var(--theme-zinc-900)_100%)]" />
             <span className="inline-flex h-full w-full cursor-default items-center justify-center rounded-full bg-[var(--theme-black)]/90 px-4 py-2 text-sm font-medium text-[var(--theme-white)] backdrop-blur-3xl border border-[var(--theme-white)]/10 group-hover:bg-[var(--theme-black)]/80 transition-all duration-300">
-              <span className="relative flex h-2 w-2 mr-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--theme-lime-400)] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--theme-lime-500)]"></span>
-              </span>
               <span className="text-[var(--theme-white)] font-semibold">
                 Available for Work & Collaborations
               </span>
@@ -112,7 +107,8 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            className="text-4xl sm:text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9]"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tight leading-[1.1]"
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Crafting the <br />
             <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-green-400 drop-shadow-[0_0_35px_var(--theme-lime-500)]">
@@ -131,8 +127,8 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-
-            className="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto mix-blend-screen"
+            className="text-2xl md:text-3xl text-zinc-300 font-strong max-w-3xl mx-auto mix-blend-screen leading-relaxed tracking-wide"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
             I am Sahal. A Web Developer merging modern web stacks with AI
             agents.
@@ -149,7 +145,6 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-
             className="flex flex-wrap justify-center gap-4 pt-6"
           >
             <Link href="#projects">
@@ -213,7 +208,6 @@ export default function HeroSection() {
             <motion.div
               className="flex gap-8 md:gap-16 whitespace-nowrap px-4"
               animate={{ x: ["0%", "-50%"] }}
-
               transition={{
                 repeat: Infinity,
                 ease: "linear",

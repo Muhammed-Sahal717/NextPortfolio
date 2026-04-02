@@ -55,7 +55,7 @@ export default function BentoGrid() {
           </h2>
         </div>
         <div className="max-w-md text-zinc-400 text-lg leading-relaxed">
-          <p>
+          <p style={{ fontFamily: "var(--font-space-grotesk)" }}>
             I build high-performance websites. Merging{" "}
             <span className="text-lime-400 font-bold">clean code</span> with
             kinetic design. No bloat, just impact.
@@ -69,7 +69,7 @@ export default function BentoGrid() {
           {/* Bio Card */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="bg-zinc-900/50 border-2 border-[var(--theme-white)] dark:border-zinc-800 dark:border-[1px] p-8 md:p-12 rounded-3xl flex flex-col justify-between h-auto lg:h-80 relative overflow-hidden group transition-all shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none"
+            className="bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-8 md:p-12 rounded-3xl flex flex-col justify-between h-auto lg:h-80 relative overflow-hidden group transition-all"
           >
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
               <FiCode size={120} />
@@ -104,7 +104,7 @@ export default function BentoGrid() {
             {/* Location */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-zinc-950 border-2 border-[var(--theme-white)] dark:border-zinc-800 dark:border-[1px] p-8 rounded-3xl flex items-center gap-6 h-full min-h-[140px] transition-all shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none"
+              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-8 rounded-3xl flex items-center gap-6 h-full min-h-[140px] transition-all"
             >
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black shrink-0">
                 <FiMapPin size={24} />
@@ -118,7 +118,7 @@ export default function BentoGrid() {
             {/* Socials */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-lime-400 text-[var(--theme-white)] border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-transparent dark:shadow-none shadow-[4px_4px_0px_0px_var(--theme-white)] p-8 rounded-3xl flex flex-col justify-center gap-4 relative overflow-hidden group h-full min-h-[140px] transition-all"
+              className="bg-lime-400 text-[var(--theme-white)] border border-transparent p-8 rounded-3xl flex flex-col justify-center gap-4 relative overflow-hidden group h-full min-h-[140px] transition-all"
             >
               <div className="absolute top-4 right-4 bg-black/10 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                 <FiArrowUpRight size={20} />
@@ -148,7 +148,7 @@ export default function BentoGrid() {
 
         {/* --- RIGHT COLUMN (THE SCROLLER) --- */}
         <div className="lg:col-span-5 h-full">
-          <motion.div className="bg-zinc-900 border-2 border-[var(--theme-white)] dark:border-zinc-800 dark:border-[1px] w-full h-[400px] lg:h-full rounded-3xl p-6 flex flex-col relative overflow-hidden shadow-[4px_4px_0px_0px_var(--theme-white)] dark:shadow-none transition-all">
+          <motion.div className="bg-zinc-900 border border-zinc-200 dark:border-zinc-800 w-full h-[400px] lg:h-full rounded-3xl p-6 flex flex-col relative overflow-hidden transition-all">
             {/* Header */}
             <div className="flex items-center justify-between mb-6 relative z-10 shrink-0">
               <h3 className="text-xl font-bold flex items-center gap-2">
@@ -181,7 +181,7 @@ export default function BentoGrid() {
                   {[...stackItems, ...stackItems].map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3 p-3 bg-black/40 border-2 border-[var(--theme-white)] dark:border-[1px] dark:border-white/5 rounded-xl hover:border-lime-400/30 transition-all group shrink-0"
+                      className="flex items-center gap-3 p-3 bg-black/40 border border-zinc-200 dark:border-white/5 rounded-xl hover:border-lime-400/30 transition-all group shrink-0"
                     >
                       <item.Icon
                         className={`text-lg transition-colors ${item.color}`}

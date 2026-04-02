@@ -58,7 +58,10 @@ export default function ProfilePage() {
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-br from-white via-zinc-200 to-zinc-600">
             PROFILE
           </h1>
-          <p className="text-xl md:text-2xl text-zinc-400 font-light tracking-wide max-w-2xl mx-auto md:mx-0">
+          <p 
+            className="text-xl md:text-2xl text-zinc-400 font-light tracking-wide max-w-2xl mx-auto md:mx-0"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
             Structured overview of my background and technical capabilities.
           </p>
         </header>
@@ -73,7 +76,10 @@ export default function ProfilePage() {
               <h2 className="text-sm font-mono text-lime-400 mb-6 uppercase tracking-[0.2em] flex items-center gap-3">
                 <FiLayout className="text-lg" /> Core Summary
               </h2>
-              <p className="text-lg md:text-xl text-zinc-300 leading-relaxed font-light backdrop-blur-sm bg-white/5 border border-white/10 p-6 md:p-8 rounded-2xl shadow-xl">
+              <p 
+                className="text-lg md:text-xl text-zinc-300 leading-relaxed font-light backdrop-blur-sm bg-white/5 border border-white/10 p-6 md:p-8 rounded-2xl shadow-xl"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
                 Full Stack Engineer focused on building scalable web systems and
                 integrating AI into real-world applications. Strong in
                 performance, architecture, and maintainable system design.

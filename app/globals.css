@@ -189,7 +189,6 @@ html {
 /* 3. The Thumb (The moving block) */
 ::-webkit-scrollbar-thumb {
   background: var(--theme-lime-900);
-  border: 2px solid var(--theme-black);
   border-radius: 0px;
 }
 
