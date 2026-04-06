@@ -130,8 +130,8 @@ export default function HeroSection() {
             className="text-2xl md:text-3xl text-zinc-300 font-strong max-w-3xl mx-auto mix-blend-screen leading-relaxed tracking-wide"
             style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
-            I am Sahal. A Web Developer merging modern web stacks with AI
-            agents.
+            I am Sahal. A Web Developer crafting web solutions and integrating
+            AI-driven functionality.
           </motion.p>
 
           {/* CTA Buttons */}
