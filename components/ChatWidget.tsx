@@ -239,7 +239,7 @@ export default function ChatWidget() {
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="w-11 h-11 bg-white dark:bg-zinc-900 text-black dark:text-white dark:text-white border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-white transition-colors flex items-center justify-center rounded-md"
+                  className="w-11 h-11 bg-white dark:bg-zinc-900 text-black dark:text-white border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center justify-center rounded-md"
                 >
                   <X size={18} strokeWidth={3} />
                 </button>
@@ -315,8 +315,8 @@ export default function ChatWidget() {
                                 whitespace-pre-wrap wrap-break-words
                                 ${
                                   m.role === "user"
-                                    ? "bg-black text-white dark:bg-zinc-100 dark:text-black dark:text-white rounded-lg rounded-tr-none"
-                                    : "bg-white text-black dark:text-white dark:bg-zinc-900 dark:text-white rounded-lg rounded-tl-none"
+                                    ? "bg-black text-white dark:bg-zinc-100 dark:text-black rounded-lg rounded-tr-none"
+                                    : "bg-white text-black dark:bg-zinc-900 dark:text-white rounded-lg rounded-tl-none"
                                 }
                               `}
                               >
@@ -384,7 +384,7 @@ export default function ChatWidget() {
                     type="submit"
                     size="icon"
                     disabled={isLoading || !input.trim()}
-                    className="h-10 w-10 bg-black hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-300 text-white dark:text-black dark:text-white border border-transparent rounded-lg transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0"
+                    className="h-10 w-10 bg-black hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-300 text-white dark:text-black border border-transparent rounded-lg transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0"
                   >
                     <Send size={16} strokeWidth={2.5} />
                   </Button>
