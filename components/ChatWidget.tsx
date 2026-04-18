@@ -7,6 +7,7 @@ import { X, Send, Bot, Terminal } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import AiraIcon from "@/components/AiraIcon";
 
 type Message = {
   id: string;
@@ -33,17 +34,7 @@ export default function ChatWidget() {
     document.body.style.overflow = "unset";
   }, [isOpen]);
 
-  const getKuttappanFace = () => {
-    if (isError) return "/kuttappan-aiyyoo.webp";
-    if (isLoading) return "/kuttappan-loading.webp";
-    return "/kuttappan-idle.webp";
-  };
-
-  const getKuttappanMood = () => {
-    if (isError) return "SYSTEM_ERR: AIYYO!";
-    if (isLoading) return "PROCESSING...";
-    return "STATUS: ONLINE";
-  };
+  const currentStatus = isError ? "error" : isLoading ? "loading" : "idle";
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
@@ -145,15 +136,6 @@ export default function ChatWidget() {
         <AnimatePresence>
           {!isOpen && (
             <div className="relative group">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                className="absolute bottom-1/2 translate-y-1/2 right-full mr-4 w-max bg-white dark:bg-zinc-950 text-black dark:text-white dark:text-white font-mono text-[10px] font-bold px-3 py-1.5 border border-zinc-200 dark:border-zinc-800 shadow-md rounded-md hidden md:block"
-              >
-                {getKuttappanMood()}
-              </motion.div>
-
               <motion.button
                 initial={{ scale: 0, rotate: 90 }}
                 animate={{ scale: 1, rotate: 0 }}
@@ -162,25 +144,15 @@ export default function ChatWidget() {
                 whileTap={{ scale: 0.95, translate: "2px 2px" }}
                 onClick={() => setIsOpen(true)}
                 className={`
-                  h-12 w-12
-                  ${isError ? "bg-red-500" : "bg-lime-400"} 
-                  border border-zinc-200 dark:border-zinc-800 
-                  shadow-md 
-                  hover:shadow-lg
-                  active:shadow-sm
+                  h-20 w-20 md:h-24 md:w-24
                   flex items-center justify-center 
-                  overflow-hidden 
-                  transition-all duration-100 ease-out
-                  rounded-full
+                  transition-all duration-300 ease-out
                 `}
               >
-                <div className="relative w-12 h-12">
-                  <Image
-                    src={getKuttappanFace()}
-                    alt="AI"
-                    fill
-                    className="object-contain"
-                    priority
+                <div className="relative w-20 h-20 md:w-24 md:h-24 p-1 flex items-center justify-center">
+                  <AiraIcon
+                    status={currentStatus}
+                    className="hover:scale-110 transition-transform duration-200 origin-bottom"
                   />
                 </div>
               </motion.button>
@@ -216,25 +188,16 @@ export default function ChatWidget() {
               {/* Header */}
               <div className="h-14 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-row justify-between items-center px-4 shrink-0">
                 <div className="flex items-center gap-3">
-                  <div
-                    className={`w-8 h-8 ${
-                      isError ? "bg-red-500" : "bg-lime-400"
-                    } border border-zinc-200 dark:border-zinc-800 rounded-md flex items-center justify-center overflow-hidden`}
-                  >
-                    <Image
-                      src={getKuttappanFace()}
-                      alt="Avatar"
-                      width={32}
-                      height={32}
-                    />
+                  <div className="w-10 h-10 flex items-center justify-center p-[2px]">
+                    <AiraIcon status={currentStatus} />
                   </div>
                   <div className="flex flex-col">
                     <span className="font-mono font-bold text-sm text-black dark:text-white dark:text-white leading-none">
-                      KUTTAPPAN_AI
+                      Aira
                     </span>
-                    <span className="font-mono text-[10px] text-zinc-500 uppercase leading-tight">
+                    {/* <span className="font-mono text-[10px] text-zinc-500 uppercase leading-tight">
                       v2.0 // {isError ? "ERR" : "RDY"}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
                 <button
@@ -257,7 +220,10 @@ export default function ChatWidget() {
                     {messages.length === 0 && (
                       <div className="flex flex-col items-center justify-center h-full pt-8 opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full flex items-center justify-center mb-4 shadow-sm">
-                          <Terminal size={32} className="text-black dark:text-white dark:text-white" />
+                          <Terminal
+                            size={32}
+                            className="text-black dark:text-white dark:text-white"
+                          />
                         </div>
                         <p className="font-mono font-bold text-base mb-1 dark:text-white">
                           SYSTEM READY
