@@ -100,9 +100,9 @@ export default function AiraIcon({ status, className = "" }: AiraIconProps) {
         {status === "loading" && <circle cx="100" cy="100" r="90" fill="url(#loadingGlow)" className="animate-pulse" />}
 
         {/* Floor Shadow */}
-        {status === "idle" && <ellipse cx="100" cy="192" rx="45" ry="8" fill="#000000" className="shadow-anim" />}
-        {status === "error" && <ellipse cx="100" cy="192" rx="45" ry="8" fill="#000000" opacity="0.3" className="error-shake" />}
-        {(status === "sad" || status === "loading") && <ellipse cx="100" cy="192" rx="45" ry="8" fill="#000000" opacity="0.3" />}
+        {status === "idle" && <ellipse cx="100" cy="192" rx="45" ry="8" className="fill-black dark:fill-white shadow-anim" />}
+        {status === "error" && <ellipse cx="100" cy="192" rx="45" ry="8" className="fill-black dark:fill-white opacity-30 error-shake" />}
+        {(status === "sad" || status === "loading") && <ellipse cx="100" cy="192" rx="45" ry="8" className="fill-black dark:fill-white opacity-30" />}
 
         {/* Main Character Body container */}
         <g className={status === "error" ? "error-shake" : (status === "idle" || status === "sad") ? "aira-idle" : ""}>

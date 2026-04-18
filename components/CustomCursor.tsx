@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback } from "react";
 
 export default function CustomCursor() {
-  const numDots = 8;
+  const numDots = 15; // Increased for a smoother, longer tail
   const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   // Animation logic refs
@@ -37,38 +37,42 @@ export default function CustomCursor() {
 
       for (let i = 0; i < numDots; i++) {
         if (isHovering.current) {
-          // Morph into a spinning ring
+          // Morph into an expanding/contracting spinning ring
           const offset = ((Math.PI * 2) / numDots) * i;
-          const radius = 24;
+          const radius = isClicking.current ? 16 : 30; // Reacts to click
           const targetX =
             mouse.current.x + Math.cos(angle.current + offset) * radius;
           const targetY =
             mouse.current.y + Math.sin(angle.current + offset) * radius;
+
+          // Smoother transition into the ring
           points.current[i].x = lerp(points.current[i].x, targetX, 0.15);
           points.current[i].y = lerp(points.current[i].y, targetY, 0.15);
         } else {
-          // Snake tail following leader
+          // Organic fluid tail following leader
           if (i === 0) {
             points.current[i].x = lerp(
               points.current[i].x,
               mouse.current.x,
-              0.4,
+              0.5,
             );
             points.current[i].y = lerp(
               points.current[i].y,
               mouse.current.y,
-              0.4,
+              0.5,
             );
           } else {
+            // Slight delay curve for a more ribbon-like feel
+            const followSpeed = 0.45 - i * 0.01;
             points.current[i].x = lerp(
               points.current[i].x,
               points.current[i - 1].x,
-              0.45,
+              followSpeed,
             );
             points.current[i].y = lerp(
               points.current[i].y,
               points.current[i - 1].y,
-              0.45,
+              followSpeed,
             );
           }
         }
@@ -79,14 +83,14 @@ export default function CustomCursor() {
         if (!dot) return;
         const p = points.current[i];
 
-        // Dynamically adjust size and opacity
-        const size = isHovering.current ? 6 : Math.max(3, 12 - i * 1.2);
+        // Exponential decay for beautiful teardrop tapering
+        const size = isHovering.current ? 5 : 18 * Math.pow(0.82, i);
         const opacity = isVisible.current
           ? isHovering.current
-            ? 0.8
-            : Math.max(0.2, 1 - i * 0.1)
+            ? 0.9
+            : Math.pow(0.85, i)
           : 0;
-        const scale = isClicking.current ? 0.5 : 1;
+        const scale = isClicking.current && !isHovering.current ? 0.6 : 1;
 
         dot.style.transform = `translate3d(calc(${p.x}px - 50%), calc(${p.y}px - 50%), 0) scale(${scale})`;
         dot.style.width = `${size}px`;
@@ -164,10 +168,10 @@ export default function CustomCursor() {
           ref={(el) => {
             dotsRef.current[i] = el;
           }}
-          className="fixed top-0 left-0 rounded-full bg-white"
+          className="fixed top-0 left-0 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.2)]"
           style={{
             transition:
-              "background-color 0.3s, width 0.3s, height 0.3s, opacity 0.3s",
+              "background-color 0.4s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease",
             willChange: "transform, opacity, width, height",
           }}
         />
