@@ -7,7 +7,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .from("projects")
     .select("slug, created_at");
 
-  const baseUrl = "https://sahal-portfolio.vercel.app"; // Update this with your real URL
+  const baseUrl = "https://sahal-web.vercel.app"; // Update this with your real URL
 
   // 2. Generate URLs for each project
   const projectUrls = (projects || []).map((project) => ({
