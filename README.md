@@ -32,7 +32,7 @@ You will need a [Supabase](https://supabase.com) project, an [EmailJS](https://w
 ### 1. Clone & Install
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Muhammed-Sahal717/NextPortfolio.git
 cd NextPortfolio
 npm install
 ```
