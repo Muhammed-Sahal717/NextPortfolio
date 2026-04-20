@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Modern Developer Portfolio 🚀
 
-## Getting Started
+A highly interactive, premium developer portfolio built with **Next.js 16**, **React 19**, and a powerful modern web stack to showcase projects, skills, and experience with stunning cinematic visuals.
 
-First, run the development server:
+## ✨ Key Features
+
+- **Immersive 3D & WebGL Experiences**: Utilizes Three.js for interactive models and GSAP/Framer Motion for buttery-smooth animations.
+- **Premium Design Aesthetics**: Includes high-end glassmorphism, editorial typography, and scroll-driven parallax effects via Lenis.
+- **AI Integration**: Powered by `@ai-sdk/google` to provide smart features like a 3D Robot AI Mascot (Aira).
+- **Admin Dashboard**: Full-featured admin panel mapped out with role-based authentication using Supabase.
+- **Dynamic Content & Resume API**: Server-side integrations to securely serve the latest resume, dynamic projects, and more via Supabase buckets.
+- **Responsive & Accessible**: Uses Radix UI primitives and Tailwind CSS for robust, beautifully accessible components (fully responsive).
+- **Contact Integration**: Seamless messaging system using EmailJS.
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org) (App Router)
+- **Library**: [React 19](https://react.dev)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com), `clsx`, `tailwind-merge`
+- **Animations / 3D**: [GSAP](https://gsap.com/), [Framer Motion](https://www.framer.com/motion/), [Three.js](https://threejs.org/), Lenis (smooth scrolling), LottieFiles
+- **UI Components**: [Radix UI](https://www.radix-ui.com/)
+- **Backend/Auth/Storage**: [Supabase](https://supabase.com) (`@supabase/ssr`)
+- **AI Tools**: Vercel AI SDK, `@google/generative-ai`
+- **Forms & Validation**: `react-hook-form`, `zod`
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+You will need a [Supabase](https://supabase.com) project, an [EmailJS](https://www.emailjs.com/) account, and optionally Google Generative AI access.
+
+### 1. Clone & Install
+
+```bash
+git clone <your-repo-url>
+cd NextPortfolio
+npm install
+```
+
+### 2. Environment Variables
+
+Create a `.env.local` file in the root directory based on `.env.example`:
+
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# Integrations
+GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_key
+
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_id
+
+# App Settings & Contact Info
+SEED_SECRET_KEY=secret
+NEXT_PUBLIC_CONTACT_EMAIL=your_email@example.com
+NEXT_PUBLIC_CONTACT_LINKEDIN=your_linkedin
+NEXT_PUBLIC_CONTACT_GITHUB=your_github
+NEXT_PUBLIC_PORTFOLIO_URL=deployed_url
+```
+
+### 3. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com/new). Make sure to add all the production environment variables in your Vercel project settings before deploying.
