@@ -55,7 +55,7 @@ const JourneyPath = ({ count }: { count: number }) => {
           strokeWidth="0.5"
           vectorEffect="non-scaling-stroke"
         />
-        {/* Animated Glowing Track mapped to scroll */}
+        {/* Animated Glowing Track mapped to scroll - Optimized without drop-shadow */}
         <motion.path
           d={path}
           fill="none"
@@ -63,7 +63,6 @@ const JourneyPath = ({ count }: { count: number }) => {
           strokeWidth="2.5"
           vectorEffect="non-scaling-stroke"
           style={{ pathLength: scrollYProgress }}
-          className="drop-shadow-[0_0_12px_var(--theme-lime-400)]"
         />
       </svg>
     </div>
@@ -103,8 +102,11 @@ export default function EngineeringPage() {
     <main className="min-h-screen bg-black text-white font-sans selection:bg-[var(--theme-lime-400)]/30 overflow-hidden relative">
       <LiquidNavbar />
 
-      {/* Profile-style Static Glow (No Heavy Animations) */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl h-[400px] bg-[var(--theme-lime-400)]/5 blur-[120px] rounded-full pointer-events-none z-0" />
+      {/* Profile-style Static Glow (Optimized: Removed CSS Blur for zero-cost radial gradient) */}
+      <div 
+        className="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl h-[400px] pointer-events-none z-0" 
+        style={{ background: "radial-gradient(circle, var(--theme-lime-400) 0%, transparent 60%)", opacity: 0.1 }}
+      />
 
       <div className="relative z-10 max-w-[100rem] mx-auto px-6 lg:px-16 pt-32 pb-32">
         {/* Header (Matches Profile Page) */}
