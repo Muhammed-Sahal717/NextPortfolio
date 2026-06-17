@@ -50,7 +50,7 @@ export default function ScrollReveal({ text, className }: ScrollRevealProps) {
       viewport={{ once: true, margin: "-10%" }}
     >
       {words.map((word, index) => (
-        <span key={index} className="inline-block overflow-hidden">
+        <span key={index} className="inline-block overflow-hidden whitespace-nowrap">
           {word.split("").map((char, charIndex) => (
             <motion.span
               key={charIndex}

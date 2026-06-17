@@ -1,253 +1,174 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FiGithub, FiLinkedin } from "react-icons/fi";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "@/components/ThemeToggle";
-
-// The Bento Grid Menu Icon (3x3 Dots)
-const BentoMenuIcon = ({ isOpen }: { isOpen: boolean }) => (
-  <div className="relative w-6 h-6 flex items-center justify-center">
-    {/* State 1: The 3x3 Grid (Visible when CLOSED) */}
-    <motion.div
-      initial={false}
-      animate={{
-        opacity: isOpen ? 0 : 1,
-        rotate: isOpen ? 90 : 0,
-        scale: isOpen ? 0.5 : 1,
-      }}
-      transition={{ duration: 0.2 }}
-      className="absolute inset-0 grid grid-cols-3 gap-0.5 p-0.5"
-    >
-      {[...Array(9)].map((_, i) => (
-        <div key={i} className="bg-white rounded-full w-full h-full" />
-      ))}
-    </motion.div>
-
-    {/* State 2: The X Icon (Visible when OPEN) */}
-    <motion.svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="absolute text-white"
-      initial={false}
-      animate={{
-        opacity: isOpen ? 1 : 0,
-        rotate: isOpen ? 0 : -90,
-        scale: isOpen ? 1 : 0.5,
-      }}
-      transition={{ duration: 0.2 }}
-    >
-      <path d="M18 6L6 18" />
-      <path d="M6 6l12 12" />
-    </motion.svg>
-  </div>
-);
+import { FiMenu, FiX, FiGithub, FiLinkedin, FiArrowUpRight } from "react-icons/fi";
 
 export default function LiquidNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const progress = Math.min(scrollY / 120, 1);
-      setScrollProgress(progress);
-      setIsScrolled(scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const mainLinks = [
     { name: "Profile", href: "/profile" },
     { name: "Work", href: "/#projects" },
     { name: "Journey", href: "/engineering" },
     { name: "About", href: "/#about" },
-    { name: "Contact", href: "/#contact" },
   ];
 
   return (
     <nav
-      className={`fixed left-1/2 -translate-x-1/2 z-[10000001] w-[90%] max-w-[700px] perspective-[2000px] transition-all duration-500 ease-in-out ${isScrolled ? "top-4" : "top-6"}`}
+      className={`fixed left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-[800px] transition-all duration-700 ease-out ${
+        isScrolled ? "top-2 sm:top-4" : "top-6 sm:top-8"
+      }`}
     >
       <motion.div
-        animate={{ scale: 1 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="relative group rounded-full"
+        layout
+        animate={{
+          borderRadius: isOpen ? 24 : 50,
+        }}
+        transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+        className={`relative text-white overflow-hidden transition-all duration-500 ${
+          isScrolled || isOpen
+            ? "bg-[#050606] border border-white/5 shadow-2xl backdrop-blur-md"
+            : "bg-transparent border border-transparent shadow-none"
+        }`}
       >
-        {/* --- MAIN GLASS BAR --- */}
-        <div className="relative z-50 rounded-full">
-          {/* Base Blur Layer (interpolated continuously) */}
-          <div
-            className="absolute inset-0 rounded-full pointer-events-none transition-all duration-75"
-            style={{
-              backdropFilter: `blur(${6 + scrollProgress * 18}px) saturate(${100 + scrollProgress * 50}%)`,
-              WebkitBackdropFilter: `blur(${6 + scrollProgress * 18}px) saturate(${100 + scrollProgress * 50}%)`,
-            }}
-          />
+        {/* --- HEADER ROW (ALWAYS VISIBLE) --- */}
+        <div className="flex items-center justify-between p-2 pl-6 sm:pl-8 relative z-20">
+          {/* Left: Logo */}
+          <Link href="/" className="font-bold tracking-widest text-sm shrink-0">
+            SAHAL.
+          </Link>
 
-          {/* Base Background Opacity Layer */}
-          <div
-            className="absolute inset-0 rounded-full bg-white dark:bg-zinc-900 transition-colors duration-500 pointer-events-none"
-            style={{ opacity: 0.05 + scrollProgress * 0.55 }}
-          />
-
-          {/* Mid Layer: Subtle grain/noise texture to diffuse light internally */}
-          <div
-            className="absolute inset-0 rounded-full mix-blend-overlay pointer-events-none opacity-[0.015]"
-            style={{
-              backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
-            }}
-          />
-
-          {/* Single Border Highlight (interpolated opacity) */}
-          <div
-            className="absolute inset-0 rounded-full border border-white/20 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none transition-opacity duration-300"
-            style={{ opacity: scrollProgress }}
-          />
-
-          {/* Inner Depth Shadows: Creates the capsule thickness feel */}
-          <div
-            className="absolute inset-0 rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] pointer-events-none transition-opacity duration-300"
-            style={{ opacity: scrollProgress }}
-          />
-
-          {/* Multi-layer External Elevation: Floating look, lifts slightly on hover */}
-          <div
-            className="absolute inset-0 rounded-full pointer-events-none -z-10 transition-opacity duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.05)] group-hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)]"
-            style={{ opacity: scrollProgress }}
-          />
-
-          <div
-            className={`relative flex items-center justify-between px-7 py-3 transition-colors duration-500 ${isScrolled ? "text-black dark:text-white" : "text-white/80 dark:text-white/70"}`}
-          >
-            {/* Logo */}
-            <Link
-              href="/"
-              className="font-bold text-lg tracking-widest flex items-center gap-2 cursor-pointer transition-all duration-500 z-50 mr-6 group/logo drop-shadow-[0_0_8px_rgba(0,0,0,0)] dark:drop-shadow-[0_0_8px_rgba(255,255,255,0)] hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
-            >
-              SAHAL.
-            </Link>
-
-            {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-7 text-xs font-mono uppercase tracking-widest font-semibold">
-              {navLinks.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="relative transition-all duration-300 inline-block after:absolute after:bottom-[-6px] after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:w-0 hover:after:w-full after:bg-current after:transition-all ease-out"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-7 z-50">
-              <ThemeToggle />
+          {/* Center: Desktop Links */}
+          <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+            {mainLinks.map((link) => (
               <Link
-                href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
-                target="_blank"
-                className="transition-all duration-300 hover:scale-[1.05] hidden sm:block"
+                key={link.name}
+                href={link.href}
+                className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
               >
-                <FiGithub size={18} />
+                {link.name}
               </Link>
+            ))}
+          </div>
 
-              <a
-                href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
-                className="transition-all duration-300 hover:scale-[1.05] hidden sm:block"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FiLinkedin size={18} />
-              </a>
+          {/* Right: CTA & Hamburger */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Desktop CTA */}
+            <a
+              href="#email-form"
+              className="hidden md:flex items-center justify-center bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold transition-transform hover:scale-[1.02] active:scale-95"
+            >
+              Let's chat
+            </a>
 
-              {/* Mobile Trigger with Bento Icon */}
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden transition-all duration-300 hover:scale-[1.05] flex items-center justify-center p-1 rounded-full active:scale-95"
-                aria-label="Toggle Menu"
-              >
-                <BentoMenuIcon isOpen={isOpen} />
-              </button>
-            </div>
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden flex items-center justify-center p-3 text-zinc-300 hover:text-white transition-colors rounded-full bg-white/5 hover:bg-white/10 active:scale-95"
+              aria-label="Toggle Menu"
+            >
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ opacity: 0, rotate: -90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: 90 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <FiX size={20} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ opacity: 0, rotate: 90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: -90 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <FiMenu size={20} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </button>
           </div>
         </div>
 
-        {/* --- MOBILE DROPDOWN --- */}
+        {/* --- MOBILE EXPANDING CONTENT --- */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -10, scale: 0.98, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 12, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, scale: 0.98, filter: "blur(4px)" }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 30,
-                delay: 0.02,
-              }}
-              className="absolute top-full left-0 w-full rounded-[2rem] overflow-hidden md:hidden shadow-[0_16px_48px_rgba(0,0,0,0.1),0_24px_64px_rgba(0,0,0,0.05)] origin-top group/mobile"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+              className="md:hidden px-4 pb-4 overflow-hidden"
             >
-              {/* Liquid dropdown background (Base Layer) */}
-              <div className="absolute inset-0 rounded-[2rem] bg-white/70 dark:bg-zinc-900/70 backdrop-blur-[24px] backdrop-saturate-[150%] transition-colors duration-500" />
-
-              {/* Mid Layer: Noise Texture */}
-              <div
-                className="absolute inset-0 rounded-[2rem] opacity-[0.015] mix-blend-overlay pointer-events-none"
-                style={{
-                  backgroundImage:
-                    "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
-                }}
-              />
-
-              {/* Single Border Highlight */}
-              <div className="absolute inset-0 rounded-[2rem] border border-white/20 [mask-image:linear-gradient(to_bottom,white,transparent)] pointer-events-none" />
-
-              {/* Inner Depth Shadows */}
-              <div className="absolute inset-0 rounded-[2rem] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] pointer-events-none" />
-
-              <div className="relative flex flex-col p-5 gap-2 text-center z-10">
-                {navLinks.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="block py-3 text-sm font-mono uppercase tracking-widest text-black dark:text-white font-bold hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 rounded-xl transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              <div className="pt-2 flex flex-col gap-1">
+                {mainLinks.map((link, i) => (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ delay: i * 0.05, duration: 0.3 }}
                   >
-                    {item.name}
-                  </Link>
+                    <Link
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-xl font-bold text-zinc-400 hover:text-white hover:bg-white/5 transition-all block py-4 px-4 rounded-2xl flex items-center justify-between group"
+                    >
+                      {link.name}
+                      <FiArrowUpRight className="opacity-0 group-hover:opacity-100 transition-all text-[var(--theme-lime-400)] -translate-x-2 group-hover:translate-x-0" />
+                    </Link>
+                  </motion.div>
                 ))}
+              </div>
 
-                <div className="flex justify-center items-center gap-7 mt-2 pt-4 border-t border-black/10 dark:border-white/10">
-                  <ThemeToggle />
-                  <Link
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="flex justify-between items-center mt-4 pt-4 border-t border-white/5 px-2"
+              >
+                <div className="flex gap-3">
+                  <a
                     href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                     target="_blank"
-                    className="text-black dark:text-white hover:scale-110 transition-all duration-300"
+                    rel="noopener noreferrer"
+                    className="text-zinc-500 hover:text-[var(--theme-lime-400)] transition-colors p-3 bg-white/5 rounded-full hover:bg-white/10"
                   >
                     <FiGithub size={20} />
-                  </Link>
+                  </a>
                   <a
                     href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
-                    className="text-black dark:text-white hover:scale-110 transition-all duration-300"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-500 hover:text-[var(--theme-lime-400)] transition-colors p-3 bg-white/5 rounded-full hover:bg-white/10"
                   >
                     <FiLinkedin size={20} />
                   </a>
                 </div>
-              </div>
+
+                <a
+                  href="#email-form"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-center bg-white text-black px-6 py-3.5 rounded-full text-sm font-bold transition-transform active:scale-[0.95]"
+                >
+                  Let's chat
+                </a>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>

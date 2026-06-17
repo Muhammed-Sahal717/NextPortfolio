@@ -9,6 +9,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import LiquidNavbar from "@/components/LiquidNavbar";
 import { useTheme } from "next-themes";
+import ScrollReveal from "@/components/ScrollReveal";
 
 // Heavy WebGL component — only load when needed
 const LiquidEther = dynamic(() => import("@/components/LiquidEther"), {
@@ -89,7 +90,7 @@ export default function HeroSection() {
             className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group"
           >
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,var(--theme-zinc-900)_0%,var(--theme-lime-400)_50%,var(--theme-zinc-900)_100%)]" />
-            <span className="inline-flex h-full w-full cursor-default items-center justify-center rounded-full bg-[var(--theme-black)]/90 px-4 py-2 text-sm font-medium text-[var(--theme-white)] backdrop-blur-3xl border border-[var(--theme-white)]/10 group-hover:bg-[var(--theme-black)]/80 transition-all duration-300">
+            <span className="inline-flex h-full w-full cursor-none items-center justify-center rounded-full bg-[var(--theme-black)]/90 px-4 py-2 text-sm font-medium text-[var(--theme-white)] backdrop-blur-3xl border border-[var(--theme-white)]/10 group-hover:bg-[var(--theme-black)]/80 transition-all duration-300">
               <span className="text-[var(--theme-white)] font-semibold">
                 Available for Work & Collaborations
               </span>
@@ -226,7 +227,7 @@ export default function HeroSection() {
                   ].map((tech) => (
                     <div
                       key={tech}
-                      className="flex items-center gap-8 md:gap-16 group cursor-default"
+                      className="flex items-center gap-8 md:gap-16 group cursor-none"
                     >
                       <span className="text-white/40 font-mono text-xs md:text-sm uppercase tracking-[0.2em] group-hover:text-[var(--theme-lime-400)] transition-colors duration-300">
                         {tech}
