@@ -152,6 +152,8 @@ export default function ParticleText({
     }
 
     const buildParticles = () => {
+      if (width <= 0 || h <= 0) return;
+
       const tmpCanvas = document.createElement("canvas");
       const tmpCtx = tmpCanvas.getContext("2d", { willReadFrequently: true });
       if (!tmpCtx) return;

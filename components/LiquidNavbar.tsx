@@ -104,10 +104,10 @@ export default function LiquidNavbar() {
   }, []);
 
   const mainLinks = [
-    { name: "Profile", href: "/profile" },
-    { name: "Work", href: "/#projects" },
-    { name: "Journey", href: "/engineering" },
     { name: "About", href: "/#about" },
+    { name: "Work", href: "/#projects" },
+    { name: "Profile", href: "/profile" },
+    { name: "Journey", href: "/engineering" },
   ];
 
   return (
