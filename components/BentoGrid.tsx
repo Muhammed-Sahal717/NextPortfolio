@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import {
   FiMapPin,
   FiZap,
@@ -25,6 +26,29 @@ import {
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 
+function AnimatedCounter({ from = 0, to, suffix = "" }: { from?: number; to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const count = useMotionValue(from);
+  const rounded = useSpring(count, { stiffness: 50, damping: 20 });
+
+  useEffect(() => {
+    if (inView) {
+      count.set(to);
+    }
+  }, [inView, count, to]);
+
+  useEffect(() => {
+    return rounded.on("change", (latest) => {
+      if (ref.current) {
+        ref.current.textContent = `${Math.round(latest)}${suffix}`;
+      }
+    });
+  }, [rounded, suffix]);
+
+  return <span ref={ref}>{from}{suffix}</span>;
+}
+
 export default function BentoGrid() {
   // FIX: Added explicit 'name' key.
   // Relying on 'Icon.name' breaks in production because Vercel minifies function names.
@@ -44,11 +68,12 @@ export default function BentoGrid() {
 
   return (
     <section
-      className="py-24 px-6 max-w-[1400px] mx-auto bg-black text-white transition-colors"
+      className="w-full bg-black text-white py-24 transition-colors"
       id="about"
     >
-      {/* 1. HEADER */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-20 border-b border-zinc-800 pb-8">
+      <div className="w-full max-w-[100rem] mx-auto px-6 lg:px-16">
+        {/* 1. HEADER */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-20 border-b border-zinc-800 pb-8">
         <div className="drop-shadow-[0_2px_6px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
           <ScrollReveal
             text="FULL STACK"
@@ -71,84 +96,66 @@ export default function BentoGrid() {
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:items-stretch">
         {/* --- LEFT COLUMN GROUP --- */}
         <div className="lg:col-span-7 flex flex-col gap-6">
-          {/* Bio Card */}
+          {/* Summary Card */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-8 md:p-12 rounded-3xl flex flex-col justify-between h-auto lg:h-80 relative overflow-hidden group transition-all"
+            className="bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-8 md:p-12 rounded-3xl flex flex-col justify-center relative overflow-hidden group transition-all flex-1"
           >
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
               <FiCode size={120} />
             </div>
-            <div className="relative z-10 mb-8 lg:mb-0">
+            <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime-400/10 text-lime-400 text-xs font-bold uppercase tracking-widest mb-6">
                 <span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
-                Full Stack Engineer
+                Professional Summary
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold leading-tight">
-                Developing scalable solutions for the modern web.
-              </h3>
-            </div>
-            <div className="flex gap-8 items-end border-t border-black/10 dark:border-white/5 pt-6 lg:border-none lg:pt-0">
-              <div>
-                <span className="block text-4xl font-bold text-white">2+</span>
-                <span className="text-zinc-500 text-xs uppercase tracking-wider">
-                  Years Exp
-                </span>
-              </div>
-              <div>
-                <span className="block text-4xl font-bold text-white">15+</span>
-                <span className="text-zinc-500 text-xs uppercase tracking-wider">
-                  Projects
-                </span>
-              </div>
+              <p className="text-xl md:text-2xl font-medium leading-relaxed text-zinc-300">
+                <span className="text-white font-bold">BCA graduate</span> and <span className="text-white font-bold">Software Developer</span> experienced in building full-stack web applications using React, Next.js, TypeScript, Node.js, and PostgreSQL.
+                <br /><br />
+                Skilled in developing AI-powered tools, secure authentication systems, and cloud-deployed architectures. Passionate about crafting scalable software for modern engineering teams.
+              </p>
             </div>
           </motion.div>
 
-          {/* Location & Socials Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:h-[180px]">
-            {/* Location */}
+          {/* Stats Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:h-[140px]">
+            {/* Experience */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-8 rounded-3xl flex items-center gap-6 h-full min-h-[140px] transition-all"
+              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 xl:p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
             >
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black shrink-0">
-                <FiMapPin size={24} />
-              </div>
-              <div>
-                <h4 className="font-bold text-lg">Malappuram</h4>
-                <p className="text-zinc-500 text-sm">Kerala, India</p>
-              </div>
+              <span className="block text-4xl xl:text-5xl font-black text-lime-400">
+                <AnimatedCounter to={2} suffix="+" />
+              </span>
+              <span className="text-zinc-500 text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center">
+                Years Experience
+              </span>
             </motion.div>
 
-            {/* Socials */}
+            {/* Projects */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-lime-400 text-[var(--theme-white)] border border-transparent p-8 rounded-3xl flex flex-col justify-center gap-4 relative overflow-hidden group h-full min-h-[140px] transition-all"
+              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 xl:p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
             >
-              <div className="absolute top-4 right-4 bg-black/10 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                <FiArrowUpRight size={20} />
-              </div>
-              <h4 className="font-bold text-xl uppercase tracking-tight">
-                Connect
-              </h4>
-              <div className="flex gap-3">
-                <Link
-                  href="https://github.com/Muhammed-Sahal717"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 bg-black text-white rounded-full hover:scale-110 transition-transform"
-                >
-                  <FiGithub size={20} />
-                </Link>
-                <Link
-                  href="https://linkedin.com/in/mhdsahal717"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 bg-black text-white rounded-full hover:scale-110 transition-transform"
-                >
-                  <FiLinkedin size={20} />
-                </Link>
-              </div>
+              <span className="block text-4xl xl:text-5xl font-black text-lime-400">
+                <AnimatedCounter to={15} suffix="+" />
+              </span>
+              <span className="text-zinc-500 text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center">
+                Projects Completed
+              </span>
+            </motion.div>
+
+            {/* Hours */}
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 xl:p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
+            >
+              <span className="block text-4xl xl:text-5xl font-black text-lime-400">
+                <AnimatedCounter to={1000} suffix="+" />
+              </span>
+              <span className="text-zinc-500 text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center">
+                Hours of Coding
+              </span>
             </motion.div>
           </div>
         </div>
@@ -204,6 +211,7 @@ export default function BentoGrid() {
             </div>
           </motion.div>
         </div>
+      </div>
       </div>
     </section>
   );
