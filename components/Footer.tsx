@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   FiArrowUpRight,
   FiGithub,
@@ -8,17 +9,15 @@ import {
   FiInstagram,
   FiCheck,
   FiLoader,
-  FiMapPin,
+  FiMail,
 } from "react-icons/fi";
 import { useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
+import ParticleText from "@/components/ParticleText";
 
 export default function Footer() {
-  // --- FORM STATE ---
   const [formData, setFormData] = useState({ email: "", message: "" });
-  const [status, setStatus] = useState<
-    "IDLE" | "SENDING" | "SUCCESS" | "ERROR"
-  >("IDLE");
+  const [status, setStatus] = useState<"IDLE" | "SENDING" | "SUCCESS" | "ERROR">("IDLE");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +26,6 @@ export default function Footer() {
     setStatus("SENDING");
 
     try {
-      // Dynamic import — only load emailjs when user actually submits
       const emailjs = (await import("@emailjs/browser")).default;
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
@@ -57,174 +55,166 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-black text-white relative border-t border-zinc-200 dark:border-zinc-900 transition-all"
+      className="bg-black text-white relative border-t border-zinc-900 transition-all overflow-hidden flex flex-col justify-between min-h-screen pt-12"
       id="contact"
     >
-      {/* 1. TOP HEADER SECTION */}
-      <div className="border-b border-zinc-200 dark:border-zinc-900 transition-all">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-24">
-          <div className="max-w-4xl">
+      {/* 1. TOP HEADER & IMAGE SECTION */}
+      <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 pt-12 md:pt-20">
+        <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end gap-12">
+          
+          {/* Left: Heading */}
+          <div className="flex flex-col drop-shadow-[0_0_15px_rgba(255,255,255,0.05)] z-20 w-full lg:w-auto text-center lg:text-left">
             <ScrollReveal
               text="LET'S BUILD"
-              className="text-6xl md:text-9xl font-black tracking-tighter text-white leading-[0.85] mb-2 transition-all"
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter text-white leading-[0.85] transition-all justify-center lg:justify-start !flex-nowrap"
             />
             <ScrollReveal
               text="THE FUTURE."
-              className="text-6xl md:text-9xl font-black tracking-tighter text-zinc-800 leading-[0.85]"
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter text-zinc-800 leading-[0.85] justify-center lg:justify-start !flex-nowrap"
+            />
+          </div>
+
+          {/* Right: Free-floating Image */}
+          <div className="relative w-full max-w-[280px] md:max-w-[380px] lg:max-w-[480px] aspect-square z-10 lg:-mb-10 pointer-events-none mx-auto lg:mx-0">
+            {/* Very subtle glow behind image to detach it from the deep black */}
+            <div className="absolute inset-0 bg-lime-400/5 blur-[80px] rounded-full" />
+            <Image
+              src="/sahal.png"
+              alt="Sahal"
+              fill
+              className="object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+              priority
             />
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN GRID LAYOUT */}
-      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2">
-        {/* LEFT COLUMN: THE FORM */}
-        <div className="border-b lg:border-b-0 lg:border-r border-zinc-200 dark:border-zinc-900 p-6 md:p-12 lg:py-24 transition-all">
-          <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
-            <span className="w-2 h-2 bg-[var(--theme-lime-400)] rounded-full animate-pulse" />
-            Contact
-          </h3>
+      {/* 2. COMPACT CONTACT & INFO SECTION */}
+      <div className="relative z-20 w-full max-w-[1600px] mx-auto px-6 md:px-12 py-12 md:py-20 mt-10 lg:mt-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start border-t border-white/5 pt-16">
+          
+          {/* Form (Sleek & Compact) */}
+          <div className="w-full max-w-lg mx-auto lg:mx-0">
+            <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-white uppercase tracking-widest font-mono text-sm">
+              <span className="w-2 h-2 bg-[var(--theme-lime-400)] rounded-full animate-pulse shadow-[0_0_10px_var(--theme-lime-400)]" />
+              Direct Uplink
+            </h3>
 
-          <form onSubmit={handleSubmit} className="space-y-8 max-w-lg">
-            <div className="group">
-              <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 group-focus-within:text-[var(--theme-lime-400)] transition-colors">
-                Email
-              </label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                placeholder="email@address.com"
-                className="w-full bg-[var(--theme-zinc-900)]/30 border border-zinc-200 dark:border-[var(--theme-zinc-800)] dark:border-t-0 dark:border-l-0 dark:border-r-0 p-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all mb-4"
-              />
-            </div>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <div className="relative group">
+                <FiMail className="absolute left-0 top-1/2 -translate-y-1/2 text-zinc-600 text-xl group-focus-within:text-lime-400 transition-colors" />
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="hello@example.com"
+                  className="w-full bg-transparent border-b border-zinc-800 py-4 pl-10 pr-4 text-white placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all font-mono text-sm"
+                />
+              </div>
 
-            <div className="group">
-              <label className="block text-xs font-mono text-zinc-500 uppercase tracking-widest mb-2 group-focus-within:text-[var(--theme-lime-400)] transition-colors">
-                Message
-              </label>
-              <textarea
-                rows={3}
-                required
-                value={formData.message}
-                onChange={(e) =>
-                  setFormData({ ...formData, message: e.target.value })
-                }
-                placeholder="Your message..."
-                className="w-full bg-[var(--theme-zinc-900)]/30 border border-zinc-200 dark:border-[var(--theme-zinc-800)] dark:border-t-0 dark:border-l-0 dark:border-r-0 p-4 text-sm text-[var(--theme-white)] placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all mb-6 resize-none"
-              />
-            </div>
+              <div className="relative group">
+                <textarea
+                  rows={1}
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="Tell me about your vision..."
+                  className="w-full bg-transparent border-b border-zinc-800 py-4 pl-0 pr-4 text-white placeholder:text-zinc-700 focus:outline-none focus:border-[var(--theme-lime-400)] transition-all resize-none font-mono text-sm"
+                />
+              </div>
 
-            <button
-              disabled={status === "SENDING" || status === "SUCCESS"}
-              className={`w-full py-5 px-8 font-bold text-lg uppercase tracking-widest flex items-center justify-between group transition-all border border-zinc-200 dark:border-transparent rounded-xl ${
-                status === "SUCCESS"
-                  ? "bg-green-600 text-[var(--theme-white)]"
-                  : "bg-[var(--theme-white)] text-[var(--theme-black)] hover:bg-[var(--theme-lime-400)]"
-              }`}
-            >
-              <span className="flex items-center gap-3">
-                {status === "IDLE" && "Execute Send"}
-                {status === "SENDING" && "Uploading..."}
-                {status === "SUCCESS" && "Transmission Sent"}
-                {status === "ERROR" && "Error. Retry?"}
-              </span>
-              <span className="bg-black text-white p-2 rounded-full group-hover:rotate-45 transition-transform duration-300">
-                {status === "SENDING" ? (
-                  <FiLoader className="animate-spin" />
-                ) : status === "SUCCESS" ? (
-                  <FiCheck />
-                ) : (
-                  <FiArrowUpRight />
-                )}
-              </span>
-            </button>
-          </form>
-        </div>
-
-        {/* RIGHT COLUMN: LINKS & INFO */}
-        <div className="grid grid-rows-2">
-          {/* Top Half: Navigation */}
-          <div className="border-b border-zinc-200 dark:border-zinc-900 p-6 md:p-12 flex flex-col justify-center transition-all">
-            <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-8">
-              Directory
-            </span>
-            <div className="flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="group flex items-baseline gap-6 text-3xl md:text-5xl font-bold text-zinc-500 hover:text-[var(--theme-white)] transition-colors"
-                >
-                  <span className="text-sm font-mono text-[var(--theme-lime-400)]/50 group-hover:text-[var(--theme-lime-400)] transition-colors -translate-y-2">
-                    {link.label}
-                  </span>
-                  <span>{link.name}</span>
-                </Link>
-              ))}
-            </div>
+              <button
+                disabled={status === "SENDING" || status === "SUCCESS"}
+                className={`w-fit py-3 pr-6 font-bold text-sm uppercase tracking-widest flex items-center gap-4 transition-all group ${
+                  status === "SUCCESS"
+                    ? "text-green-400"
+                    : "text-zinc-400 hover:text-white"
+                }`}
+              >
+                <span className={`p-3 rounded-full border transition-all duration-300 ${status === 'SUCCESS' ? 'bg-green-400 border-green-400 text-black' : 'border-zinc-800 group-hover:border-[var(--theme-lime-400)] group-hover:bg-[var(--theme-lime-400)] group-hover:text-black'}`}>
+                  {status === "SENDING" ? (
+                    <FiLoader className="animate-spin" />
+                  ) : status === "SUCCESS" ? (
+                    <FiCheck />
+                  ) : (
+                    <FiArrowUpRight className="group-hover:rotate-45 transition-transform" />
+                  )}
+                </span>
+                <span>
+                  {status === "IDLE" && "Initiate Send"}
+                  {status === "SENDING" && "Transmitting..."}
+                  {status === "SUCCESS" && "Message Received"}
+                  {status === "ERROR" && "Error. Retry?"}
+                </span>
+              </button>
+            </form>
           </div>
 
-          {/* Bottom Half: Socials & Location */}
-          <div className="p-6 md:p-12 flex flex-col justify-between gap-12 bg-zinc-950 transition-all">
-            <div className="grid grid-cols-2 gap-8">
+          {/* Nav & Socials (Minimalist) */}
+          <div className="flex flex-col sm:flex-row justify-between gap-12 lg:gap-24 mx-auto lg:mx-0 w-full max-w-lg lg:max-w-none">
+            {/* Links */}
+            <div>
+               <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-6 block">Sitemap</span>
+               <div className="flex flex-col gap-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="text-lg font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-tight flex items-center gap-4 group"
+                    >
+                      <span className="text-xs font-mono text-zinc-700 group-hover:text-[var(--theme-lime-400)] transition-colors">{link.label}</span>
+                      {link.name}
+                    </Link>
+                  ))}
+               </div>
+            </div>
+
+            {/* Socials & Location */}
+            <div className="flex flex-col gap-10">
               <div>
-                <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-4 block">
-                  Social Uplink
-                </span>
-                <div className="flex gap-4">
+                <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-6 block">Socials</span>
+                <div className="flex gap-6">
                   {[
-                    {
-                      icon: FiGithub,
-                      href: process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#",
-                    },
-                    {
-                      icon: FiLinkedin,
-                      href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#",
-                    },
-                    {
-                      icon: FiInstagram,
-                      href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM || "#",
-                    },
+                    { icon: FiGithub, href: process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#" },
+                    { icon: FiLinkedin, href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#" },
+                    { icon: FiInstagram, href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM || "#" },
                   ].map((item, i) => (
                     <Link
                       key={i}
                       href={item.href}
                       target="_blank"
-                      className="w-12 h-12 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-[var(--theme-black)] hover:bg-[var(--theme-lime-400)] hover:border-[var(--theme-lime-400)] transition-all rounded-lg"
+                      className="text-zinc-500 hover:text-[var(--theme-lime-400)] transition-colors"
                     >
-                      <item.icon size={20} />
+                      <item.icon size={24} />
                     </Link>
                   ))}
                 </div>
               </div>
-
+              
               <div>
-                <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-4 block">
-                  Base of Operations
-                </span>
-                <div className="flex items-center gap-3 text-zinc-300">
-                  <div className="p-2 bg-[var(--theme-zinc-900)] rounded-full text-[var(--theme-lime-400)] border border-zinc-200 dark:border-0">
-                    <FiMapPin />
-                  </div>
-                  <div>
-                    <p className="font-bold">Malappuram</p>
-                    <p className="text-sm text-zinc-500">Kerala, India</p>
-                  </div>
+                <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-4 block">Base</span>
+                <div className="text-zinc-400 font-mono text-sm">
+                  <p className="text-white mb-1">Malappuram</p>
+                  <p>Kerala, India</p>
                 </div>
               </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-8 border-t border-zinc-200 dark:border-zinc-900/50 text-xs font-mono text-zinc-600 uppercase transition-all">
-              <p>© 2025 Sahal. Web Developer.</p>
-              <p>All rights reserved.</p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* 3. INTERACTIVE TEXT PARTICLES */}
+      <div className="relative w-full h-[250px] overflow-hidden pointer-events-auto mt-auto border-t border-white/5">
+        <ParticleText text="MUHAMMED SAHAL" />
+      </div>
+      
+      {/* Copyright Bar */}
+      <div className="w-full border-t border-white/5 py-6 px-6 md:px-12 flex justify-between items-center text-xs font-mono text-zinc-600 uppercase z-20 relative bg-black">
+         <p>© {new Date().getFullYear()} Sahal.</p>
+         <p>All rights reserved.</p>
+      </div>
+
     </footer>
   );
 }
