@@ -104,6 +104,7 @@ export default function LiquidNavbar() {
   }, []);
 
   const mainLinks = [
+    { name: "Home", href: "/#home" },
     { name: "About", href: "/#about" },
     { name: "Work", href: "/#projects" },
     { name: "Profile", href: "/profile" },
