@@ -70,7 +70,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
     <section className="group mb-12 flex w-full flex-col gap-8 rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-6 backdrop-blur-sm transition-colors duration-500 hover:border-[var(--theme-lime-400)] dark:border-white/20 dark:bg-black/20 dark:hover:border-[var(--theme-lime-400)] md:gap-12 md:p-10 lg:flex-row">
       <div className="flex w-full flex-col justify-center lg:w-1/2">
         <span className="mb-2 font-serif text-xl italic text-[var(--theme-lime-400)]">
-          0{index + 1}. Outline Series
+          0{index + 1}. Featured Project
         </span>
         <h2 className="mb-6 text-4xl font-semibold text-zinc-900 dark:text-white md:text-5xl">
           {project.title}
