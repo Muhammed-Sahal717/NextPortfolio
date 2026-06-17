@@ -156,7 +156,7 @@ export default function LiquidNavbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-7 z-50">
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
               <Link
                 href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
                 target="_blank"

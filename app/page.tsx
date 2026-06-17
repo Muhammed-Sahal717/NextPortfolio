@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import ProjectGrid from "@/components/ProjectGrid";
 import BentoGrid from "@/components/BentoGrid"; // <--- Import this
 import Footer from "@/components/Footer"; // <--- Import this
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const revalidate = 3600; // Cache for 1 hour instead of every request
 
@@ -25,22 +26,16 @@ export default async function Home() {
           <div className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end lg:gap-16">
             {/* Left Side: Label & Heading */}
             <div className="flex flex-col gap-6 bg-zinc-50 dark:bg-black/40 backdrop-blur-sm px-6 py-6 md:px-8 md:py-8 lg:bg-transparent lg:dark:bg-transparent lg:backdrop-blur-none lg:p-0 rounded-[2rem]">
-              <div className="flex items-center gap-4 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">
-                <span className="h-[2px] w-10 bg-[var(--theme-lime-400)]" />
-                Featured Deployments
+              <div className="relative z-10 drop-shadow-[0_2px_6px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
+                <ScrollReveal
+                  text="SELECTED"
+                  className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter !text-black dark:!text-white leading-[0.85] mb-2 transition-all"
+                />
+                <ScrollReveal
+                  text="WORKS."
+                  className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-zinc-800 leading-[0.85]"
+                />
               </div>
-
-              <h2
-                className="relative z-10 text-6xl font-black leading-[1] tracking-[-0.02em] !text-black dark:!text-white 
-drop-shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
-dark:drop-shadow-[0_3px_10px_rgba(0,0,0,0.5)] 
-md:text-7xl lg:text-8xl"
-              >
-                Selected
-                <span className="block bg-gradient-to-r from-zinc-500 to-zinc-300 bg-clip-text font-light italic text-transparent dark:from-zinc-400 dark:to-zinc-600 drop-shadow-none">
-                  Works
-                </span>
-              </h2>
             </div>
 
             {/* Right Side: Description */}

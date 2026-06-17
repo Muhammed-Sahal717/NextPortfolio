@@ -9,6 +9,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import LiquidNavbar from "@/components/LiquidNavbar";
 import { useTheme } from "next-themes";
+import ScrollReveal from "@/components/ScrollReveal";
 
 // Heavy WebGL component — only load when needed
 const LiquidEther = dynamic(() => import("@/components/LiquidEther"), {
@@ -97,24 +98,16 @@ export default function HeroSection() {
           </motion.div>
 
           {/* Main Heading */}
-          <motion.h1
-            variants={{
-              hidden: { opacity: 0, y: 30, z: 0 },
-              visible: {
-                opacity: 1,
-                y: 0,
-                z: 0,
-                transition: { type: "spring", stiffness: 100, damping: 15 },
-              },
-            }}
-            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tight leading-[1.1]"
-            style={{ fontFamily: "var(--font-outfit)" }}
-          >
-            Crafting the <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-green-400 drop-shadow-[0_0_35px_var(--theme-lime-500)]">
-              Next-Gen Web.
-            </span>
-          </motion.h1>
+          <div className="relative z-10 drop-shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
+            <ScrollReveal
+              text="FULL STACK"
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] font-black tracking-tighter text-white leading-[0.85] mb-2 transition-all"
+            />
+            <ScrollReveal
+              text="DEVELOPER."
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] font-black tracking-tighter text-zinc-800 leading-[0.85]"
+            />
+          </div>
 
           {/* Subheading */}
           <motion.p
