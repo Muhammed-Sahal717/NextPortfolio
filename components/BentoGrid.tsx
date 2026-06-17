@@ -52,11 +52,11 @@ export default function BentoGrid() {
         <div className="drop-shadow-[0_2px_6px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
           <ScrollReveal
             text="FULL STACK"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white leading-[0.85] mb-2 transition-all"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white leading-[0.85] mb-2 transition-all"
           />
           <ScrollReveal
             text="DEVELOPER."
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-zinc-800 leading-[0.85]"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-zinc-800 leading-[0.85]"
           />
         </div>
         <div className="max-w-md text-zinc-400 text-lg leading-relaxed">

@@ -84,16 +84,16 @@ export default function Footer() {
           <div className="flex flex-col drop-shadow-[0_0_15px_rgba(255,255,255,0.05)] z-20 w-full lg:w-auto text-center lg:text-left">
             <ScrollReveal
               text="LET'S BUILD"
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter text-white leading-[0.85] transition-all justify-center lg:justify-start !flex-nowrap"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter text-white leading-[0.85] transition-all justify-center lg:justify-start !flex-nowrap"
             />
             <ScrollReveal
               text="THE FUTURE."
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter text-zinc-800 leading-[0.85] justify-center lg:justify-start !flex-nowrap"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-black tracking-tighter text-zinc-800 leading-[0.85] justify-center lg:justify-start !flex-nowrap"
             />
           </div>
 
           {/* Right: Free-floating Image */}
-          <div className="relative w-full max-w-[280px] md:max-w-[380px] lg:max-w-[480px] aspect-square z-10 lg:-mb-10 pointer-events-none mx-auto lg:mx-0">
+          <div className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[380px] lg:max-w-[480px] aspect-square z-10 lg:-mb-10 pointer-events-none mx-auto lg:mx-0">
             {/* Very subtle glow behind image to detach it from the deep black */}
             <div className="absolute inset-0 bg-lime-400/5 blur-[80px] rounded-full" />
             <Image
