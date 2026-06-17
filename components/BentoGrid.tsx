@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import {
   FiMapPin,
   FiZap,
@@ -24,6 +25,29 @@ import {
 } from "react-icons/si";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+
+function AnimatedCounter({ from = 0, to, suffix = "" }: { from?: number; to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const count = useMotionValue(from);
+  const rounded = useSpring(count, { stiffness: 50, damping: 20 });
+
+  useEffect(() => {
+    if (inView) {
+      count.set(to);
+    }
+  }, [inView, count, to]);
+
+  useEffect(() => {
+    return rounded.on("change", (latest) => {
+      if (ref.current) {
+        ref.current.textContent = `${Math.round(latest)}${suffix}`;
+      }
+    });
+  }, [rounded, suffix]);
+
+  return <span ref={ref}>{from}{suffix}</span>;
+}
 
 export default function BentoGrid() {
   // FIX: Added explicit 'name' key.
@@ -94,14 +118,16 @@ export default function BentoGrid() {
           </motion.div>
 
           {/* Stats Row */}
-          <div className="grid grid-cols-2 gap-6 lg:h-[140px]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:h-[140px]">
             {/* Experience */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
+              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 xl:p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
             >
-              <span className="block text-5xl font-black text-lime-400">2+</span>
-              <span className="text-zinc-500 text-xs sm:text-sm font-bold uppercase tracking-wider text-center">
+              <span className="block text-4xl xl:text-5xl font-black text-lime-400">
+                <AnimatedCounter to={2} suffix="+" />
+              </span>
+              <span className="text-zinc-500 text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center">
                 Years Experience
               </span>
             </motion.div>
@@ -109,11 +135,26 @@ export default function BentoGrid() {
             {/* Projects */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
+              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 xl:p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
             >
-              <span className="block text-5xl font-black text-lime-400">15+</span>
-              <span className="text-zinc-500 text-xs sm:text-sm font-bold uppercase tracking-wider text-center">
+              <span className="block text-4xl xl:text-5xl font-black text-lime-400">
+                <AnimatedCounter to={15} suffix="+" />
+              </span>
+              <span className="text-zinc-500 text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center">
                 Projects Completed
+              </span>
+            </motion.div>
+
+            {/* Hours */}
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 xl:p-8 rounded-3xl flex flex-col items-center justify-center gap-2 transition-all"
+            >
+              <span className="block text-4xl xl:text-5xl font-black text-lime-400">
+                <AnimatedCounter to={1000} suffix="+" />
+              </span>
+              <span className="text-zinc-500 text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center">
+                Hours of Coding
               </span>
             </motion.div>
           </div>
