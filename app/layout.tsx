@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://port-sahal-folio.vercel.app"),
+  metadataBase: new URL("https://sahal-web.vercel.app"),
 
   title: {
     default: "Sahal | Full-Stack Developer",
@@ -107,7 +107,7 @@ export default function RootLayout({
 }>) {
   return (
     // Added 'scroll-smooth' for better navigation feel
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${outfit.variable} antialiased bg-black text-white selection:bg-[var(--theme-lime-400)] selection:text-[var(--theme-black)]`}
       >
