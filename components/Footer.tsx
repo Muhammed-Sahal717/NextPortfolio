@@ -10,14 +10,17 @@ import {
   FiCheck,
   FiLoader,
   FiMail,
+  FiX,
 } from "react-icons/fi";
 import { useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 import ParticleText from "@/components/ParticleText";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Footer() {
   const [formData, setFormData] = useState({ email: "", message: "" });
   const [status, setStatus] = useState<"IDLE" | "SENDING" | "SUCCESS" | "ERROR">("IDLE");
+  const [toast, setToast] = useState<{ email: string; message: string; visible: boolean } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,10 +41,25 @@ export default function Footer() {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
       );
       setStatus("SUCCESS");
+      
+      // Show toast
+      setToast({ email: formData.email, message: formData.message, visible: true });
       setFormData({ email: "", message: "" });
-      setTimeout(() => setStatus("IDLE"), 3000);
-    } catch (error) {
-      console.error(error);
+      
+      setTimeout(() => {
+        setStatus("IDLE");
+        setToast((prev) => (prev ? { ...prev, visible: false } : null));
+      }, 3000);
+    } catch (error: any) {
+      console.error("EmailJS Full Error:", error);
+      console.error("EmailJS Error Text:", error?.text || "No text");
+      console.error("EmailJS Status:", error?.status || "No status");
+      
+      // If the error object is empty, stringify it
+      if (typeof error === "object" && Object.keys(error).length === 0) {
+        console.error("EmailJS Empty Error Object Stringified:", JSON.stringify(error));
+      }
+
       setStatus("ERROR");
       setTimeout(() => setStatus("IDLE"), 3000);
     }
@@ -215,6 +233,32 @@ export default function Footer() {
          <p>All rights reserved.</p>
       </div>
 
+      {/* Success Toast Popup */}
+      <AnimatePresence>
+        {toast?.visible && (
+          <motion.div
+            initial={{ opacity: 0, x: -100, y: 50 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: -100, scale: 0.9 }}
+            className="fixed bottom-8 left-8 z-[100] bg-[var(--theme-lime-400)] text-black p-5 rounded-xl shadow-[0_20px_50px_rgba(163,230,53,0.2)] max-w-[320px] w-full border border-black/10 flex flex-col gap-2 pointer-events-auto"
+          >
+            <button 
+              onClick={() => setToast({ ...toast, visible: false })}
+              className="absolute top-4 right-4 text-black/40 hover:text-black transition-colors"
+            >
+              <FiX size={18} />
+            </button>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-black animate-pulse shadow-[0_0_5px_black]" />
+              <p className="font-bold text-sm uppercase tracking-wider">Message Sent</p>
+            </div>
+            <div className="bg-black/5 rounded-lg p-3">
+              <p className="text-xs font-mono font-medium truncate mb-1 opacity-80 border-b border-black/10 pb-1">{toast.email}</p>
+              <p className="text-sm font-medium line-clamp-2 leading-relaxed">{toast.message}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }

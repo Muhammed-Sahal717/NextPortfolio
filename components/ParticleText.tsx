@@ -4,9 +4,31 @@ import { useEffect, useRef } from "react";
 
 interface ParticleTextProps {
   text: string;
+  className?: string;
+  height?: number;
+  radius?: number;
 }
 
-export default function ParticleText({ text }: ParticleTextProps) {
+type Particle = {
+  x: number;
+  y: number;
+  baseX: number;
+  baseY: number;
+  size: number;
+  density: number;
+  color: string;
+  vx: number;
+  vy: number;
+  update: () => void;
+  draw: () => void;
+};
+
+export default function ParticleText({
+  text,
+  className = "",
+  height = 240,
+  radius = 30,
+}: ParticleTextProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -16,180 +38,247 @@ export default function ParticleText({ text }: ParticleTextProps) {
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
-    // Handle high DPI displays for crisp rendering
-    const dpr = window.devicePixelRatio || 1;
-    
-    let width = canvas.parentElement?.clientWidth || window.innerWidth;
-    let height = 250; // medium height
-    
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    ctx.scale(dpr, dpr);
+    const container = canvas.parentElement;
+    if (!container) return;
 
-    let particlesArray: Particle[] = [];
-    let mouse = {
-      x: -1000,
-      y: -1000,
-      radius: 100 // interaction radius
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    let width = container.clientWidth;
+    let h = height;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    let particles: Particle[] = [];
+    let animationFrameId = 0;
+    let resizeObserver: ResizeObserver | null = null;
+
+    const pointer = {
+      x: -9999,
+      y: -9999,
+      active: false,
+      radius,
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-    
-    const handleMouseLeave = () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
+    const setCanvasSize = () => {
+      width = container.clientWidth;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${h}px`;
+
+      // Reset transform cleanly before scaling again
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.imageSmoothingEnabled = true;
     };
 
-    // We attach it to window so it reacts even if moving fast outside canvas bounds
-    window.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
-
-    class Particle {
+    class ParticleClass {
       x: number;
       y: number;
-      size: number;
       baseX: number;
       baseY: number;
+      size: number;
       density: number;
       color: string;
+      vx: number;
+      vy: number;
 
       constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.size = 2.5; // size of the particle
-        this.baseX = this.x;
-        this.baseY = this.y;
-        this.density = (Math.random() * 30) + 5;
-        // Make some particles primary theme color and most white/gray
-        this.color = Math.random() > 0.9 ? "var(--theme-lime-400)" : "rgba(255, 255, 255, 0.7)";
+        this.baseX = x;
+        this.baseY = y;
+        this.size = Math.random() * 1.4 + 1.1;
+        this.density = Math.random() * 20 + 8;
+        this.vx = 0;
+        this.vy = 0;
+
+        const palette = [
+          "rgba(255,255,255,0.82)",
+          "rgba(255,255,255,0.65)",
+          "rgba(168,255,79,0.92)",
+          "rgba(168,255,79,0.72)",
+        ];
+        this.color = palette[Math.floor(Math.random() * palette.length)];
       }
 
       draw() {
         if (!ctx) return;
-        ctx.fillStyle = this.color;
         ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 10;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.closePath();
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
       update() {
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        
-        let forceDirectionX = dx / distance;
-        let forceDirectionY = dy / distance;
-        
-        let maxDistance = mouse.radius;
-        let force = (maxDistance - distance) / maxDistance;
-        
-        let directionX = forceDirectionX * force * this.density;
-        let directionY = forceDirectionY * force * this.density;
+        if (pointer.active) {
+          const dx = pointer.x - this.x;
+          const dy = pointer.y - this.y;
+          const distance = Math.max(Math.sqrt(dx * dx + dy * dy), 0.001);
 
-        if (distance < mouse.radius) {
-          this.x -= directionX;
-          this.y -= directionY;
-        } else {
-          if (this.x !== this.baseX) {
-            let dx = this.x - this.baseX;
-            this.x -= dx / 10;
-          }
-          if (this.y !== this.baseY) {
-            let dy = this.y - this.baseY;
-            this.y -= dy / 10;
+          if (distance < pointer.radius) {
+            const force = (pointer.radius - distance) / pointer.radius;
+            // Add randomness so they scatter freely instead of forming a perfect circle shape
+            const randomAngle = Math.random() * Math.PI * 2;
+            const scatterForceX = Math.cos(randomAngle);
+            const scatterForceY = Math.sin(randomAngle);
+
+            // Blend radial repulsion with random scattering
+            const repulsionX = (dx / distance) * 0.3 + scatterForceX * 0.7;
+            const repulsionY = (dy / distance) * 0.3 + scatterForceY * 0.7;
+
+            const repulsionStrength = force * this.density * 1.5;
+            this.vx -= repulsionX * repulsionStrength;
+            this.vy -= repulsionY * repulsionStrength;
           }
         }
+
+        const ease = 0.075;
+
+        this.vx += (this.baseX - this.x) * ease;
+        this.vy += (this.baseY - this.y) * ease;
+
+        this.vx *= 0.82;
+        this.vy *= 0.82;
+
+        this.x += this.vx;
+        this.y += this.vy;
       }
     }
 
-    function initParticles() {
+    const buildParticles = () => {
       const tmpCanvas = document.createElement("canvas");
       const tmpCtx = tmpCanvas.getContext("2d", { willReadFrequently: true });
       if (!tmpCtx) return;
-      
+
       tmpCanvas.width = width;
-      tmpCanvas.height = height;
-      
-      tmpCtx.fillStyle = "white";
-      
-      // Auto scale font size based on screen width
-      let fontSize = width < 768 ? Math.floor(width / 8) : Math.floor(width / 12);
-      if (fontSize > 160) fontSize = 160; // Max size
-      
-      tmpCtx.font = `900 ${fontSize}px "Space Grotesk", "Outfit", sans-serif`;
+      tmpCanvas.height = h;
+
+      tmpCtx.clearRect(0, 0, width, h);
+      tmpCtx.fillStyle = "#ffffff";
       tmpCtx.textAlign = "center";
       tmpCtx.textBaseline = "middle";
-      
-      // Draw text exactly in the center
-      tmpCtx.fillText(text, width / 2, height / 2);
-      
-      const textData = tmpCtx.getImageData(0, 0, width, height);
-      
-      particlesArray = [];
-      // Sample every Nth pixel to create the halftone particle effect
-      const step = 6; 
-      
-      for (let y = 0; y < textData.height; y += step) {
-        for (let x = 0; x < textData.width; x += step) {
-           const alpha = textData.data[(y * 4 * textData.width) + (x * 4) + 3];
-           if (alpha > 128) {
-              // Add a tiny bit of random jitter to x/y to make it look organic
-              const jitterX = x + (Math.random() - 0.5);
-              const jitterY = y + (Math.random() - 0.5);
-              particlesArray.push(new Particle(jitterX, jitterY));
-           }
+
+      const fontSize = Math.max(
+        44,
+        Math.min(width < 640 ? width / 5.4 : width / 8.5, 170),
+      );
+
+      tmpCtx.font = `900 ${fontSize}px "Space Grotesk", "Inter", "Outfit", system-ui, sans-serif`;
+
+      // Slight vertical lift makes it feel more centered and premium
+      tmpCtx.fillText(text, width / 2, h / 2 - 4);
+      // Add stroke to make the letters bolder, fixing the thin line inconsistency
+      tmpCtx.lineWidth = 3;
+      tmpCtx.strokeStyle = "#ffffff";
+      tmpCtx.strokeText(text, width / 2, h / 2 - 4);
+
+      const imageData = tmpCtx.getImageData(0, 0, width, h);
+      const data = imageData.data;
+
+      particles = [];
+      const step = Math.max(4, Math.floor(width / 220)); // adaptive density
+
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < width; x += step) {
+          const alpha = data[(y * width + x) * 4 + 3];
+          if (alpha > 128) {
+            const jitterX = x + (Math.random() - 0.5) * 1.2;
+            const jitterY = y + (Math.random() - 0.5) * 1.2;
+            particles.push(new ParticleClass(jitterX, jitterY));
+          }
         }
       }
-    }
+    };
 
-    initParticles();
+    const render = () => {
+      ctx.clearRect(0, 0, width, h);
 
-    let animationFrameId: number;
-    function animate() {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, width * dpr, height * dpr);
-      
-      for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].draw();
-        particlesArray[i].update();
+      // Soft ambient glow behind the text particles
+      const gradient = ctx.createRadialGradient(
+        width / 2,
+        h / 2,
+        20,
+        width / 2,
+        h / 2,
+        Math.max(width, h) * 0.55,
+      );
+      gradient.addColorStop(0, "rgba(168, 255, 79, 0.05)");
+      gradient.addColorStop(0.4, "rgba(168, 255, 79, 0.025)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, h);
+
+      for (const p of particles) {
+        p.update();
+        p.draw();
       }
-      
-      animationFrameId = requestAnimationFrame(animate);
-    }
 
-    animate();
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+      pointer.active = true;
+    };
+
+    const handlePointerLeave = () => {
+      pointer.active = false;
+      pointer.x = -9999;
+      pointer.y = -9999;
+    };
 
     const handleResize = () => {
-      width = canvas.parentElement?.clientWidth || window.innerWidth;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.scale(dpr, dpr);
-      initParticles();
+      setCanvasSize();
+      buildParticles();
     };
+
+    setCanvasSize();
+    buildParticles();
+
+    if (!prefersReducedMotion) {
+      animationFrameId = requestAnimationFrame(render);
+    } else {
+      // Still draw once for reduced motion users
+      ctx.clearRect(0, 0, width, h);
+      for (const p of particles) {
+        p.draw();
+      }
+    }
+
+    canvas.addEventListener("pointermove", handlePointerMove);
+    canvas.addEventListener("pointerleave", handlePointerLeave);
+
+    resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
 
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
+      canvas.removeEventListener("pointermove", handlePointerMove);
+      canvas.removeEventListener("pointerleave", handlePointerLeave);
+      window.removeEventListener("resize", handleResize);
+      resizeObserver?.disconnect();
     };
-  }, [text]);
+  }, [text, height, radius]);
 
   return (
-    <canvas 
-      ref={canvasRef} 
-      className="block w-full cursor-crosshair mix-blend-screen"
-    />
+    <div className={`w-full ${className}`}>
+      <canvas
+        ref={canvasRef}
+        className="block w-full select-none cursor-none"
+        aria-label={text}
+        role="img"
+      />
+    </div>
   );
 }
