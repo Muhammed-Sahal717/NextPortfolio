@@ -12,7 +12,7 @@ import {
   FiMail,
   FiX,
 } from "react-icons/fi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 import ParticleText from "@/components/ParticleText";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,6 +21,14 @@ export default function Footer() {
   const [formData, setFormData] = useState({ email: "", message: "" });
   const [status, setStatus] = useState<"IDLE" | "SENDING" | "SUCCESS" | "ERROR">("IDLE");
   const [toast, setToast] = useState<{ email: string; message: string; visible: boolean } | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Initialize on mount
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -224,7 +232,7 @@ export default function Footer() {
 
       {/* 3. INTERACTIVE TEXT PARTICLES */}
       <div className="relative w-full h-[250px] overflow-hidden pointer-events-auto mt-auto border-t border-white/5">
-        <ParticleText text="MUHAMMED SAHAL" />
+        <ParticleText text={isMobile ? "SAHAL" : "MUHAMMED SAHAL"} />
       </div>
       
       {/* Copyright Bar */}
