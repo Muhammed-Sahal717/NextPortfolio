@@ -108,7 +108,7 @@ export default function Footer() {
       </div>
 
       {/* 2. COMPACT CONTACT & INFO SECTION */}
-      <div className="relative z-20 w-full max-w-[1600px] mx-auto px-6 md:px-12 py-12 md:py-20 mt-10 lg:mt-0">
+      <div className="relative z-20 w-full max-w-[1600px] mx-auto px-6 md:px-12 py-12 md:py-20 mt-10 lg:mt-0" id="email-form">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start border-t border-white/5 pt-16">
           
           {/* Form (Sleek & Compact) */}
