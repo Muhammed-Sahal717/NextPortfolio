@@ -32,27 +32,56 @@ export default function LiquidNavbar() {
 
   return (
     <nav
-      className={`fixed left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-[800px] transition-all duration-700 ease-out ${
-        isScrolled ? "top-2 sm:top-4" : "top-6 sm:top-8"
+      className={`fixed top-0 left-0 w-full z-[1000] transition-colors duration-500 ${
+        isScrolled || isOpen
+          ? "bg-[#050606]/90 border-b border-white/5 shadow-2xl backdrop-blur-md"
+          : "bg-transparent border-b border-transparent shadow-none"
       }`}
     >
-      <motion.div
-        layout
-        animate={{
-          borderRadius: isOpen ? 24 : 50,
-        }}
-        transition={{ type: "spring", bounce: 0, duration: 0.5 }}
-        className={`relative text-white overflow-hidden transition-all duration-500 ${
-          isScrolled || isOpen
-            ? "bg-[#050606] border border-white/5 shadow-2xl backdrop-blur-md"
-            : "bg-transparent border border-transparent shadow-none"
-        }`}
-      >
-        {/* --- HEADER ROW (ALWAYS VISIBLE) --- */}
-        <div className="flex items-center justify-between p-2 pl-6 sm:pl-8 relative z-20">
+      <div className="w-full max-w-[100rem] mx-auto px-6 lg:px-16">
+        <motion.div
+          layout
+          className="relative text-white transition-all duration-500"
+        >
+          {/* --- HEADER ROW (ALWAYS VISIBLE) --- */}
+          <div className="flex items-center justify-between py-4 sm:py-5 relative z-20">
           {/* Left: Logo */}
-          <Link href="/" className="font-bold tracking-widest text-sm shrink-0">
-            SAHAL.
+          <Link
+            href="/"
+            className="shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-lime-400 overflow-hidden hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(163,230,53,0.4)] group"
+          >
+            <motion.svg
+              viewBox="0 0 100 100"
+              className="w-full h-full text-black p-1.5"
+            >
+              <motion.g
+                animate={{ y: [0, -3, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              >
+                {/* Left Eye */}
+                <motion.ellipse 
+                  cx="30" cy="35" rx="6" ry="9" fill="currentColor"
+                  animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
+                  transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1] }}
+                  style={{ transformOrigin: "30px 35px" }}
+                />
+                {/* Right Eye */}
+                <motion.ellipse 
+                  cx="70" cy="35" rx="6" ry="9" fill="currentColor" 
+                  animate={{ scaleY: [1, 0.1, 1, 1, 1] }}
+                  transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1, 0.5, 1] }}
+                  style={{ transformOrigin: "70px 35px" }}
+                />
+                {/* Smile */}
+                <path 
+                  d="M 28 65 Q 50 88 72 65" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="8" 
+                  strokeLinecap="round" 
+                />
+              </motion.g>
+            </motion.svg>
           </Link>
 
           {/* Center: Desktop Links */}
@@ -179,6 +208,7 @@ export default function LiquidNavbar() {
           )}
         </AnimatePresence>
       </motion.div>
+      </div>
     </nav>
   );
 }

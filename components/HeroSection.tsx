@@ -60,7 +60,8 @@ export default function HeroSection() {
       </div>
 
       {/* HERO CONTENT */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-6 pointer-events-none">
+      <div className="relative z-10 h-full max-w-[100rem] mx-auto flex flex-col lg:flex-row justify-center lg:justify-between items-center px-6 lg:px-16 pointer-events-none gap-8 pt-24 lg:pt-0 pb-16 lg:pb-0">
+        {/* LEFT COLUMN: Text & Actions */}
         <motion.div
           initial="hidden"
           animate="visible"
@@ -74,7 +75,7 @@ export default function HeroSection() {
               },
             },
           }}
-          className="max-w-4xl space-y-8 pointer-events-auto"
+          className="w-full lg:w-[55%] flex flex-col items-center lg:items-start text-center lg:text-left pointer-events-auto z-20"
         >
           {/* Status Badge - Premium "Cyber-Chip" Design */}
           <motion.div
@@ -87,7 +88,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 group"
+            className="relative inline-flex overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mb-6 lg:mb-8 group"
           >
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,var(--theme-zinc-900)_0%,var(--theme-lime-400)_50%,var(--theme-zinc-900)_100%)]" />
             <span className="inline-flex h-full w-full cursor-none items-center justify-center rounded-full bg-[var(--theme-black)]/90 px-4 py-2 text-sm font-medium text-[var(--theme-white)] backdrop-blur-3xl border border-[var(--theme-white)]/10 group-hover:bg-[var(--theme-black)]/80 transition-all duration-300">
@@ -108,7 +109,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tight leading-[1.1]"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[4.5rem] font-extrabold tracking-tight leading-[1.1] mb-6 lg:mb-8"
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             Crafting the <br />
@@ -128,7 +129,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            className="text-2xl md:text-3xl text-zinc-300 font-strong max-w-3xl mx-auto mix-blend-screen leading-relaxed tracking-wide"
+            className="text-xl md:text-2xl text-zinc-300 font-medium max-w-xl mix-blend-screen leading-relaxed tracking-wide mb-10 lg:mb-12"
             style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
             I am Sahal. A Web Developer crafting web solutions and integrating
@@ -146,7 +147,7 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 100, damping: 15 },
               },
             }}
-            className="flex flex-wrap justify-center gap-4 pt-6"
+            className="flex flex-wrap justify-center lg:justify-start gap-4"
           >
             <Link href="#projects">
               <Button
@@ -198,51 +199,194 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* 4. INFINITE TECH MARQUEE (Responsive & Functional) */}
+        {/* RIGHT COLUMN: Hero Image */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-8 w-full overflow-hidden z-20 pointer-events-auto"
+          initial={{ opacity: 0, scale: 0.9, x: 30 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{
+            duration: 1,
+            delay: 0.6,
+            type: "spring",
+            stiffness: 50,
+          }}
+          className="w-full lg:w-1/2 flex justify-center lg:justify-end items-center relative pointer-events-auto h-[40vh] md:h-[50vh] lg:h-[70vh] mt-4 lg:mt-0"
         >
-          {/* We duplicate the content to create a seamless loop */}
-          <div className="flex w-max">
+          {/* Wrapper to position the annotation relative to the circle */}
+          <div className="relative">
+            {/* "That's me!" Annotation */}
             <motion.div
-              className="flex gap-8 md:gap-16 whitespace-nowrap px-4"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                repeat: Infinity,
-                ease: "linear",
-                duration: 25,
-              }}
+              initial={{ opacity: 0, scale: 0.5, rotate: 10 }}
+              animate={{ opacity: 1, scale: 1, rotate: -5 }}
+              transition={{ delay: 1.2, duration: 0.8, type: "spring" }}
+              className="absolute top-16 right-0 md:top-24 md:-right-2 lg:top-36 lg:-right-6 z-30 pointer-events-none"
             >
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex items-center gap-8 md:gap-16">
-                  {[
-                    "Next.js 15",
-                    "Supabase",
-                    "Gemini AI",
-                    "WebGL",
-                    "TypeScript",
-                    "Tailwind",
-                  ].map((tech) => (
-                    <div
-                      key={tech}
-                      className="flex items-center gap-8 md:gap-16 group cursor-none"
-                    >
-                      <span className="text-white/40 font-mono text-xs md:text-sm uppercase tracking-[0.2em] group-hover:text-[var(--theme-lime-400)] transition-colors duration-300">
-                        {tech}
-                      </span>
-                      <span className="text-white/10 text-[10px]">•</span>
-                    </div>
+              <div className="flex flex-col items-center">
+                <motion.span
+                  animate={{
+                    rotate: [-12, -20, -8, -12, -12],
+                    scale: [1, 1.1, 0.95, 1, 1],
+                    y: [0, -4, 2, 0, 0],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    times: [0, 0.2, 0.4, 0.6, 1],
+                    ease: "easeInOut",
+                  }}
+                  className="inline-block text-lime-400/80 text-base md:text-lg lg:text-xl drop-shadow-md tracking-wide origin-center"
+                  style={{ fontFamily: "'Caveat', cursive, sans-serif" }}
+                >
+                  That's me!
+                </motion.span>
+                <svg
+                  className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-lime-400/80 -ml-4 mt-1 drop-shadow-md overflow-visible"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <motion.path
+                    d="M 80 20 C 60 40, 60 70, 50 70 C 30 70, 30 40, 50 40 C 70 40, 40 70, 10 60 M 10 60 L 25 50 M 10 60 L 20 75"
+                    initial={{ pathLength: 0, opacity: 1 }}
+                    animate={{
+                      pathLength: [0, 1, 1, 1],
+                      opacity: [1, 1, 0, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      times: [0, 0.6, 0.8, 1],
+                      ease: "easeInOut",
+                    }}
+                  />
+                  {[0, 1, 2, 3, 4, 5].map((i) => (
+                    <motion.circle
+                      key={i}
+                      r="2"
+                      fill="currentColor"
+                      stroke="none"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{
+                        scale: [0, 0, 1, 0],
+                        opacity: [0, 0, 1, 0],
+                        cx: [
+                          10,
+                          10,
+                          10 + Math.cos(i * (Math.PI / 3)) * 12,
+                          10 + Math.cos(i * (Math.PI / 3)) * 16,
+                        ],
+                        cy: [
+                          60,
+                          60,
+                          60 + Math.sin(i * (Math.PI / 3)) * 12,
+                          60 + Math.sin(i * (Math.PI / 3)) * 16,
+                        ],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        times: [0, 0.6, 0.7, 1],
+                        ease: "easeOut",
+                      }}
+                    />
                   ))}
-                </div>
-              ))}
+                </svg>
+              </div>
             </motion.div>
+
+            {/* Double Line Circle Container */}
+            <div className="relative flex justify-center items-center group">
+              {/* Outer Ring */}
+              <div
+                className="absolute inset-[-8px] md:inset-[-12px] rounded-full pointer-events-none z-0"
+                style={{
+                  padding: "1px",
+                  background:
+                    "linear-gradient(to top right, transparent, rgba(163,230,53,0.05), rgba(163,230,53,0.3))",
+                  WebkitMask:
+                    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+
+              {/* Inner Ring (Main Container) */}
+              <div className="relative flex justify-center items-end w-[280px] h-[280px] md:w-[360px] md:h-[360px] lg:w-[440px] lg:h-[440px] xl:w-[520px] xl:h-[520px] rounded-full shadow-[0_0_60px_rgba(163,230,53,0.1)] transition-all duration-700 z-10 overflow-hidden bg-transparent">
+                {/* Inner Ring Gradient Border */}
+                <div
+                  className="absolute inset-0 rounded-full pointer-events-none z-20"
+                  style={{
+                    padding: "1px",
+                    background:
+                      "linear-gradient(to bottom left, transparent, rgba(163,230,53,0.05), rgba(163,230,53,0.3))",
+                    WebkitMask:
+                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "xor",
+                    maskComposite: "exclude",
+                  }}
+                />
+
+                {/* Tint overlay */}
+                <div className="absolute inset-0 bg-lime-500/5 pointer-events-none z-0"></div>
+
+                {/* Image */}
+                <img
+                  src="/sahal-hero.png"
+                  alt="Sahal"
+                  className="object-cover md:object-contain w-full h-full scale-110 md:scale-125 drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] z-10 transition-transform duration-700 object-bottom translate-y-2 md:translate-y-4 lg:translate-y-6"
+                />
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
+
+      {/* 4. INFINITE TECH MARQUEE (Responsive & Functional) */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-8 w-full overflow-hidden z-20 pointer-events-auto"
+      >
+        {/* We duplicate the content to create a seamless loop */}
+        <div className="flex w-max">
+          <motion.div
+            className="flex gap-8 md:gap-16 whitespace-nowrap px-4"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 25,
+            }}
+          >
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex items-center gap-8 md:gap-16">
+                {[
+                  "Next.js 15",
+                  "Supabase",
+                  "Gemini AI",
+                  "WebGL",
+                  "TypeScript",
+                  "Tailwind",
+                ].map((tech) => (
+                  <div
+                    key={tech}
+                    className="flex items-center gap-8 md:gap-16 group cursor-none"
+                  >
+                    <span className="text-white/40 font-mono text-xs md:text-sm uppercase tracking-[0.2em] group-hover:text-[var(--theme-lime-400)] transition-colors duration-300">
+                      {tech}
+                    </span>
+                    <span className="text-white/10 text-[10px]">•</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 }
