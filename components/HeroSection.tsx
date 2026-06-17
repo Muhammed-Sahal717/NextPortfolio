@@ -24,7 +24,7 @@ export default function HeroSection() {
   const isLight = theme === "light";
   const liquidColors = isLight
     ? ["#C9ACEB", "#9A5CF2"]
-    : ["#D0F0C0", "#ADFF2F"];
+    : ["#B8FF5A", "#4ADE80"];
 
   useEffect(() => {
     fetch("/api/resume")
@@ -201,13 +201,15 @@ export default function HeroSection() {
 
         {/* RIGHT COLUMN: Hero Image */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, x: 30 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 0.1, x: 200, y: -200 }}
+          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
           transition={{
-            duration: 1,
-            delay: 0.6,
+            duration: 1.2,
+            delay: 0.4,
             type: "spring",
-            stiffness: 50,
+            bounce: 0.5,
+            damping: 15,
+            stiffness: 100,
           }}
           className="w-full lg:w-1/2 flex justify-center lg:justify-end items-center relative pointer-events-auto h-[40vh] md:h-[50vh] lg:h-[70vh] mt-4 lg:mt-0"
         >
@@ -233,10 +235,10 @@ export default function HeroSection() {
                     times: [0, 0.2, 0.4, 0.6, 1],
                     ease: "easeInOut",
                   }}
-                  className="inline-block text-lime-400/80 text-base md:text-lg lg:text-xl drop-shadow-md tracking-wide origin-center"
+                  className="inline-block text-lime-400/80 text-base md:text-lg lg:text-md drop-shadow-md tracking-wide origin-center"
                   style={{ fontFamily: "'Caveat', cursive, sans-serif" }}
                 >
-                  That's me!
+                  Yup, that's me!
                 </motion.span>
                 <svg
                   className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-lime-400/80 -ml-4 mt-1 drop-shadow-md overflow-visible"
