@@ -173,6 +173,7 @@ export default function HeroSection() {
             <Link
               href={process.env.NEXT_PUBLIC_CONTACT_GITHUB!}
               target="_blank"
+              rel="noopener noreferrer"
             >
               <Button
                 size="lg"
@@ -185,6 +186,7 @@ export default function HeroSection() {
             <Link
               href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN!}
               target="_blank"
+              rel="noopener noreferrer"
             >
               <Button
                 size="lg"

@@ -210,6 +210,7 @@ export default function Footer() {
                       key={i}
                       href={item.href}
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="text-zinc-500 hover:text-[var(--theme-lime-400)] transition-colors"
                     >
                       <item.icon size={24} />

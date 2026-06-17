@@ -135,6 +135,7 @@ export default function BentoGrid() {
                 <Link
                   href="https://github.com/Muhammed-Sahal717"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="p-2 bg-black text-white rounded-full hover:scale-110 transition-transform"
                 >
                   <FiGithub size={20} />
@@ -142,6 +143,7 @@ export default function BentoGrid() {
                 <Link
                   href="https://linkedin.com/in/mhdsahal717"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="p-2 bg-black text-white rounded-full hover:scale-110 transition-transform"
                 >
                   <FiLinkedin size={20} />

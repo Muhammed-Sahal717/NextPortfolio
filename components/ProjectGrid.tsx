@@ -97,6 +97,8 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
           {project.demo_url && (
             <Link
               href={project.demo_url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group/link flex items-center gap-2 border-b border-[var(--theme-lime-400)] pb-1 text-lg font-medium text-zinc-900 transition-colors hover:text-[var(--theme-lime-400)] dark:text-white dark:hover:text-[var(--theme-lime-400)]"
             >
               Live Demo{" "}
@@ -106,6 +108,8 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
           {project.github_url && (
             <Link
               href={project.github_url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 text-lg font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               Source Code <FiGithub />

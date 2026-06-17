@@ -3,7 +3,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiMenu, FiX, FiGithub, FiLinkedin, FiArrowUpRight } from "react-icons/fi";
+import {
+  FiMenu,
+  FiX,
+  FiGithub,
+  FiLinkedin,
+  FiArrowUpRight,
+} from "react-icons/fi";
 
 export default function LiquidNavbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +75,7 @@ export default function LiquidNavbar() {
               href="#email-form"
               className="hidden md:flex items-center justify-center bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold transition-transform hover:scale-[1.02] active:scale-95"
             >
-              Let's chat
+              Let's connect
             </a>
 
             {/* Mobile Hamburger Toggle */}
