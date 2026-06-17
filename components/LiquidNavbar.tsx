@@ -172,7 +172,7 @@ export default function LiquidNavbar() {
                   onClick={() => setIsOpen(false)}
                   className="flex items-center justify-center bg-white text-black px-6 py-3.5 rounded-full text-sm font-bold transition-transform active:scale-[0.95]"
                 >
-                  Let's chat
+                  Let's connect
                 </a>
               </motion.div>
             </motion.div>
