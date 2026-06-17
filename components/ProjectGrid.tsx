@@ -66,8 +66,10 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
     );
   };
 
+  const isEven = index % 2 === 0;
+
   return (
-    <section className="group mb-12 flex w-full flex-col gap-8 rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-6 backdrop-blur-sm transition-colors duration-500 hover:border-[var(--theme-lime-400)] dark:border-white/20 dark:bg-black/20 dark:hover:border-[var(--theme-lime-400)] md:gap-12 md:p-10 lg:flex-row">
+    <section className={`group mb-12 flex w-full flex-col gap-8 rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-6 backdrop-blur-sm transition-colors duration-500 hover:border-[var(--theme-lime-400)] dark:border-white/20 dark:bg-black/20 dark:hover:border-[var(--theme-lime-400)] md:gap-12 md:p-10 ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
       <div className="flex w-full flex-col justify-center lg:w-1/2">
         <span className="mb-2 font-serif text-xl italic text-[var(--theme-lime-400)]">
           0{index + 1}. Featured Project
