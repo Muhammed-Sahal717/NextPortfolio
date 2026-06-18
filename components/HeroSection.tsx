@@ -23,8 +23,8 @@ export default function HeroSection() {
 
   const isLight = theme === "light";
   const liquidColors = isLight
-    ? ["#C9ACEB", "#9A5CF2"]
-    : ["#B8FF5A", "#4ADE80"];
+    ? ["#ccff00", "#39ff14"]
+    : ["#ccff00", "#39ff14"];
 
   useEffect(() => {
     fetch("/api/resume")
@@ -337,7 +337,7 @@ export default function HeroSection() {
                 <img
                   src="/sahal-hero.png"
                   alt="Sahal"
-                  className="object-cover md:object-contain scale-[1.05] md:scale-125 drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] z-10 transition-transform duration-700 object-bottom translate-y-6 md:translate-y-6 lg:translate-y-8"
+                  className="object-cover md:object-contain scale-[1.05] md:scale-125 lg:scale-[0.85] drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] z-10 transition-transform duration-700 object-bottom translate-y-6 md:translate-y-6 lg:translate-y-16"
                 />
               </div>
             </div>
