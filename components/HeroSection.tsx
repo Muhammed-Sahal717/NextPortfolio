@@ -113,7 +113,7 @@ export default function HeroSection() {
             style={{ fontFamily: "var(--font-outfit)" }}
           >
             Crafting the <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-green-400 drop-shadow-[0_0_35px_var(--theme-lime-500)]">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-lime-400 via-lime-300 to-green-400">
               Next-Gen Web.
             </span>
           </motion.h1>
@@ -220,7 +220,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, scale: 0.5, rotate: 10 }}
               animate={{ opacity: 1, scale: 1, rotate: -5 }}
               transition={{ delay: 1.2, duration: 0.8, type: "spring" }}
-              className="absolute top-16 right-0 md:top-24 md:-right-2 lg:top-36 lg:-right-6 z-30 pointer-events-none"
+              className="hidden md:block absolute md:top-24 md:-right-2 lg:top-36 lg:-right-6 z-30 pointer-events-none"
             >
               <div className="flex flex-col items-center">
                 <motion.span
@@ -315,7 +315,7 @@ export default function HeroSection() {
               />
 
               {/* Inner Ring (Main Container) */}
-              <div className="relative flex justify-center items-end w-[280px] h-[280px] md:w-[360px] md:h-[360px] lg:w-[440px] lg:h-[440px] xl:w-[520px] xl:h-[520px] rounded-full shadow-[0_0_60px_rgba(163,230,53,0.1)] transition-all duration-700 z-10 overflow-hidden bg-transparent">
+              <div className="relative flex justify-center items-end w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[360px] md:h-[360px] lg:w-[440px] lg:h-[440px] xl:w-[520px] xl:h-[520px] rounded-full shadow-[0_0_60px_rgba(163,230,53,0.1)] transition-all duration-700 z-10 overflow-hidden bg-transparent">
                 {/* Inner Ring Gradient Border */}
                 <div
                   className="absolute inset-0 rounded-full pointer-events-none z-20"
@@ -337,7 +337,7 @@ export default function HeroSection() {
                 <img
                   src="/sahal-hero.png"
                   alt="Sahal"
-                  className="object-cover md:object-contain w-full h-full scale-110 md:scale-125 drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] z-10 transition-transform duration-700 object-bottom translate-y-2 md:translate-y-4 lg:translate-y-6"
+                  className="object-cover md:object-contain scale-[1.05] md:scale-125 drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] z-10 transition-transform duration-700 object-bottom translate-y-6 md:translate-y-6 lg:translate-y-8"
                 />
               </div>
             </div>
@@ -351,7 +351,7 @@ export default function HeroSection() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-8 w-full overflow-hidden z-20 pointer-events-auto"
+        className="absolute bottom-0 w-full overflow-hidden z-20 pointer-events-auto bg-[var(--theme-lime-400)] py-3 md:py-4"
       >
         {/* We duplicate the content to create a seamless loop */}
         <div className="flex w-max">
@@ -367,21 +367,23 @@ export default function HeroSection() {
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex items-center gap-8 md:gap-16">
                 {[
-                  "Next.js 15",
-                  "Supabase",
-                  "Gemini AI",
-                  "WebGL",
-                  "TypeScript",
-                  "Tailwind",
+                  { name: "Next.js 15", solid: true },
+                  { name: "Supabase", solid: false },
+                  { name: "Gemini AI", solid: true },
+                  { name: "WebGL", solid: false },
+                  { name: "TypeScript", solid: true },
+                  { name: "Tailwind", solid: false },
                 ].map((tech) => (
                   <div
-                    key={tech}
+                    key={tech.name}
                     className="flex items-center gap-8 md:gap-16 group cursor-none"
                   >
-                    <span className="text-white/40 font-mono text-xs md:text-sm uppercase tracking-[0.2em] group-hover:text-[var(--theme-lime-400)] transition-colors duration-300">
-                      {tech}
+                    <span
+                      className={`font-mono text-xs md:text-sm uppercase tracking-[0.2em] transition-all duration-300 ${tech.solid ? "font-bold text-black/80" : "font-light text-black/50"}`}
+                    >
+                      {tech.name}
                     </span>
-                    <span className="text-white/10 text-[10px]">•</span>
+                    <span className="text-black/20 text-xs">✦</span>
                   </div>
                 ))}
               </div>
