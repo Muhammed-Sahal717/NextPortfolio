@@ -171,42 +171,28 @@ html {
   isolation: auto;
 }
 
-/* --- CYBER-INDUSTRIAL LIME SCROLLBAR --- */
-
-/* 1. The Geometry */
+/* --- CUSTOM TRANSPARENT SCROLLBAR --- */
 ::-webkit-scrollbar {
-  width: 12px;
-  /* Slightly wider to show off the sharp boxy shape */
-  height: 12px;
+  width: 6px;
 }
-
-/* 2. The Track (The rail it sits in) */
 ::-webkit-scrollbar-track {
-  background: var(--theme-black);
-  border-left: 1px solid var(--theme-zinc-900);
+  background: transparent;
 }
-
-/* 3. The Thumb (The moving block) */
 ::-webkit-scrollbar-thumb {
-  background: var(--theme-lime-900);
-  border-radius: 0px;
+  background: rgba(255, 255, 255, 0.15); /* Faint gray, visible but subtle */
+  border-radius: 10px;
 }
-
-/* 4. Hover State (Lighting up) */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-lime-600);
+  background: rgba(255, 255, 255, 0.3);
 }
-
-/* 5. Active/Grabbing State (High Voltage) */
 ::-webkit-scrollbar-thumb:active {
-  background: var(--theme-lime-400);
-  border-color: var(--theme-black);
+  background: var(--theme-lime-500);
 }
 
-/* --- FIREFOX SUPPORT --- */
+/* Firefox support */
 html {
-  scrollbar-width: auto;
-  scrollbar-color: var(--theme-lime-900) var(--theme-black);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 @media (hover: hover) and (pointer: fine) {
