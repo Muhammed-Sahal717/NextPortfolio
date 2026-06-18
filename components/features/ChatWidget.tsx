@@ -7,7 +7,7 @@ import { X, Send, Bot, Terminal } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import AiraIcon from "@/components/AiraIcon";
+import AiraIcon from "@/components/icons/AiraIcon";
 
 type Message = {
   id: string;
@@ -93,7 +93,7 @@ export default function ChatWidget() {
       setMessages((prev) => [
         ...prev,
         {
-          id: "error",
+          id: `error-${Date.now()}`,
           role: "assistant",
           content: "CONNECTION_LOST. REBOOTING...",
         },

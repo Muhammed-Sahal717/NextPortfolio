@@ -11,8 +11,8 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import ClientButton from "@/components/ClientButton";
-import ProjectCarousel from "@/components/ProjectCarousel";
+import ClientButton from "@/components/shared/ClientButton";
+import ProjectCarousel from "@/components/features/ProjectCarousel";
 
 export const revalidate = 0;
 

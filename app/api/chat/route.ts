@@ -9,6 +9,18 @@ const apiKey =
 
 const genAI = new GoogleGenerativeAI(apiKey || "");
 
+interface ChatProject {
+  id: string;
+  title: string;
+  description: string;
+  tech_stack: string | string[];
+  category: string;
+  timeline: string;
+  demo_url?: string;
+  github_url?: string;
+  content?: string;
+}
+
 export async function POST(req: Request) {
   if (!apiKey) {
     return NextResponse.json(
@@ -29,7 +41,7 @@ export async function POST(req: Request) {
 
     // Fetch projects from Supabase (with timeout)
     console.log("[Chat API] Fetching projects from Supabase...");
-    let projects: any[] | null = null;
+    let projects: ChatProject[] | null = null;
 
     try {
       const { data, error } = await supabase
@@ -147,7 +159,7 @@ INSTRUCTIONS:
     });
 
     // Build chat history
-    const history = messages.slice(0, -1).map((m: any) => ({
+    const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
       role: m.role === "user" ? "user" : "model",
       parts: [{ text: m.content }],
     }));
@@ -186,14 +198,15 @@ INSTRUCTIONS:
       },
     });
 
-  } catch (error: any) {
-    console.error("Chat API Error:", error);
+  } catch (error: unknown) {
+    const err = error as Error & { status?: number };
+    console.error("Chat API Error:", err);
 
     // Clean professional fallback
     if (
-      error?.message?.includes("429") ||
-      error?.message?.includes("quota") ||
-      error?.status === 429
+      err?.message?.includes("429") ||
+      err?.message?.includes("quota") ||
+      err?.status === 429
     ) {
       const mockMessage = `The AI service is temporarily unavailable due to usage limits. Please try again later.
 
@@ -217,7 +230,7 @@ INSTRUCTIONS:
     }
 
     return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
+      { error: err?.message || "Internal Server Error" },
       { status: 500 }
     );
   }

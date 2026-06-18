@@ -24,7 +24,7 @@ import {
   SiGit,
 } from "react-icons/si";
 import Link from "next/link";
-import ScrollReveal from "@/components/ScrollReveal";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 function AnimatedCounter({ from = 0, to, suffix = "" }: { from?: number; to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);

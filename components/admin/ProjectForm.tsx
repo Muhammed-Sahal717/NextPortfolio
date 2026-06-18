@@ -5,8 +5,7 @@ import { FiX, FiPlus, FiEye, FiEyeOff } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
 
 interface ProjectFormProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  project?: any;
+  project?: Project;
   action: (formData: FormData) => Promise<{ error: string } | void>;
   submitLabel: string;
 }

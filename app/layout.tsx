@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk, Outfit } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
-import PageTransitionLoader from "@/components/PageTransitionLoader";
-import { ThemeProvider } from "@/components/theme-provider";
-import ClientProviders from "@/components/ClientProviders";
+import PageTransitionLoader from "@/components/layout/PageTransitionLoader";
+
+import ClientProviders from "@/components/layout/ClientProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -111,11 +111,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${outfit.variable} antialiased bg-black text-white selection:bg-[var(--theme-lime-400)] selection:text-[var(--theme-black)]`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-        >
           {/* Optional: Global Film Grain Overlay */}
           <div className="bg-noise" />
 
@@ -127,7 +122,6 @@ export default function RootLayout({
             <PageTransitionLoader />
           </Suspense>
           <ClientProviders />
-        </ThemeProvider>
       </body>
     </html>
   );

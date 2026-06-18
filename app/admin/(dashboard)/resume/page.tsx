@@ -85,8 +85,8 @@ export default function AdminResumePage() {
 
       setMessage({ type: "success", text: "Resume uploaded successfully!" });
       await fetchResume();
-    } catch (err: any) {
-      setMessage({ type: "error", text: err.message });
+    } catch (err: unknown) {
+      setMessage({ type: "error", text: (err as Error).message });
     } finally {
       setUploading(false);
     }
@@ -115,8 +115,8 @@ export default function AdminResumePage() {
       setResumeUrl(null);
       setResumeFileName(null);
       setMessage({ type: "success", text: "Resume deleted." });
-    } catch (err: any) {
-      setMessage({ type: "error", text: err.message });
+    } catch (err: unknown) {
+      setMessage({ type: "error", text: (err as Error).message });
     } finally {
       setDeleting(false);
     }

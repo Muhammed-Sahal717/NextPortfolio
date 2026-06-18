@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AiraIcon from "@/components/AiraIcon";
+import AiraIcon from "@/components/icons/AiraIcon";
 
 export default function NotFound() {
   return (

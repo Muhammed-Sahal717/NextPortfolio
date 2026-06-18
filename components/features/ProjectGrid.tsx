@@ -50,8 +50,18 @@ const getCleanImages = (
 };
 
 // --- COMPONENT: OUTLINE SERIES CARD ---
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ProjectCard = ({ project, index }: { project: any; index: number }) => {
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  tech_stack?: string[];
+  demo_url?: string;
+  github_url?: string;
+  image_url?: unknown;
+  gallery_images?: unknown;
+}
+
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const allImages = getCleanImages(project.image_url, project.gallery_images);
@@ -166,8 +176,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
 };
 
 // --- MAIN GRID COMPONENT ---
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ProjectGrid({ projects }: { projects: any[] }) {
+export default function ProjectGrid({ projects }: { projects: Project[] }) {
   return (
     <div id="projects" className="relative z-10 mx-auto flex w-full max-w-[100rem] flex-col overflow-hidden px-6 py-20 lg:px-16 lg:py-40">
       {/* Decorative background grid */}

@@ -7,12 +7,12 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import LiquidNavbar from "@/components/LiquidNavbar";
-import CircuitBoard from "@/components/CircuitBoard";
-import TiltCard from "@/components/TiltCard";
-import Magnetic from "@/components/Magnetic";
-import Footer from "@/components/Footer";
-import SpotlightCard from "@/components/SpotlightCard";
+import LiquidNavbar from "@/components/sections/LiquidNavbar";
+import CircuitBoard from "@/components/visuals/CircuitBoard";
+import TiltCard from "@/components/animations/TiltCard";
+import Magnetic from "@/components/animations/Magnetic";
+import Footer from "@/components/sections/Footer";
+import SpotlightCard from "@/components/animations/SpotlightCard";
 import {
   FiArrowRight,
   FiX,

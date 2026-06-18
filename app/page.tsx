@@ -1,9 +1,9 @@
 import { supabase } from "@/lib/supabaseClient";
-import HeroSection from "@/components/HeroSection";
-import ProjectGrid from "@/components/ProjectGrid";
-import BentoGrid from "@/components/BentoGrid"; // <--- Import this
-import Footer from "@/components/Footer"; // <--- Import this
-import ScrollReveal from "@/components/ScrollReveal";
+import HeroSection from "@/components/sections/HeroSection";
+import ProjectGrid from "@/components/features/ProjectGrid";
+import BentoGrid from "@/components/features/BentoGrid"; // <--- Import this
+import Footer from "@/components/sections/Footer"; // <--- Import this
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 export const revalidate = 3600; // Cache for 1 hour instead of every request
 

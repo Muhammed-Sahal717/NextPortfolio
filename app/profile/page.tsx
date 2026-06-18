@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import LiquidNavbar from "@/components/LiquidNavbar";
-import Footer from "@/components/Footer";
+import LiquidNavbar from "@/components/sections/LiquidNavbar";
+import Footer from "@/components/sections/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMapPin, FiBriefcase, FiCpu, FiMessageSquare, FiFileText, FiServer, FiDatabase } from "react-icons/fi";
 import {

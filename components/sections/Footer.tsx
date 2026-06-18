@@ -13,8 +13,13 @@ import {
   FiX,
 } from "react-icons/fi";
 import { useState, useEffect } from "react";
-import ScrollReveal from "@/components/ScrollReveal";
-import ParticleText from "@/components/ParticleText";
+import ScrollReveal from "@/components/animations/ScrollReveal";
+import dynamic from "next/dynamic";
+
+const ParticleText = dynamic(() => import("@/components/visuals/ParticleText"), { 
+  ssr: false,
+  loading: () => <div className="w-full h-full min-h-[250px] bg-transparent" />
+});
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Footer() {
@@ -58,14 +63,15 @@ export default function Footer() {
         setStatus("IDLE");
         setToast((prev) => (prev ? { ...prev, visible: false } : null));
       }, 3000);
-    } catch (error: any) {
-      console.error("EmailJS Full Error:", error);
-      console.error("EmailJS Error Text:", error?.text || "No text");
-      console.error("EmailJS Status:", error?.status || "No status");
+    } catch (error: unknown) {
+      const err = error as Record<string, unknown>;
+      console.error("EmailJS Full Error:", err);
+      console.error("EmailJS Error Text:", err?.text || "No text");
+      console.error("EmailJS Status:", err?.status || "No status");
       
       // If the error object is empty, stringify it
-      if (typeof error === "object" && Object.keys(error).length === 0) {
-        console.error("EmailJS Empty Error Object Stringified:", JSON.stringify(error));
+      if (typeof err === "object" && Object.keys(err).length === 0) {
+        console.error("EmailJS Empty Error Object Stringified:", JSON.stringify(err));
       }
 
       setStatus("ERROR");

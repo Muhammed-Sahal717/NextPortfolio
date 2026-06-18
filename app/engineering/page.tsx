@@ -2,8 +2,8 @@
 
 import React, { useRef } from "react";
 import { motion, useScroll } from "framer-motion";
-import LiquidNavbar from "@/components/LiquidNavbar";
-import Footer from "@/components/Footer";
+import LiquidNavbar from "@/components/sections/LiquidNavbar";
+import Footer from "@/components/sections/Footer";
 import { FiCode, FiCpu, FiLayers, FiServer, FiDatabase } from "react-icons/fi";
 
 // --- SVG CURVED PATH GENERATOR ---

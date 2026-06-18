@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+
 
 @theme inline {
   --color-background: var(--theme-zinc-950);
@@ -50,48 +50,6 @@
 :root {
   --radius: 0.625rem;
 
-  /* LIGHT: Cyber Violet */
-  --theme-black: #ffffff;
-  /* canvas */
-  --theme-white: #000000;
-  /* text */
-
-  --theme-zinc-950: #F6F6F4;
-  /* soft gray panels */
-  --theme-zinc-900: #E7E7E4;
-  /* muted gray panels */
-  --theme-zinc-800: #DCDCC9;
-  /* borders */
-  --theme-zinc-700: #A1A19A;
-  --theme-zinc-600: #7A7A73;
-  /* dim gray */
-  --theme-zinc-500: #5E5E55;
-  --theme-zinc-400: #42423B;
-  /* soft gray text */
-  --theme-zinc-300: #272723;
-  --theme-zinc-200: #181816;
-  --theme-zinc-100: #0C0C0B;
-
-  --theme-lime-300: #410D9B;
-  /* hover violet */
-  --theme-lime-400: #5C19CA;
-  /* electric violet */
-  --theme-lime-500: #550D7F;
-  /* for drop shadow */
-  --theme-lime-600: #9A5CF2;
-  /* mid violet */
-  --theme-lime-900: #C9ACEB;
-  /* deep violet context */
-
-  --theme-green-400: #EDA2D6;
-  --theme-green-500: #DD3AA1;
-  /* success magenta */
-  --theme-red-400: #5AE1E1;
-  --theme-red-500: #10BBBB;
-  /* destructive cyan */
-}
-
-.dark {
   /* DARK: Cyber Lime */
   --theme-black: #000000;
   --theme-white: #ffffff;
@@ -133,43 +91,7 @@ html {
   background-color: var(--theme-black);
 }
 
-/* --- THEME TRANSITION VIEWS --- */
-::view-transition-group(root) {
-  animation-duration: inherit;
-}
 
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-  display: block;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root) {
-  z-index: 999;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  background: var(--theme-black);
-}
-
-/* When going to dark mode, the old (light mode) view must stay on top to compress into the button */
-.dark-transition::view-transition-old(root) {
-  z-index: 999;
-}
-
-.dark-transition::view-transition-new(root) {
-  z-index: 1;
-}
-
-::view-transition-image-pair(root) {
-  isolation: auto;
-}
 
 /* --- CUSTOM TRANSPARENT SCROLLBAR --- */
 ::-webkit-scrollbar {
