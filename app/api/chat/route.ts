@@ -193,9 +193,12 @@ INSTRUCTIONS:
     if (
       error?.message?.includes("429") ||
       error?.message?.includes("quota") ||
-      error?.status === 429
+      error?.message?.includes("API key expired") ||
+      error?.message?.includes("API_KEY_INVALID") ||
+      error?.status === 429 ||
+      error?.status === 400
     ) {
-      const mockMessage = `The AI service is temporarily unavailable due to usage limits. Please try again later.
+      const mockMessage = `The AI service is temporarily unavailable due to API key or usage limit issues. Please check your API configuration or try again later.
 
 ---SUGGESTIONS---
 - What is Sahal's tech stack?
