@@ -365,17 +365,20 @@ export default function HeroSection() {
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-0 w-full overflow-hidden z-20 pointer-events-auto bg-[var(--theme-lime-400)] py-3 md:py-4"
       >
-        {/* We duplicate the content to create a seamless loop */}
-        <div className="flex w-max">
-          <motion.div
-            className="flex gap-8 md:gap-16 whitespace-nowrap px-4"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{
-              repeat: Infinity,
-              ease: "linear",
-              duration: 25,
-            }}
-          >
+        <style>{`
+          @keyframes smoothMarquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+          }
+          .marquee-container {
+            display: flex;
+            width: max-content;
+            animation: smoothMarquee 25s linear infinite;
+            will-change: transform;
+          }
+        `}</style>
+        <div className="marquee-container">
+          <div className="flex gap-8 md:gap-16 whitespace-nowrap px-4">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex items-center gap-8 md:gap-16">
                 {[
@@ -400,7 +403,7 @@ export default function HeroSection() {
                 ))}
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </motion.div>
     </section>

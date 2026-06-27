@@ -475,11 +475,12 @@ export default function LiquidEther({
     varying vec2 uv;
     void main(){
     vec2 ratio = max(fboSize.x, fboSize.y) / fboSize;
+    float decay = 0.98; // Fixes unbounded velocity explosion
     if(isBFECC == false){
         vec2 vel = texture2D(velocity, uv).xy;
         vec2 uv2 = uv - vel * dt * ratio;
         vec2 newVel = texture2D(velocity, uv2).xy;
-        gl_FragColor = vec4(newVel, 0.0, 0.0);
+        gl_FragColor = vec4(newVel * decay, 0.0, 0.0);
     } else {
         vec2 spot_new = uv;
         vec2 vel_old = texture2D(velocity, uv).xy;
@@ -491,7 +492,7 @@ export default function LiquidEther({
         vec2 vel_2 = texture2D(velocity, spot_new3).xy;
         vec2 spot_old2 = spot_new3 - vel_2 * dt * ratio;
         vec2 newVel2 = texture2D(velocity, spot_old2).xy; 
-        gl_FragColor = vec4(newVel2, 0.0, 0.0);
+        gl_FragColor = vec4(newVel2 * decay, 0.0, 0.0);
     }
 }
 `;
