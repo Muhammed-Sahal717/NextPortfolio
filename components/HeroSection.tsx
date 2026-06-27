@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import LiquidNavbar from "@/components/LiquidNavbar";
 import { useTheme } from "next-themes";
 import ScrollReveal from "@/components/ScrollReveal";
+import Noise from "@/components/Noise";
 
 // Heavy WebGL component — only load when needed
 const LiquidEther = dynamic(() => import("@/components/LiquidEther"), {
@@ -40,22 +41,33 @@ export default function HeroSection() {
       {/* NAVBAR */}
       <LiquidNavbar />
 
-      {/* BACKGROUND ANIMATION — Optimized & Smooth */}
-      <div className="absolute inset-0 z-0 opacity-60">
-        <LiquidEther
-          colors={liquidColors}
-          // --- PERFORMANCE OPTIMIZATION (Butter Smooth) ---
-          isViscous={true}
-          viscous={12} // Lower viscosity = smoother + faster
-          iterationsViscous={8} // Was 40 → now 5x faster
-          mouseForce={12}
-          cursorSize={70}
-          dt={0.016} // Perfect 60fps timestep
-          autoDemo={true}
-          autoSpeed={0.25}
-          autoIntensity={1.0}
-          resolution={0.25} // Was 0.6 → huge performance boost
-          isBounce={true}
+      {/* BACKGROUND ANIMATION — Optimized Old Fluid */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 opacity-60">
+          <LiquidEther
+            colors={liquidColors}
+            // --- PERFORMANCE OPTIMIZATION (Butter Smooth) ---
+            isViscous={true}
+            viscous={12} // Lower viscosity = smoother + faster
+            iterationsViscous={8} // Was 40 → now 5x faster
+            mouseForce={12}
+            cursorSize={70}
+            dt={0.016} // Perfect 60fps timestep
+            autoDemo={true}
+            autoSpeed={0.25}
+            autoIntensity={1.0}
+            resolution={0.25} // Was 0.6 → huge performance boost
+            isBounce={true}
+          />
+        </div>
+
+        {/* PREMIUM FILM GRAIN NOISE OVERLAY */}
+        <Noise
+          patternSize={250}
+          patternScaleX={2}
+          patternScaleY={2}
+          patternRefreshInterval={2}
+          patternAlpha={15}
         />
       </div>
 
