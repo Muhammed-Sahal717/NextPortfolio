@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
   const isTouchDevice = useCallback(() => {
@@ -11,6 +11,10 @@ export default function CustomCursor() {
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
+
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const smoothCursorX = useSpring(cursorX, springConfig);
+  const smoothCursorY = useSpring(cursorY, springConfig);
 
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
@@ -67,8 +71,8 @@ export default function CustomCursor() {
       <motion.div
         className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[1000000001] hidden md:block mix-blend-difference"
         style={{
-          x: cursorX,
-          y: cursorY,
+          x: smoothCursorX,
+          y: smoothCursorY,
           translateX: "-50%",
           translateY: "-50%",
           scale: isClicking ? 0.8 : isHovering ? 2.5 : 1,
