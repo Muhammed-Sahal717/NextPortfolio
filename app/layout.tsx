@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Space_Grotesk, Outfit } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
-import PageTransitionLoader from "@/components/PageTransitionLoader";
-import { ThemeProvider } from "@/components/theme-provider";
-import ClientProviders from "@/components/ClientProviders";
+import PageTransitionLoader from "@/components/providers/PageTransitionLoader";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import ClientProviders from "@/components/providers/ClientProviders";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

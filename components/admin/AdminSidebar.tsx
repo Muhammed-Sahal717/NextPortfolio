@@ -14,8 +14,6 @@ import {
 } from "react-icons/fi";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "@/components/ThemeToggle";
-
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: FiHome },
   { href: "/admin/projects", label: "Projects", icon: FiFolder },
@@ -52,7 +50,6 @@ export default function AdminSidebar() {
             </span>
           </div>
         </Link>
-        <ThemeToggle />
       </div>
 
       {/* Navigation */}
