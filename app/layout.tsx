@@ -85,12 +85,18 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Sahal - System Architect",
+        alt: "Sahal - Full-Stack Developer",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sahal | Full-Stack Developer",
+    description: "Building digital websites with clean code and kinetic design.",
+    images: ["/opengraph-image.png"],
   },
 
   icons: {
