@@ -132,8 +132,9 @@ export default function LiquidEther({
       clock: THREE.Clock | null = null;
       init(container: HTMLElement) {
         this.container = container;
-        // Performance tune: limit pixel ratio to 1.5 instead of 2 to save fill-rate on dense screens
-        this.pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+        // Performance tune: cap pixel ratio to 1.0 on mobile devices for smooth frame rates, 1.5 on desktop
+        this.isMobile = window.innerWidth <= 768;
+        this.pixelRatio = Math.min(window.devicePixelRatio || 1, this.isMobile ? 1.0 : 1.5);
         this.resize();
         // Performance tune: powerPreference to ask for dedicated GPU, antialias disabled for dense mobile screens
         this.renderer = new THREE.WebGLRenderer({

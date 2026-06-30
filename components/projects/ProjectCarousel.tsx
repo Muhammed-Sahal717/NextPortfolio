@@ -49,7 +49,7 @@ export default function ProjectCarousel({ images }: { images: string[] }) {
             fill
             className="object-cover"
             priority={currentIndex === 0}
-            unoptimized // Keep this for external Supabase links
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </motion.div>
       </AnimatePresence>

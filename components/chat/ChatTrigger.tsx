@@ -49,7 +49,7 @@ export default function ChatTrigger({
                   exit={{ opacity: 0, scale: 0.8, y: 10 }}
                   transition={{ type: "spring", stiffness: 260, damping: 20 }}
                   className="absolute bottom-full right-0 mb-4 w-max pr-6 bg-zinc-900/95 backdrop-blur-md text-zinc-100 px-5 py-3 rounded-2xl rounded-br-sm border border-zinc-800 shadow-2xl z-10 pointer-events-none"
-                  style={{ transformOrigin: "bottom right" }}
+                  style={{ transformOrigin: "bottom right", willChange: "transform, opacity" }}
                 >
                   <p className="text-sm font-semibold text-cyan-400 flex items-center gap-1.5">
                     Hi! I'm Aira
@@ -85,8 +85,9 @@ export default function ChatTrigger({
               initial={{ scale: 0, rotate: 90 }}
               animate={{ scale: 1, rotate: 0 }}
               exit={{ scale: 0, rotate: -90 }}
-              whileHover={{ scale: 1.05, translate: "-2px -2px" }}
-              whileTap={{ scale: 0.95, translate: "2px 2px" }}
+              whileHover={{ scale: 1.05, x: -2, y: -2 }}
+              whileTap={{ scale: 0.95, x: 2, y: 2 }}
+              style={{ willChange: "transform" }}
               onClick={() => {
                 setIsOpen(true);
                 setShowWelcomeMessage(false); // Hide message if they click it early

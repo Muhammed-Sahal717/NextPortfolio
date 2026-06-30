@@ -54,13 +54,31 @@ const Noise = ({
       ctx.putImageData(imageData, 0, 0);
     };
 
+    let isVisible = true;
+
     const loop = () => {
+      if (!isVisible) return; // Pause calculation when out of view
       if (frame % patternRefreshInterval === 0) {
         drawGrain();
       }
       frame++;
       animationId = window.requestAnimationFrame(loop);
     };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        
+        // Resume animation if it just became visible
+        if (isVisible && !wasVisible) {
+          loop();
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
 
     window.addEventListener("resize", resize);
     resize();
@@ -69,6 +87,7 @@ const Noise = ({
     return () => {
       window.removeEventListener("resize", resize);
       window.cancelAnimationFrame(animationId);
+      observer.disconnect();
     };
   }, [
     patternSize,

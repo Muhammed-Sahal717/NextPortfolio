@@ -35,13 +35,7 @@ export default function HeroBackground() {
         />
       </div>
 
-      <Noise
-        patternSize={250}
-        patternScaleX={2}
-        patternScaleY={2}
-        patternRefreshInterval={2}
-        patternAlpha={15}
-      />
+      <Noise />
     </div>
   );
 }

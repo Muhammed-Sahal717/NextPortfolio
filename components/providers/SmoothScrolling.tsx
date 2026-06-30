@@ -8,11 +8,12 @@ export default function SmoothScrolling({ children }: { children?: React.ReactNo
     <ReactLenis
       root
       options={{
-        lerp: 0.05,
+        lerp: 0.035, // Lowered from 0.05 for a more floaty, buttery feel
         duration: 1.5,
         smoothWheel: true,
         wheelMultiplier: 1,
         touchMultiplier: 2,
+        syncTouch: true, // Unifies touch and wheel momentum
       }}
     >
       {children}
