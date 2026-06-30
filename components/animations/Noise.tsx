@@ -14,8 +14,8 @@ const Noise = ({
   patternSize = 250,
   patternScaleX = 1,
   patternScaleY = 1,
-  patternRefreshInterval = 2,
-  patternAlpha = 15,
+  patternRefreshInterval = 4,
+  patternAlpha = 10,
 }: NoiseProps) => {
   const grainRef = useRef<HTMLCanvasElement>(null);
 
@@ -80,7 +80,7 @@ const Noise = ({
 
   return (
     <canvas
-      className="absolute left-0 top-0 w-full h-full pointer-events-none mix-blend-overlay"
+      className="absolute left-0 top-0 w-full h-full pointer-events-none mix-blend-overlay opacity-40"
       ref={grainRef}
       style={{ imageRendering: "pixelated" }}
     />
