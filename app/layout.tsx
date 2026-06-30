@@ -123,7 +123,7 @@ export default function RootLayout({
           enableSystem={false}
         >
           {/* Optional: Global Film Grain Overlay */}
-          <div className="bg-noise" />
+          {/* <div className="bg-noise" /> */}
 
           {/* Main Content */}
           {children}
