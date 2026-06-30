@@ -6,11 +6,19 @@ import ProjectCarousel from "./ProjectCarousel";
 import { getCleanImages } from "./projectUtils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ProjectCard({ project, index }: { project: any; index: number }) {
+export default function ProjectCard({
+  project,
+  index,
+}: {
+  project: any;
+  index: number;
+}) {
   const allImages = getCleanImages(project.image_url, project.gallery_images);
 
   return (
-    <section className={`group mb-12 flex w-full flex-col gap-8 rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-6 backdrop-blur-sm transition-colors duration-500 hover:border-[var(--theme-lime-400)] dark:border-white/20 dark:bg-black/20 dark:hover:border-[var(--theme-lime-400)] md:gap-12 md:p-10 lg:flex-row`}>
+    <section
+      className={`group mb-12 flex w-full flex-col gap-8 rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-6 backdrop-blur-sm transition-colors duration-500 hover:border-[var(--theme-lime-400)] dark:border-white/20 dark:bg-black/20 dark:hover:border-[var(--theme-lime-400)] md:gap-12 md:p-10 lg:flex-row`}
+    >
       <div className="flex w-full flex-col justify-center lg:w-1/2">
         <span className="mb-2 font-serif text-xl italic text-[var(--theme-lime-400)]">
           0{index + 1}. Featured Project
@@ -27,7 +35,7 @@ export default function ProjectCard({ project, index }: { project: any; index: n
               className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 transition-all duration-300 hover:scale-110 hover:border-[var(--theme-lime-400)] hover:bg-[var(--theme-lime-400)] dark:border-white/10 dark:bg-white/5 dark:hover:border-[var(--theme-lime-400)] dark:hover:bg-[var(--theme-lime-400)]"
               aria-label="View Project Details"
             >
-              <FiArrowUpRight className="text-2xl text-zinc-600 transition-transform duration-300 group-hover:rotate-45 group-hover:text-black dark:text-zinc-300" />
+              <FiArrowUpRight className="text-2xl text-zinc-600 transition-transform duration-300 group-hover:rotate-45 group-hover:text-white dark:text-zinc-300" />
             </Link>
           )}
         </div>
