@@ -23,13 +23,13 @@ export default function FooterHeader() {
         <div className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[380px] lg:max-w-[480px] aspect-square z-10 lg:-mb-10 pointer-events-none mx-auto lg:mx-0">
           {/* Very subtle glow behind image to detach it from the deep black */}
           <div className="absolute inset-0 bg-lime-400/5 blur-[80px] rounded-full" />
-          <Image
+          {/* <Image
             src="/sahal.png"
             alt="Sahal"
             fill
             className="object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
             priority
-          />
+          /> */}
         </div>
       </div>
     </div>
