@@ -35,8 +35,8 @@ export default function ProjectCard({
     >
       <Card className="group flex flex-col lg:flex-row h-full overflow-hidden border-border bg-card transition-all duration-300 hover:shadow-lg hover:border-muted-foreground/30">
         
-        {/* Left Side: Content */}
-        <div className="flex w-full flex-col justify-between lg:w-1/2 p-6 lg:p-10 border-b lg:border-b-0 lg:border-r border-border">
+        {/* Left Side: Content (Moves to bottom on mobile) */}
+        <div className="flex w-full flex-col justify-between lg:w-1/2 p-6 lg:p-10 lg:border-r border-border order-2 lg:order-1">
           <div>
             <CardHeader className="p-0 mb-6 flex flex-col gap-2">
               <Link href={`/projects/${project.slug}`} className="w-fit">
@@ -81,8 +81,8 @@ export default function ProjectCard({
           </CardFooter>
         </div>
 
-        {/* Right Side: Image Carousel */}
-        <div className="relative w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-10 bg-muted/10">
+        {/* Right Side: Image Carousel (Moves to top on mobile) */}
+        <div className="relative w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-10 bg-muted/10 border-b lg:border-b-0 border-border order-1 lg:order-2">
           {allImages.length > 0 ? (
             <Carousel opts={{ loop: true }} className="w-full max-w-full">
               <CarouselContent>
