@@ -29,34 +29,34 @@ export default function AboutSummary() {
       </Card>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:h-[140px]">
+      <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:h-[140px]">
         {/* Experience */}
-        <Card className="flex flex-col items-center justify-center p-6 bg-muted/20 border-border">
-          <span className="block text-4xl xl:text-5xl font-black text-foreground relative z-10">
+        <Card className="flex flex-col items-center justify-center p-3 sm:p-6 bg-muted/20 border-border text-center">
+          <span className="block text-2xl sm:text-4xl xl:text-5xl font-black text-foreground relative z-10">
             <AnimatedCounter to={2} suffix="+" />
           </span>
-          <span className="text-muted-foreground text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center mt-2 relative z-10">
-            Years Experience
+          <span className="text-muted-foreground text-[9px] sm:text-[10px] xl:text-xs font-bold uppercase tracking-wider mt-2 relative z-10">
+            Years Exp
           </span>
         </Card>
 
         {/* Projects */}
-        <Card className="flex flex-col items-center justify-center p-6 bg-muted/20 border-border">
-          <span className="block text-4xl xl:text-5xl font-black text-foreground relative z-10">
+        <Card className="flex flex-col items-center justify-center p-3 sm:p-6 bg-muted/20 border-border text-center">
+          <span className="block text-2xl sm:text-4xl xl:text-5xl font-black text-foreground relative z-10">
             <AnimatedCounter to={15} suffix="+" />
           </span>
-          <span className="text-muted-foreground text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center mt-2 relative z-10">
-            Projects Completed
+          <span className="text-muted-foreground text-[9px] sm:text-[10px] xl:text-xs font-bold uppercase tracking-wider mt-2 relative z-10">
+            Projects
           </span>
         </Card>
 
         {/* Hours */}
-        <Card className="flex flex-col items-center justify-center p-6 bg-muted/20 border-border">
-          <span className="block text-4xl xl:text-5xl font-black text-foreground relative z-10">
+        <Card className="flex flex-col items-center justify-center p-3 sm:p-6 bg-muted/20 border-border text-center">
+          <span className="block text-2xl sm:text-4xl xl:text-5xl font-black text-foreground relative z-10">
             <AnimatedCounter to={1000} suffix="+" />
           </span>
-          <span className="text-muted-foreground text-[10px] xl:text-xs font-bold uppercase tracking-wider text-center mt-2 relative z-10">
-            Hours of Coding
+          <span className="text-muted-foreground text-[9px] sm:text-[10px] xl:text-xs font-bold uppercase tracking-wider mt-2 relative z-10">
+            Hours
           </span>
         </Card>
       </div>

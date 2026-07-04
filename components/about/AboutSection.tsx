@@ -8,7 +8,7 @@ import AboutTechStack from "./AboutTechStack";
 export default function AboutSection() {
   return (
     <section
-      className="w-full bg-black text-white py-24 transition-colors"
+      className="w-full bg-black text-white py-16 lg:py-24 transition-colors"
       id="about"
     >
       <div className="w-full max-w-[100rem] mx-auto px-6 lg:px-16">
