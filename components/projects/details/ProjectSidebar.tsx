@@ -1,5 +1,6 @@
-import { FiCalendar, FiLayers, FiZap } from "react-icons/fi";
+import { FiCalendar, FiLayers, FiMessageSquare } from "react-icons/fi";
 import ClientButton from "@/components/common/ClientButton";
+import { Separator } from "@/components/ui/separator";
 
 interface ProjectSidebarProps {
   title: string;
@@ -13,38 +14,48 @@ export default function ProjectSidebar({
   timeline,
 }: ProjectSidebarProps) {
   return (
-    <div className="lg:col-span-4 h-fit rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-8 backdrop-blur-sm dark:border-white/20 dark:bg-black/20 lg:sticky lg:top-24 space-y-8">
+    <div className="h-full flex flex-col p-8 md:p-12">
       <div>
-        <span className="mb-2 font-serif text-xl italic text-primary block">
-          Category
-        </span>
-        <div className="flex items-center gap-2 text-xl font-medium text-zinc-900 dark:text-white">
-          <FiLayers className="text-primary" />{" "}
-          {category || "Engineering"}
+        <h3 className="text-xl font-semibold mb-8">Project Details</h3>
+      </div>
+      
+      <div className="space-y-8 flex-1">
+        <div>
+          <span className="mb-2 text-sm font-medium text-zinc-500 block">
+            Category
+          </span>
+          <div className="flex items-center gap-2 font-medium text-zinc-900 dark:text-white">
+            <FiLayers className="text-zinc-400" />
+            {category || "Engineering"}
+          </div>
+        </div>
+
+        <div>
+          <span className="mb-2 text-sm font-medium text-zinc-500 block">
+            Timeline
+          </span>
+          <div className="flex items-center gap-2 font-medium text-zinc-900 dark:text-white">
+            <FiCalendar className="text-zinc-400" />
+            {timeline || "Completed"}
+          </div>
         </div>
       </div>
 
-      <div>
-        <span className="mb-2 font-serif text-xl italic text-primary block">
-          Timeline
-        </span>
-        <div className="flex items-center gap-2 text-xl font-medium text-zinc-900 dark:text-white">
-          <FiCalendar className="text-primary" />{" "}
-          {timeline || "Completed"}
+      <div className="mt-auto pt-12">
+        <Separator className="mb-6" />
+        <div className="space-y-4">
+          <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+            Have questions about this project?
+          </p>
+          <ClientButton
+            projectName={title}
+            variant="outline"
+            className="w-full py-5 gap-2 group font-medium"
+          >
+            <FiMessageSquare size={16} className="text-zinc-400 group-hover:text-fuchsia-500 transition-colors" /> 
+            Ask AI Assistant
+          </ClientButton>
         </div>
-      </div>
-
-      <div className="pt-8 border-t border-zinc-200 dark:border-white/10">
-        <p className="text-sm text-zinc-500 mb-4">
-          Curious about the implementation details?
-        </p>
-        <ClientButton
-          projectName={title}
-          variant="outline"
-          className="w-full py-6 font-mono text-xs uppercase tracking-widest gap-2 group"
-        >
-          <FiZap size={14} className="group-hover:text-primary transition-colors" /> Analyze Code
-        </ClientButton>
       </div>
     </div>
   );

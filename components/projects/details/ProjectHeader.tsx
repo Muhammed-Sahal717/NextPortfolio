@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface ProjectHeaderProps {
   title: string;
@@ -18,45 +19,42 @@ export default function ProjectHeader({
   githubUrl,
 }: ProjectHeaderProps) {
   return (
-    <div className="mb-12 rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-8 backdrop-blur-sm dark:border-white/20 dark:bg-black/20 md:p-12 lg:flex lg:items-end lg:justify-between lg:gap-12">
-      <div className="max-w-4xl">
+    <div className="p-8 md:p-12 lg:flex lg:items-center lg:justify-between lg:gap-12 bg-transparent">
+      <div className="max-w-3xl">
         {/* Tech Stack Pills */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-2 mb-6">
           {techStack?.map((tech: string) => (
-            <span
-              key={tech}
-              className="rounded-full border border-zinc-200/80 bg-zinc-100 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-700 dark:border-zinc-700/50 dark:bg-black/30 dark:text-zinc-300"
-            >
+            <Badge key={tech} variant="outline" className="px-3 py-1 text-xs font-medium bg-white/5 backdrop-blur-md border-zinc-200 dark:border-white/10">
               {tech}
-            </span>
+            </Badge>
           ))}
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tighter text-zinc-900 dark:text-white mb-6 leading-[0.9]">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
           {title}
         </h1>
 
         {/* Description */}
-        <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
+        <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {description}
         </p>
       </div>
 
       {/* ACTION BUTTONS */}
-      <div className="mt-12 flex flex-col sm:flex-row gap-4 lg:mt-0 shrink-0">
+      <div className="mt-8 flex flex-row gap-3 lg:mt-0 shrink-0">
         {demoUrl && (
-          <Button asChild className="rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:scale-105 transition-transform duration-300 group">
+          <Button asChild>
             <Link href={demoUrl} target="_blank">
               Live Demo{" "}
-              <FiExternalLink className="transition-transform duration-300 group-hover:rotate-45" />
+              <FiExternalLink className="ml-2" size={16} />
             </Link>
           </Button>
         )}
         {githubUrl && (
-          <Button asChild variant="outline" className="rounded-full px-8 py-6 text-lg font-medium group">
+          <Button asChild variant="outline">
             <Link href={githubUrl} target="_blank">
-              <FiGithub className="mr-2" /> Source Code
+              <FiGithub className="mr-2" size={16} /> Source Code
             </Link>
           </Button>
         )}
