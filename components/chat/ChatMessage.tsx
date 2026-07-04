@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { Message as MessageWrapper, MessageAvatar, MessageContent, MessageHeader, MessageFooter } from "@/components/ui/message";
 import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
@@ -56,18 +57,26 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
 
       <MessageContent>
         <MessageHeader className="text-[10px] text-zinc-400 font-medium px-1 mb-0.5">
-          {isUser ? "You" : "Aira"}
+          {isUser ? "You" : "AI Assistant"}
         </MessageHeader>
         
         <Bubble variant={isUser ? "default" : "ghost"} className={!isUser ? "max-w-full" : ""}>
           <BubbleContent className={`
-            whitespace-pre-wrap break-words leading-relaxed
+            leading-relaxed
             ${isUser 
               ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black px-4 py-2.5 rounded-2xl rounded-tr-sm text-[15px]" 
               : "bg-transparent text-zinc-900 dark:text-zinc-100 px-1 py-1 text-[15px]"
             }
           `}>
-            {answer?.trim()}
+            {isUser ? (
+              <div className="whitespace-pre-wrap break-words">{answer?.trim()}</div>
+            ) : (
+              <div className="prose prose-sm dark:prose-invert prose-zinc max-w-none break-words prose-p:leading-relaxed prose-pre:bg-zinc-100 dark:prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-200 dark:prose-pre:border-zinc-800 prose-li:my-0.5 prose-ul:my-2 prose-p:my-2 first:prose-p:mt-0 last:prose-p:mb-0">
+                <ReactMarkdown>
+                  {answer?.trim() || ""}
+                </ReactMarkdown>
+              </div>
+            )}
           </BubbleContent>
         </Bubble>
 

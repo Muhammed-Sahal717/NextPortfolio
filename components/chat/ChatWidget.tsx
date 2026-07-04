@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { X, Bot, Terminal } from "lucide-react";
+import { X, Terminal, Maximize2, Minimize2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AiraIcon from "@/components/chat/AiraIcon";
 import ChatTrigger from "./ChatTrigger";
@@ -10,11 +10,61 @@ import ChatMessage, { Message } from "./ChatMessage";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const [dimensions, setDimensions] = useState({ w: 400, h: 600 });
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // Resizing logic
+  const isResizing = useRef(false);
+  const startPos = useRef({ x: 0, w: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing.current) return;
+      // Moving mouse left (negative delta) means larger width since anchored bottom-right
+      const deltaX = startPos.current.x - e.clientX;
+      let newW = startPos.current.w + deltaX;
+      
+      // Constraints: Min 400, Max 800
+      newW = Math.max(400, Math.min(newW, 1000));
+      let newH = newW * 1.5; // lock aspect ratio
+      
+      // Screen bounds
+      const maxH = window.innerHeight - 60;
+      if (newH > maxH) {
+        newH = maxH;
+        newW = newH / 1.5;
+      }
+      
+      setDimensions({ w: newW, h: newH });
+    };
+
+    const handleMouseUp = () => {
+      if (isResizing.current) {
+        isResizing.current = false;
+        document.body.style.cursor = "default";
+        document.body.style.userSelect = "auto";
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isResizing.current = true;
+    startPos.current = { x: e.clientX, w: dimensions.w };
+    document.body.style.cursor = "nwse-resize";
+    document.body.style.userSelect = "none";
+    e.preventDefault();
+  };
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -67,7 +117,7 @@ export default function ChatWidget() {
       while (!done) {
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
-        const chunkValue = decoder.decode(value, { stream: !done });
+        const chunkValue = decoder.decode(value || new Uint8Array(), { stream: !done });
         accumulatedText += chunkValue;
 
         setMessages((prev) => {
@@ -134,26 +184,40 @@ export default function ChatWidget() {
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[101] flex items-end justify-end"
           >
-            <div className="w-[calc(100vw-32px)] md:w-[400px] h-[450px] md:h-[600px] max-h-[80vh] bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-xl flex flex-col rounded-xl overflow-hidden relative z-10">
+            <div 
+              style={{ "--chat-w": `${dimensions.w}px`, "--chat-h": `${dimensions.h}px` } as React.CSSProperties}
+              className="w-[calc(100vw-32px)] md:w-[var(--chat-w)] h-[500px] md:h-[var(--chat-h)] max-h-[85vh] bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-xl flex flex-col rounded-xl overflow-hidden relative z-10 transition-shadow ease-in-out"
+            >
+              {/* Drag Handle Top-Left (Only visible on desktop) */}
+              <div 
+                onMouseDown={handleMouseDown}
+                className="hidden md:block absolute -top-[1px] -left-[1px] w-10 h-10 cursor-nwse-resize z-50 group/handle"
+              >
+                {/* Seamless glowing border overlay */}
+                <div className="absolute top-0 left-0 w-full h-full rounded-tl-xl border-t-[3px] border-l-[3px] border-zinc-400 dark:border-zinc-600 group-hover/handle:border-fuchsia-500 transition-colors pointer-events-none group-hover/handle:drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]" />
+              </div>
               
               {/* Header */}
-              <div className="h-14 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-row justify-between items-center px-4 shrink-0">
+              <div className="h-14 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-row justify-between items-center px-4 shrink-0 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 flex items-center justify-center p-[2px]">
                     <AiraIcon status={currentStatus} />
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-mono font-bold text-sm text-black dark:text-white leading-none">
-                      Aira
+                    <span className="font-sans font-bold text-sm text-black dark:text-white leading-none">
+                      AI Assistant
                     </span>
                   </div>
                 </div>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="w-11 h-11 bg-white dark:bg-zinc-900 text-black dark:text-white border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center justify-center rounded-md"
-                >
-                  <X size={18} strokeWidth={3} />
-                </button>
+                
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="w-9 h-9 bg-white dark:bg-zinc-900 text-zinc-500 hover:text-black dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center rounded-md"
+                  >
+                    <X size={18} strokeWidth={2.5} />
+                  </button>
+                </div>
               </div>
 
               {/* Chat Content */}
