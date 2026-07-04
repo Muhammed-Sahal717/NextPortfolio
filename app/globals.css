@@ -195,21 +195,6 @@ html {
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  body {
-    cursor: none;
-    /* Hides default cursor */
-  }
-
-  /* Ensure links/buttons don't force the pointer back */
-  a,
-  button,
-  input,
-  textarea,
-  select {
-    cursor: none !important;
-  }
-}
 
 /* --- SAD ROBOT ANIMATIONS --- */
 

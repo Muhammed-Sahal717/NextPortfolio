@@ -4,6 +4,8 @@ import { FiArrowUpRight, FiGithub } from "react-icons/fi";
 import Link from "next/link";
 import ProjectCarousel from "./ProjectCarousel";
 import { getCleanImages } from "./projectUtils";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ProjectCard({
@@ -16,73 +18,77 @@ export default function ProjectCard({
   const allImages = getCleanImages(project.image_url, project.gallery_images);
 
   return (
-    <section
-      className={`group mb-12 flex w-full flex-col gap-8 rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-6 backdrop-blur-sm transition-colors duration-500 hover:border-[var(--theme-lime-400)] dark:border-white/20 dark:bg-black/20 dark:hover:border-[var(--theme-lime-400)] md:gap-12 md:p-10 lg:flex-row`}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: 0.1 }}
     >
-      <div className="flex w-full flex-col justify-center lg:w-1/2">
-        <span className="mb-2 font-serif text-xl italic text-[var(--theme-lime-400)]">
-          0{index + 1}. Featured Project
-        </span>
-        <div className="mb-6 flex items-center justify-start gap-4">
-          <Link href={`/projects/${project.slug}`}>
-            <h2 className="text-4xl font-semibold text-zinc-900 transition-colors hover:text-[var(--theme-lime-400)] dark:text-white dark:hover:text-[var(--theme-lime-400)] md:text-5xl">
-              {project.title}
-            </h2>
-          </Link>
-          {project.slug && (
-            <Link
-              href={`/projects/${project.slug}`}
-              className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 transition-all duration-300 hover:scale-110 hover:border-[var(--theme-lime-400)] hover:bg-[var(--theme-lime-400)] dark:border-white/10 dark:bg-white/5 dark:hover:border-[var(--theme-lime-400)] dark:hover:bg-[var(--theme-lime-400)]"
-              aria-label="View Project Details"
-            >
-              <FiArrowUpRight className="text-2xl text-zinc-600 transition-transform duration-300 group-hover:rotate-45 group-hover:text-white dark:text-zinc-300" />
-            </Link>
-          )}
-        </div>
-        <p className="mb-8 line-clamp-3 text-lg font-light leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {project.description}
-        </p>
+      <Card className="group flex flex-col lg:flex-row h-full overflow-hidden border-border bg-card transition-all duration-300 hover:shadow-lg hover:border-muted-foreground/30">
+        
+        {/* Left Side: Content */}
+        <div className="flex w-full flex-col justify-between lg:w-1/2 p-6 lg:p-10 border-b lg:border-b-0 lg:border-r border-border">
+          <div>
+            <CardHeader className="p-0 mb-6 flex flex-col gap-2">
+              <Link href={`/projects/${project.slug}`} className="w-fit">
+                <CardTitle className="text-3xl font-bold transition-colors group-hover:text-primary">
+                  {project.title}
+                </CardTitle>
+              </Link>
+              <CardDescription className="line-clamp-4 text-base text-muted-foreground mt-2">
+                {project.description}
+              </CardDescription>
+            </CardHeader>
 
-        {/* Tech Stack */}
-        {project.tech_stack && project.tech_stack.length > 0 && (
-          <div className="mb-8 flex flex-wrap gap-2">
-            {project.tech_stack.slice(0, 4).map((tech: string) => (
-              <span
-                key={tech}
-                className="rounded-full border border-zinc-200/80 bg-zinc-100 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-700 dark:border-zinc-700/50 dark:bg-black/30 dark:text-zinc-300"
-              >
-                {tech}
-              </span>
-            ))}
+            <CardContent className="p-0">
+              {/* Tech Stack */}
+              {project.tech_stack && project.tech_stack.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {project.tech_stack.slice(0, 5).map((tech: string) => (
+                    <span
+                      key={tech}
+                      className="rounded-full bg-muted/50 border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </CardContent>
           </div>
-        )}
 
-        <div className="mt-auto flex items-center gap-6">
-          {project.demo_url && (
-            <Link
-              href={project.demo_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-lg font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-white"
-            >
-              Live Demo <FiArrowUpRight />
-            </Link>
-          )}
-          {project.github_url && (
-            <Link
-              href={project.github_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-lg font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-white"
-            >
-              Source Code <FiGithub />
-            </Link>
-          )}
+          <CardFooter className="p-0 flex items-center gap-6 mt-auto">
+            {project.demo_url && (
+              <Link
+                href={project.demo_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Live Demo <FiArrowUpRight />
+              </Link>
+            )}
+            {project.github_url && (
+              <Link
+                href={project.github_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Source <FiGithub />
+              </Link>
+            )}
+          </CardFooter>
         </div>
-      </div>
-      <div className="relative mt-8 w-full aspect-video overflow-hidden rounded-2xl border border-dashed border-zinc-300 dark:border-white/20 lg:mt-0 lg:w-1/2 lg:aspect-auto lg:min-h-[400px] shadow-2xl">
-        <ProjectCarousel images={allImages} />
-      </div>
-    </section>
+
+        {/* Right Side: Image Carousel */}
+        <div className="relative w-full lg:w-1/2 aspect-video lg:aspect-auto flex">
+          <div className="w-full h-full min-h-[300px]">
+            <ProjectCarousel images={allImages} />
+          </div>
+        </div>
+
+      </Card>
+    </motion.div>
   );
 }

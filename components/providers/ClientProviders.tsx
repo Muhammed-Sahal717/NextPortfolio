@@ -11,19 +11,6 @@ export default function ClientProviders() {
   return (
     <>
       <ChatWidget />
-      <SmoothCursor 
-        color="#ccff00" 
-        size={16} 
-        glowEffect={true} 
-        rotateOnMove={true} 
-        scaleOnClick={true}
-        springConfig={{
-          stiffness: 1200,
-          damping: 40,
-          mass: 0.1,
-          restDelta: 0.001,
-        }}
-      />
       <SmoothScrolling />
     </>
   );
