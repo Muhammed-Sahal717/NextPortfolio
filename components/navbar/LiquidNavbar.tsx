@@ -39,8 +39,8 @@ export default function LiquidNavbar() {
     <nav
       className={`fixed top-0 left-0 w-full z-[1000] transition-colors duration-500 ${
         isScrolled || isOpen
-          ? "bg-background/90 border-b border-border shadow-md backdrop-blur-md"
-          : "bg-transparent border-b border-transparent shadow-none"
+          ? "bg-background/90 border-b border-dashed border-border shadow-md backdrop-blur-md"
+          : "bg-transparent border-b border-dashed border-transparent shadow-none"
       }`}
     >
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">

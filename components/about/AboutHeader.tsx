@@ -4,7 +4,7 @@
 
 export default function AboutHeader() {
   return (
-    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-12 border-b pb-8">
+    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-12 border-b border-dashed border-border pb-8">
       <div>
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight">
           About Me
