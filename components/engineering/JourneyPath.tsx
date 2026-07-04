@@ -56,7 +56,7 @@ export default function JourneyPath({ count }: { count: number }) {
         <motion.path
           d={path}
           fill="none"
-          stroke="var(--theme-lime-400)"
+          stroke="hsl(var(--primary))"
           strokeWidth="2.5"
           vectorEffect="non-scaling-stroke"
           style={{ pathLength: scrollYProgress }}

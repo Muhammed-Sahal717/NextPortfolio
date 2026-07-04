@@ -2,9 +2,18 @@
 
 import { FiArrowUpRight, FiGithub } from "react-icons/fi";
 import Link from "next/link";
-import ProjectCarousel from "./ProjectCarousel";
+import Image from "next/image";
 import { getCleanImages } from "./projectUtils";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { motion } from "framer-motion";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,47 +54,66 @@ export default function ProjectCard({
               {project.tech_stack && project.tech_stack.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-8">
                   {project.tech_stack.slice(0, 5).map((tech: string) => (
-                    <span
-                      key={tech}
-                      className="rounded-full bg-muted/50 border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground"
-                    >
+                    <Badge key={tech} variant="secondary" className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
                       {tech}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
               )}
             </CardContent>
           </div>
 
-          <CardFooter className="p-0 flex items-center gap-6 mt-auto">
+          <CardFooter className="p-0 flex flex-wrap items-center gap-4 mt-auto">
             {project.demo_url && (
-              <Link
-                href={project.demo_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Live Demo <FiArrowUpRight />
-              </Link>
+              <Button asChild variant="outline" size="sm" className="gap-1.5 rounded-full hover:border-primary hover:text-primary">
+                <Link href={project.demo_url} target="_blank" rel="noopener noreferrer">
+                  Live Demo <FiArrowUpRight />
+                </Link>
+              </Button>
             )}
             {project.github_url && (
-              <Link
-                href={project.github_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Source <FiGithub />
-              </Link>
+              <Button asChild variant="ghost" size="sm" className="gap-1.5 rounded-full text-muted-foreground hover:text-foreground">
+                <Link href={project.github_url} target="_blank" rel="noopener noreferrer">
+                  Source <FiGithub />
+                </Link>
+              </Button>
             )}
           </CardFooter>
         </div>
 
         {/* Right Side: Image Carousel */}
-        <div className="relative w-full lg:w-1/2 aspect-video lg:aspect-auto flex">
-          <div className="w-full h-full min-h-[300px]">
-            <ProjectCarousel images={allImages} />
-          </div>
+        <div className="relative w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-10 bg-muted/10">
+          {allImages.length > 0 ? (
+            <Carousel opts={{ loop: true }} className="w-full max-w-full">
+              <CarouselContent>
+                {allImages.map((src: string, i: number) => (
+                  <CarouselItem key={i}>
+                    <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-border/50 shadow-sm bg-muted/20">
+                      <Image
+                        src={src}
+                        alt={`${project.title} screenshot ${i + 1}`}
+                        fill
+                        priority={true}
+                        unoptimized={true}
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              {allImages.length > 1 && (
+                <>
+                  <CarouselPrevious className="hidden sm:flex left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:bg-background" />
+                  <CarouselNext className="hidden sm:flex right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:bg-background" />
+                </>
+              )}
+            </Carousel>
+          ) : (
+            <div className="w-full aspect-video rounded-xl bg-muted/50 border border-border/50 flex items-center justify-center text-muted-foreground text-sm">
+              No images available
+            </div>
+          )}
         </div>
 
       </Card>

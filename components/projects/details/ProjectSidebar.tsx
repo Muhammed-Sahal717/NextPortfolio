@@ -15,21 +15,21 @@ export default function ProjectSidebar({
   return (
     <div className="lg:col-span-4 h-fit rounded-[2rem] border border-dashed border-zinc-300 bg-white/5 p-8 backdrop-blur-sm dark:border-white/20 dark:bg-black/20 lg:sticky lg:top-24 space-y-8">
       <div>
-        <span className="mb-2 font-serif text-xl italic text-[var(--theme-lime-400)] block">
+        <span className="mb-2 font-serif text-xl italic text-primary block">
           Category
         </span>
         <div className="flex items-center gap-2 text-xl font-medium text-zinc-900 dark:text-white">
-          <FiLayers className="text-[var(--theme-lime-400)]" />{" "}
+          <FiLayers className="text-primary" />{" "}
           {category || "Engineering"}
         </div>
       </div>
 
       <div>
-        <span className="mb-2 font-serif text-xl italic text-[var(--theme-lime-400)] block">
+        <span className="mb-2 font-serif text-xl italic text-primary block">
           Timeline
         </span>
         <div className="flex items-center gap-2 text-xl font-medium text-zinc-900 dark:text-white">
-          <FiCalendar className="text-[var(--theme-lime-400)]" />{" "}
+          <FiCalendar className="text-primary" />{" "}
           {timeline || "Completed"}
         </div>
       </div>
@@ -40,9 +40,10 @@ export default function ProjectSidebar({
         </p>
         <ClientButton
           projectName={title}
-          className="w-full py-4 border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-[var(--theme-lime-400)] hover:text-black hover:border-[var(--theme-lime-400)] font-mono text-xs uppercase tracking-widest rounded-xl transition-all duration-300 flex items-center justify-center gap-2 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300 dark:hover:bg-[var(--theme-lime-400)] dark:hover:text-black dark:hover:border-[var(--theme-lime-400)]"
+          variant="outline"
+          className="w-full py-6 font-mono text-xs uppercase tracking-widest gap-2 group"
         >
-          <FiZap size={14} /> Analyze Code
+          <FiZap size={14} className="group-hover:text-primary transition-colors" /> Analyze Code
         </ClientButton>
       </div>
     </div>

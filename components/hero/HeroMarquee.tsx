@@ -9,7 +9,7 @@ export default function HeroMarquee() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ delay: 1.5, duration: 1 }}
-      className="absolute bottom-0 w-full overflow-hidden z-20 pointer-events-auto bg-[var(--theme-lime-400)] py-3 md:py-4"
+      className="absolute bottom-0 w-full overflow-hidden z-20 pointer-events-auto bg-primary py-3 md:py-4"
     >
       <style>{`
         @keyframes smoothMarquee {

@@ -16,6 +16,20 @@ export const getCleanImages = (
     if (typeof entry === "string") {
       const trimmed = entry.trim();
 
+      // Handle stringified JSON arrays like '["url1", "url2"]'
+      if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) {
+            parsed.forEach((item) => processEntry(item));
+            return;
+          }
+        } catch (e) {
+          // Fallback if parsing fails
+        }
+      }
+
+      // Handle Postgres array syntax like '{url1, url2}'
       if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
         const inner = trimmed.slice(1, -1);
         const urls = inner.split(",");
@@ -24,6 +38,7 @@ export const getCleanImages = (
           if (cleanUrl.startsWith("http")) images.push(cleanUrl);
         });
       } else {
+        // Plain string
         const cleanUrl = trimmed.replace(/["']/g, "").trim();
         if (cleanUrl.startsWith("http")) images.push(cleanUrl);
       }

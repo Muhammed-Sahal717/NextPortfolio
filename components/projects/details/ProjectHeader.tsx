@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
+import { Button } from "@/components/ui/button";
 
 interface ProjectHeaderProps {
   title: string;
@@ -45,23 +46,19 @@ export default function ProjectHeader({
       {/* ACTION BUTTONS */}
       <div className="mt-12 flex flex-col sm:flex-row gap-4 lg:mt-0 shrink-0">
         {demoUrl && (
-          <Link
-            href={demoUrl}
-            target="_blank"
-            className="group flex items-center justify-center gap-3 px-8 py-4 bg-[var(--theme-lime-400)] text-black rounded-full font-medium text-lg hover:scale-105 transition-transform duration-300 shadow-lg"
-          >
-            Live Demo{" "}
-            <FiExternalLink className="transition-transform duration-300 group-hover:rotate-45" />
-          </Link>
+          <Button asChild className="rounded-full px-8 py-6 text-lg font-medium shadow-lg hover:scale-105 transition-transform duration-300 group">
+            <Link href={demoUrl} target="_blank">
+              Live Demo{" "}
+              <FiExternalLink className="transition-transform duration-300 group-hover:rotate-45" />
+            </Link>
+          </Button>
         )}
         {githubUrl && (
-          <Link
-            href={githubUrl}
-            target="_blank"
-            className="group flex items-center justify-center gap-3 px-8 py-4 bg-zinc-100 border border-zinc-200 text-zinc-900 rounded-full font-medium text-lg hover:bg-zinc-200 transition-colors dark:bg-white/5 dark:border-white/10 dark:text-white dark:hover:bg-white/10"
-          >
-            <FiGithub /> Source Code
-          </Link>
+          <Button asChild variant="outline" className="rounded-full px-8 py-6 text-lg font-medium group">
+            <Link href={githubUrl} target="_blank">
+              <FiGithub className="mr-2" /> Source Code
+            </Link>
+          </Button>
         )}
       </div>
     </div>

@@ -5,24 +5,23 @@ import { FiGithub, FiLinkedin, FiInstagram } from "react-icons/fi";
 
 export default function FooterNav() {
   const navLinks = [
-    { name: "Projects", href: "#projects", label: "01" },
-    { name: "About", href: "#about", label: "02" },
-    { name: "Stack", href: "#about", label: "03" },
+    { name: "Projects", href: "#projects" },
+    { name: "About", href: "#about" },
+    { name: "Contact", href: "#contact" },
   ];
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap-12 lg:gap-24 mx-auto lg:mx-0 w-full max-w-lg lg:max-w-none">
       {/* Links */}
       <div>
-         <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-6 block">Sitemap</span>
-         <div className="flex flex-col gap-4">
+         <span className="text-muted-foreground font-medium text-sm mb-4 block">Navigation</span>
+         <div className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-lg font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-tight flex items-center gap-4 group"
+                className="text-base font-medium text-foreground hover:text-primary transition-colors w-fit"
               >
-                <span className="text-xs font-mono text-zinc-700 group-hover:text-[var(--theme-lime-400)] transition-colors">{link.label}</span>
                 {link.name}
               </Link>
             ))}
@@ -30,33 +29,34 @@ export default function FooterNav() {
       </div>
 
       {/* Socials & Location */}
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-8">
         <div>
-          <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-6 block">Socials</span>
-          <div className="flex gap-6">
+          <span className="text-muted-foreground font-medium text-sm mb-4 block">Socials</span>
+          <div className="flex gap-4">
             {[
-              { icon: FiGithub, href: process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#" },
-              { icon: FiLinkedin, href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#" },
-              { icon: FiInstagram, href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM || "#" },
+              { icon: FiGithub, href: process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#", label: "GitHub" },
+              { icon: FiLinkedin, href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#", label: "LinkedIn" },
+              { icon: FiInstagram, href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM || "#", label: "Instagram" },
             ].map((item, i) => (
               <Link
                 key={i}
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-zinc-500 hover:text-[var(--theme-lime-400)] transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors p-2 -ml-2 rounded-md hover:bg-muted"
+                aria-label={item.label}
               >
-                <item.icon size={24} />
+                <item.icon size={20} />
               </Link>
             ))}
           </div>
         </div>
         
         <div>
-          <span className="text-zinc-600 font-mono text-xs uppercase tracking-widest mb-4 block">Base</span>
-          <div className="text-zinc-400 font-mono text-sm">
-            <p className="text-white mb-1">Malappuram</p>
-            <p>Kerala, India</p>
+          <span className="text-muted-foreground font-medium text-sm mb-2 block">Location</span>
+          <div className="text-sm text-foreground">
+            <p>Malappuram</p>
+            <p className="text-muted-foreground">Kerala, India</p>
           </div>
         </div>
       </div>

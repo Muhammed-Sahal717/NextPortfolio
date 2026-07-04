@@ -1,8 +1,10 @@
 "use client";
 
 import { ReactNode } from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { VariantProps } from "class-variance-authority";
 
-interface Props {
+interface Props extends VariantProps<typeof buttonVariants> {
   children: ReactNode;
   projectName: string;
   className?: string;
@@ -12,6 +14,8 @@ export default function ClientButton({
   children,
   projectName,
   className,
+  variant,
+  size,
 }: Props) {
   const handleClick = () => {
     // Dispatch the Custom Event that ChatWidget listens for
@@ -24,8 +28,8 @@ export default function ClientButton({
   };
 
   return (
-    <button onClick={handleClick} className={className}>
+    <Button variant={variant} size={size} onClick={handleClick} className={className}>
       {children}
-    </button>
+    </Button>
   );
 }

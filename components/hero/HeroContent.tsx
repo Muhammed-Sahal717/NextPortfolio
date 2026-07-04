@@ -38,53 +38,56 @@ export default function HeroContent() {
 
       {/* CTA Buttons */}
       <div className="flex flex-wrap justify-center gap-4">
-        <Link href="#projects">
-          <Button size="lg" className="rounded-full h-12 px-8 text-base">
+        <Button asChild size="lg" className="rounded-full h-12 px-8 text-base">
+          <Link href="#projects">
             View Work <FiArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
 
         {/* Resume Button */}
         {resumeUrl && (
-          <a href={resumeUrl} download>
-            <Button
-              variant="outline"
-              size="lg"
-              className="rounded-full h-12 px-8 text-base"
-            >
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="rounded-full h-12 px-8 text-base"
+          >
+            <a href={resumeUrl} download>
               <FiDownload className="mr-2 w-4 h-4" />
               View Resume
-            </Button>
-          </a>
+            </a>
+          </Button>
         )}
 
-        <Link
-          href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "https://github.com"}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Button
+          asChild
+          variant="outline"
+          size="icon"
+          className="rounded-full h-12 w-12"
         >
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full h-12 w-12"
+          <Link
+            href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "https://github.com"}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <FaGithub className="w-5 h-5" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
 
-        <Link
-          href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "https://linkedin.com"}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Button
+          asChild
+          variant="outline"
+          size="icon"
+          className="rounded-full h-12 w-12"
         >
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full h-12 w-12"
+          <Link
+            href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "https://linkedin.com"}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <FaLinkedin className="w-5 h-5" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </div>
   );

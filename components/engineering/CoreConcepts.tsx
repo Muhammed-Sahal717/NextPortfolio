@@ -35,9 +35,9 @@ export default function CoreConcepts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-8 hover:border-[var(--theme-lime-400)]/20 transition-colors group"
+            className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-8 hover:border-primary/50 transition-colors group"
           >
-            <concept.icon className="text-2xl text-zinc-500 mb-6 group-hover:text-[var(--theme-lime-400)] transition-colors" />
+            <concept.icon className="text-2xl text-zinc-500 mb-6 group-hover:text-primary transition-colors" />
             <h3 className="text-lg font-bold text-white mb-2">
               {concept.title}
             </h3>

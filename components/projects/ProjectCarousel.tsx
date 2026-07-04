@@ -47,6 +47,7 @@ export default function ProjectCarousel({ images }: { images: string[] }) {
             src={images[currentIndex]}
             alt={`Slide ${currentIndex}`}
             fill
+            unoptimized={true}
             className="object-cover"
             priority={currentIndex === 0}
             sizes="(max-width: 1024px) 100vw, 50vw"

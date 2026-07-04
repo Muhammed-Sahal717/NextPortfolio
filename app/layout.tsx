@@ -106,6 +106,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { Toaster } from "@/components/ui/sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -115,16 +117,13 @@ export default function RootLayout({
     // Added 'scroll-smooth' for better navigation feel
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${outfit.variable} antialiased bg-black text-white selection:bg-[var(--theme-lime-400)] selection:text-[var(--theme-black)]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${outfit.variable} font-sans antialiased bg-background text-foreground selection:bg-primary selection:text-primary-foreground`}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
         >
-          {/* Optional: Global Film Grain Overlay */}
-          {/* <div className="bg-noise" /> */}
-
           {/* Main Content */}
           {children}
 
@@ -133,6 +132,7 @@ export default function RootLayout({
             <PageTransitionLoader />
           </Suspense>
           <ClientProviders />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

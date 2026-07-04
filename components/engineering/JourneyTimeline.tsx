@@ -55,18 +55,18 @@ export default function JourneyTimeline() {
               }`}
             >
               {/* Mobile dot indicator */}
-              <div className="absolute left-[19px] top-10 w-4 h-4 rounded-full bg-black border-2 border-[var(--theme-lime-400)] shadow-[0_0_10px_var(--theme-lime-400)] md:hidden z-10" />
+              <div className="absolute left-[19px] top-10 w-4 h-4 rounded-full bg-black border-2 border-primary shadow-[0_0_10px_hsl(var(--primary))] md:hidden z-10" />
 
               <div className="w-full pl-16 md:pl-0 md:w-[45%]">
                 {/* Profile-style frosted glass card */}
-                <div className="bg-zinc-900/30 border border-zinc-800/50 hover:border-[var(--theme-lime-400)]/30 hover:bg-zinc-900/60 transition-all duration-500 rounded-[2rem] p-8 md:p-10 group backdrop-blur-md">
-                  <div className="inline-flex items-center justify-center p-3 rounded-xl bg-[var(--theme-lime-400)]/10 text-[var(--theme-lime-400)] mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="bg-zinc-900/30 border border-zinc-800/50 hover:border-primary/50 hover:bg-zinc-900/60 transition-all duration-500 rounded-[2rem] p-8 md:p-10 group backdrop-blur-md">
+                  <div className="inline-flex items-center justify-center p-3 rounded-xl bg-primary/10 text-primary mb-6 group-hover:scale-110 transition-transform duration-300">
                     <item.icon size={24} />
                   </div>
                   <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
                     {item.phase}
                   </span>
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[var(--theme-lime-400)] transition-colors">
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-zinc-400 leading-relaxed font-light text-sm md:text-base">
