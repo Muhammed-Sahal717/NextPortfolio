@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({ email: "", message: "" });
@@ -15,7 +16,13 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.message) {
-      toast.error("Please fill in all fields");
+      toast.custom((t) => (
+        <Bubble align="start">
+          <BubbleContent className="bg-zinc-800 text-white border-zinc-700 border">
+            Please fill in all fields
+          </BubbleContent>
+        </Bubble>
+      ));
       return;
     }
 
@@ -34,17 +41,27 @@ export default function ContactForm() {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
       );
       
-      toast.success("Message sent successfully!", {
-        description: "I'll get back to you as soon as possible.",
-      });
+      toast.custom((t) => (
+        <Bubble align="start">
+          <BubbleContent className="bg-zinc-800 text-white border-zinc-700 border">
+            <strong>Message sent successfully!</strong><br />
+            I'll get back to you as soon as possible.
+          </BubbleContent>
+        </Bubble>
+      ));
       
       setFormData({ email: "", message: "" });
       setStatus("IDLE");
     } catch (error: any) {
       console.error("EmailJS Error:", error);
-      toast.error("Failed to send message", {
-        description: "Please try again later or reach out via social media.",
-      });
+      toast.custom((t) => (
+        <Bubble align="start">
+          <BubbleContent className="bg-zinc-800 text-white border-zinc-700 border">
+            <strong>Failed to send message</strong><br />
+            Please try again later or reach out via social media.
+          </BubbleContent>
+        </Bubble>
+      ));
       setStatus("IDLE");
     }
   };
