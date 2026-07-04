@@ -4,6 +4,7 @@ import React from "react";
 import AboutHeader from "./AboutHeader";
 import AboutSummary from "./AboutSummary";
 import AboutTechStack from "./AboutTechStack";
+import AboutStats from "./AboutStats";
 
 export default function AboutSection() {
   return (
@@ -15,12 +16,27 @@ export default function AboutSection() {
         {/* 1. HEADER */}
         <AboutHeader />
 
-        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:items-stretch">
-          {/* --- LEFT COLUMN GROUP --- */}
-          <AboutSummary />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800 rounded-xl overflow-hidden shadow-sm">
+          {/* Top Row: Summary (2 cols) + Tech Stack (1 col) */}
+          <div className="md:col-span-2 bg-background">
+            <AboutSummary />
+          </div>
+          
+          <div className="md:col-span-2 lg:col-span-1 bg-background">
+            <AboutTechStack />
+          </div>
 
-          {/* --- RIGHT COLUMN (THE SCROLLER) --- */}
-          <AboutTechStack />
+          {/* Bottom Row: Stats (3 items, taking 1 col each on lg, spreading on md) */}
+          {/* On md:grid-cols-2, we need 3 items to fit nicely, so we can wrap them in a fragment and let the grid place them. */}
+          <AboutStats />
+          
+          {/* Padding dummy cell for md screens since 2 + 1 + 3 = 6 items which fits perfectly in 2 cols (3 rows) and 3 cols (2 rows)! */}
+          {/* Wait: Top row is (2 col) + (1 col if lg, or 2 col if md). 
+              If md (2 cols):
+              Summary takes 2 cols (row 1).
+              Tech Stack takes 2 cols (row 2).
+              Stats takes 3 cells. 3 cells in a 2 col grid leaves 1 empty cell. We need a padding cell. */}
+          <div className="hidden md:block lg:hidden bg-background" />
         </div>
       </div>
     </section>

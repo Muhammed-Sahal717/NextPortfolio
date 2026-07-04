@@ -9,40 +9,32 @@ import CoreConcepts from "@/components/engineering/CoreConcepts";
 
 export default function EngineeringPage() {
   return (
-    <main className="min-h-screen bg-black text-white font-sans selection:bg-[var(--theme-lime-400)]/30 overflow-hidden relative">
+    <main className="min-h-screen bg-black text-white font-sans selection:bg-zinc-800 overflow-hidden relative">
       <LiquidNavbar />
 
-      {/* Profile-style Static Glow */}
-      <div
-        className="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl h-[400px] pointer-events-none z-0"
-        style={{
-          background:
-            "radial-gradient(circle, var(--theme-lime-400) 0%, transparent 60%)",
-          opacity: 0.1,
-        }}
-      />
-
       <div className="relative z-10 max-w-[100rem] mx-auto px-6 lg:px-16 pt-32 pb-32">
-        {/* Header */}
-        <header className="mb-24 relative z-10 text-center md:text-left">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-br from-white via-zinc-200 to-zinc-600"
-          >
-            JOURNEY
-          </motion.h1>
-          <motion.p
+        <header className="mb-12 relative z-10 border-b border-dashed border-border pb-8 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+          <div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight"
+            >
+              Journey
+            </motion.h1>
+          </div>
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl"
-            style={{ fontFamily: "var(--font-space-grotesk)" }}
+            className="max-w-md text-muted-foreground text-lg leading-relaxed"
           >
-            The evolution of my technical thinking, from writing basic
-            algorithms to architecting AI-driven platforms.
-          </motion.p>
+            <p>
+              An overview of my engineering progression, from mastering core programming 
+              fundamentals to building scalable, production-ready web applications.
+            </p>
+          </motion.div>
         </header>
 
         <JourneyTimeline />

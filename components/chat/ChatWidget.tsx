@@ -167,10 +167,11 @@ export default function ChatWidget() {
                   <div className="p-4">
                     {messages.length === 0 && (
                       <div className="flex flex-col items-center justify-center h-full pt-8 opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full flex items-center justify-center mb-4 shadow-sm">
-                          <Terminal size={32} className="text-black dark:text-white" />
+                        <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full flex items-center justify-center mb-4 shadow-sm relative overflow-hidden group">
+                          <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <Terminal size={32} className="text-black dark:text-white relative z-10" />
                         </div>
-                        <p className="font-mono font-bold text-base mb-1 dark:text-white">
+                        <p className="font-mono font-bold text-base mb-1 dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-pink-500 to-amber-500">
                           SYSTEM READY
                         </p>
                         <p className="text-xs text-zinc-500 text-center max-w-[200px] mb-6 font-medium">
@@ -182,7 +183,7 @@ export default function ChatWidget() {
                             <button
                               key={q}
                               onClick={() => sendMessage(q)}
-                              className="text-[10px] font-mono font-bold border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 dark:text-white px-2 py-1 rounded-md hover:bg-lime-400 dark:hover:bg-lime-500 hover:text-black transition-all active:translate-y-0.5"
+                              className="text-[10px] font-mono font-bold border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 dark:text-white px-3 py-1.5 rounded-full hover:bg-gradient-to-r hover:from-fuchsia-500 hover:via-pink-500 hover:to-amber-500 hover:text-white hover:border-transparent transition-all duration-300 active:translate-y-0.5 shadow-sm"
                             >
                               {"> "}
                               {q}
@@ -193,19 +194,28 @@ export default function ChatWidget() {
                     )}
 
                     <div className="space-y-4 pb-4">
-                      {messages.map((m) => (
-                        <ChatMessage key={m.id} message={m} sendMessage={sendMessage} />
-                      ))}
+                      {messages.length > 0 && (
+                        <div className="flex flex-col min-w-0 gap-2">
+                          {messages.map((m) => (
+                            <ChatMessage key={m.id} message={m} sendMessage={sendMessage} />
+                          ))}
+                        </div>
+                      )}
 
                       {isLoading && (
-                        <div className="flex gap-3 justify-start">
-                          <div className="w-6 h-6 border border-zinc-200 dark:border-zinc-800 bg-lime-400 dark:bg-lime-500 flex items-center justify-center shrink-0 shadow-sm">
-                            <Bot size={14} />
+                        <div className="group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse mb-4" data-align="start">
+                          <div className="flex w-8 h-8 min-w-8 shrink-0 items-center justify-center self-start overflow-hidden rounded-full bg-transparent border border-zinc-200 dark:border-zinc-800 shadow-sm p-1 mt-1">
+                            <AiraIcon status="loading" className="w-full h-full" />
                           </div>
-                          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-3 py-2 rounded-lg rounded-tl-none shadow-sm flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-black dark:bg-white animate-bounce [animation-delay:-0.3s]"></span>
-                            <span className="w-1.5 h-1.5 bg-black dark:bg-white animate-bounce [animation-delay:-0.15s]"></span>
-                            <span className="w-1.5 h-1.5 bg-black dark:bg-white animate-bounce"></span>
+                          
+                          <div className="flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end">
+                            <div className="group/bubble relative flex w-fit max-w-full min-w-0 flex-col gap-1 border-none bg-transparent">
+                              <div className="w-fit max-w-full min-w-0 overflow-hidden px-1 py-3 text-sm leading-relaxed wrap-break-word bg-transparent h-full flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600 animate-bounce [animation-delay:-0.3s]"></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600 animate-bounce [animation-delay:-0.15s]"></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600 animate-bounce"></span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       )}

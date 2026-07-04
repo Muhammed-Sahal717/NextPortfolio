@@ -21,112 +21,112 @@ export default function ProfileStack() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800 border border-dashed border-border rounded-xl overflow-hidden"
     >
       {/* Frontend */}
-      <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-8 hover:border-lime-500/20 transition-colors">
-        <h3 className="text-white font-semibold text-lg mb-6 flex items-center gap-3">
-          <span className="w-8 h-8 rounded-full bg-lime-500/10 flex items-center justify-center text-lime-400">
+      <div className="bg-background p-8 lg:p-12 hover:bg-zinc-900/20 transition-colors">
+        <h3 className="text-foreground font-semibold text-lg mb-8 flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400">
             <SiReact />
           </span>
           Frontend
         </h3>
-        <ul className="space-y-4">
+        <ul className="space-y-5">
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiReact className="text-zinc-500" /> React
             </span>
-            <span className="text-lime-400 text-xs font-mono">Advanced</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Advanced</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiNextdotjs className="text-zinc-500" /> Next.js
             </span>
-            <span className="text-lime-400 text-xs font-mono">Advanced</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Advanced</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiTypescript className="text-zinc-500" /> TypeScript
             </span>
-            <span className="text-lime-400 text-xs font-mono">Proficient</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Proficient</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiTailwindcss className="text-zinc-500" /> Tailwind CSS
             </span>
-            <span className="text-lime-400 text-xs font-mono">Advanced</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Advanced</span>
           </li>
         </ul>
       </div>
 
       {/* Backend */}
-      <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-8 hover:border-lime-500/20 transition-colors">
-        <h3 className="text-white font-semibold text-lg mb-6 flex items-center gap-3">
-          <span className="w-8 h-8 rounded-full bg-lime-500/10 flex items-center justify-center text-lime-400">
+      <div className="bg-background p-8 lg:p-12 hover:bg-zinc-900/20 transition-colors">
+        <h3 className="text-foreground font-semibold text-lg mb-8 flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400">
             <SiNodedotjs />
           </span>
           Backend
         </h3>
-        <ul className="space-y-4">
+        <ul className="space-y-5">
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiNodedotjs className="text-zinc-500" /> Node.js
             </span>
-            <span className="text-lime-400 text-xs font-mono">Proficient</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Proficient</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <FiServer className="text-zinc-500" /> Express
             </span>
-            <span className="text-lime-400 text-xs font-mono">Proficient</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Proficient</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiPostgresql className="text-zinc-500" /> PostgreSQL
             </span>
-            <span className="text-lime-400 text-xs font-mono">Intermediate</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Intermediate</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <FiDatabase className="text-zinc-500" /> REST APIs
             </span>
-            <span className="text-lime-400 text-xs font-mono">Advanced</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Advanced</span>
           </li>
         </ul>
       </div>
 
       {/* DevOps & AI */}
-      <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-8 hover:border-lime-500/20 transition-colors">
-        <h3 className="text-white font-semibold text-lg mb-6 flex items-center gap-3">
-          <span className="w-8 h-8 rounded-full bg-lime-500/10 flex items-center justify-center text-lime-400">
+      <div className="bg-background p-8 lg:p-12 hover:bg-zinc-900/20 transition-colors">
+        <h3 className="text-foreground font-semibold text-lg mb-8 flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400">
             <SiDocker />
           </span>
           DevOps & AI
         </h3>
-        <ul className="space-y-4">
+        <ul className="space-y-5">
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiDocker className="text-zinc-500" /> Docker
             </span>
-            <span className="text-lime-400 text-xs font-mono">Intermediate</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Intermediate</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <SiGooglegemini className="text-zinc-500" /> Gemini API
             </span>
-            <span className="text-lime-400 text-xs font-mono">Proficient</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Proficient</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <FiMessageSquare className="text-zinc-500" /> Prompt Eng.
             </span>
-            <span className="text-lime-400 text-xs font-mono">Advanced</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Advanced</span>
           </li>
           <li className="flex items-center justify-between text-zinc-400">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-3">
               <FiDatabase className="text-zinc-500" /> RAG Configs
             </span>
-            <span className="text-lime-400 text-xs font-mono">Intermediate</span>
+            <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 px-2 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider">Intermediate</span>
           </li>
         </ul>
       </div>

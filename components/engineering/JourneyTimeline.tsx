@@ -1,82 +1,94 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { FiCode, FiCpu, FiLayers, FiServer } from "react-icons/fi";
-import JourneyPath from "./JourneyPath";
+import { Card, CardContent } from "@/components/ui/card";
 
 // --- DATA ---
 const journeyItems = [
   {
     phase: "Phase 01",
-    title: "Building the Base",
-    desc: "Mastering C, Java, and core algorithms. Establishing a strong foundation in memory management and object-oriented patterns.",
+    title: "Foundational Programming",
+    desc: "Focused on systems programming, object-oriented design, and efficient data structures using C and Java to establish strong technical fundamentals.",
     icon: FiCode,
   },
   {
     phase: "Phase 02",
-    title: "Web Architecture",
-    desc: "Diving deep into the PERN stack. Building scalable REST APIs, secure authentication flows, and stateless client-server architectures.",
+    title: "Full-Stack Development",
+    desc: "Developed end-to-end web applications using React and Node.js. Built secure authentication systems, robust APIs, and optimized database schemas.",
     icon: FiServer,
   },
   {
     phase: "Phase 03",
-    title: "Intelligence Layers",
-    desc: "Integrating LLMs (OpenAI, Gemini) into web apps. Exploring Retrieval-Augmented Generation (RAG) and prompt engineering.",
+    title: "AI Integration",
+    desc: "Implemented practical machine learning features into web applications, utilizing language models and retrieval systems to enhance user experiences.",
     icon: FiCpu,
   },
   {
     phase: "Phase 04",
-    title: "System Maturity",
-    desc: "Focusing on agentic workflows, performance optimization, Docker containerization, and building highly resilient platforms.",
+    title: "Production Engineering",
+    desc: "Shifted focus towards system reliability, application performance monitoring, and deploying containerized environments using Docker.",
     icon: FiLayers,
   },
 ];
 
 export default function JourneyTimeline() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end 80%"],
+  });
+
+  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
-    <div className="relative max-w-5xl mx-auto mt-24 py-12 md:py-24">
-      <JourneyPath count={journeyItems.length} />
+    <div ref={containerRef} className="relative max-w-4xl mx-auto mt-24 py-12 md:py-24">
+      {/* The Background Track */}
+      <div className="absolute left-[30px] md:left-[50px] top-12 bottom-12 w-[2px] bg-zinc-900 rounded-full" />
 
-      {/* Mobile Vertical Line Fallback */}
-      <div className="absolute left-[27px] top-0 bottom-0 w-[2px] bg-zinc-800 md:hidden z-0" />
+      {/* The Glowing Line */}
+      <motion.div
+        className="absolute left-[30px] md:left-[50px] top-12 w-[2px] rounded-full bg-linear-to-b from-transparent via-white to-white z-10"
+        style={{ height, opacity: scrollYProgress }}
+      />
 
-      <div className="relative z-10 flex flex-col gap-16 md:gap-32">
-        {journeyItems.map((item, i) => {
-          const isLeft = i % 2 === 0;
-          return (
+      <div className="relative z-20 flex flex-col gap-12 md:gap-24">
+        {journeyItems.map((item, i) => (
+          <div key={i} className="flex w-full items-start gap-4 md:gap-16 group">
+            {/* Dot Indicator */}
+            <div className="shrink-0 relative w-[60px] md:w-[100px] flex justify-center mt-8 md:mt-12">
+              <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-black border-2 border-zinc-800 relative z-20 group-hover:border-white transition-colors duration-500" />
+            </div>
+
+            {/* Card Content */}
             <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className={`flex w-full relative ${
-                isLeft ? "md:justify-start" : "md:justify-end"
-              }`}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="w-full pr-0 md:pr-6"
             >
-              {/* Mobile dot indicator */}
-              <div className="absolute left-[19px] top-10 w-4 h-4 rounded-full bg-black border-2 border-primary shadow-[0_0_10px_hsl(var(--primary))] md:hidden z-10" />
-
-              <div className="w-full pl-16 md:pl-0 md:w-[45%]">
-                {/* Profile-style frosted glass card */}
-                <div className="bg-zinc-900/30 border border-zinc-800/50 hover:border-primary/50 hover:bg-zinc-900/60 transition-all duration-500 rounded-[2rem] p-8 md:p-10 group backdrop-blur-md">
-                  <div className="inline-flex items-center justify-center p-3 rounded-xl bg-primary/10 text-primary mb-6 group-hover:scale-110 transition-transform duration-300">
+              <Card className="bg-background border border-border shadow-sm hover:border-zinc-700 hover:bg-zinc-900/50 transition-all duration-500 p-8 md:p-10">
+                <CardContent className="p-0">
+                  <div className="inline-flex items-center justify-center p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 mb-6 group-hover:bg-white group-hover:text-black transition-all duration-500">
                     <item.icon size={24} />
                   </div>
                   <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest block mb-3">
                     {item.phase}
                   </span>
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary transition-colors">
+                  <h3 className="text-2xl font-bold text-foreground mb-4 group-hover:text-white transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-zinc-400 leading-relaxed font-light text-sm md:text-base">
+                  <p className="text-muted-foreground leading-relaxed font-light text-sm md:text-base">
                     {item.desc}
                   </p>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             </motion.div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );

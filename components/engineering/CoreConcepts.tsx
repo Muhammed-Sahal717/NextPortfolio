@@ -5,29 +5,29 @@ import { FiServer, FiDatabase, FiCode } from "react-icons/fi";
 
 const concepts = [
   {
-    title: "Client-Server",
+    title: "Client-Server Architecture",
     icon: FiServer,
-    desc: "Stateless communication and architecture.",
+    desc: "Designing clean separation between frontend interfaces and backend services.",
   },
   {
-    title: "REST APIs",
+    title: "API Development",
     icon: FiDatabase,
-    desc: "Predictable, scalable endpoint design.",
+    desc: "Building reliable, well-documented REST endpoints for seamless data exchange.",
   },
   {
-    title: "Auth Flows",
+    title: "Authentication",
     icon: FiCode,
-    desc: "JWT, Session, and OAuth security.",
+    desc: "Implementing secure user sessions and authorization using industry-standard protocols.",
   },
 ];
 
 export default function CoreConcepts() {
   return (
-    <div className="mt-32 border-t border-zinc-800/50 pt-24 max-w-5xl mx-auto">
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
+    <div className="mt-24 md:mt-32 pt-12 md:pt-24 max-w-5xl mx-auto">
+      <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-left border-b border-dashed border-border pb-6">
         Core Concepts
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-800 border border-dashed border-border rounded-xl overflow-hidden shadow-sm">
         {concepts.map((concept, i) => (
           <motion.div
             key={i}
@@ -35,13 +35,13 @@ export default function CoreConcepts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-8 hover:border-primary/50 transition-colors group"
+            className="bg-background p-8 hover:bg-zinc-900/50 transition-colors group"
           >
-            <concept.icon className="text-2xl text-zinc-500 mb-6 group-hover:text-primary transition-colors" />
-            <h3 className="text-lg font-bold text-white mb-2">
+            <concept.icon className="text-3xl text-zinc-500 mb-8 group-hover:text-white transition-colors" />
+            <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-white transition-colors">
               {concept.title}
             </h3>
-            <p className="text-zinc-500 text-sm font-light">{concept.desc}</p>
+            <p className="text-muted-foreground text-sm font-light leading-relaxed">{concept.desc}</p>
           </motion.div>
         ))}
       </div>

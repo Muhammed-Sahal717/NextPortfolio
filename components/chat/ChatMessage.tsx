@@ -1,6 +1,10 @@
 "use client";
 
-import { Bot } from "lucide-react";
+import React from "react";
+import { Message as MessageWrapper, MessageAvatar, MessageContent, MessageFooter } from "@/components/ui/message";
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
+import { Button } from "@/components/ui/button";
+import AiraIcon from "@/components/chat/AiraIcon";
 
 export type Message = {
   id: string;
@@ -14,6 +18,7 @@ interface ChatMessageProps {
 }
 
 export default function ChatMessage({ message, sendMessage }: ChatMessageProps) {
+  // Parse answer and suggestions
   const [answer, suggestionsBlock] = message.content.split("---SUGGESTIONS---");
   const suggestions = suggestionsBlock
     ?.split("\n")
@@ -21,55 +26,46 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
     .map((line) => line.replace("-", "").trim())
     .filter(Boolean);
 
+  const isUser = message.role === "user";
+
   return (
-    <div
-      className={`flex gap-2 ${
-        message.role === "user" ? "justify-end" : "justify-start"
-      }`}
-    >
-      {message.role === "assistant" && (
-        <div className="w-6 h-6 rounded-none border border-zinc-200 dark:border-zinc-800 bg-lime-400 dark:bg-lime-500 flex items-center justify-center shrink-0 mt-1 shadow-sm">
-          <Bot size={14} />
-        </div>
+    <MessageWrapper align={isUser ? "end" : "start"} className="mb-4">
+      {!isUser && (
+        <MessageAvatar className="w-8 h-8 bg-transparent border border-zinc-200 dark:border-zinc-800 shadow-sm p-1 mt-0">
+          <AiraIcon status="idle" className="w-full h-full" />
+        </MessageAvatar>
       )}
 
-      <div
-        className={`flex flex-col gap-2 max-w-[85%] ${
-          message.role === "user" ? "items-end" : "items-start"
-        }`}
-      >
-        <div
-          className={`
-          p-2.5 text-xs font-medium border border-zinc-200 dark:border-zinc-800 shadow-sm
-          whitespace-pre-wrap break-words
-          ${
-            message.role === "user"
-              ? "bg-black text-white dark:bg-zinc-100 dark:text-black rounded-lg rounded-tr-none"
-              : "bg-white text-black dark:bg-zinc-900 dark:text-white rounded-lg rounded-tl-none"
-          }
-        `}
-        >
-          {answer?.trim()}
-        </div>
+      <MessageContent>
+        <Bubble variant={isUser ? "default" : "ghost"} className={!isUser ? "max-w-full" : ""}>
+          <BubbleContent className={`
+            whitespace-pre-wrap break-words leading-relaxed
+            ${isUser 
+              ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black px-4 py-2.5 rounded-2xl rounded-tr-sm text-[15px]" 
+              : "bg-transparent text-zinc-900 dark:text-zinc-100 px-1 py-1 text-[15px]"
+            }
+          `}>
+            {answer?.trim()}
+          </BubbleContent>
+        </Bubble>
 
-        {message.role === "assistant" && suggestions && suggestions.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-1">
+        {!isUser && suggestions && suggestions.length > 0 && (
+          <MessageFooter className="mt-3 flex flex-wrap gap-2 px-1">
             {suggestions.map((s, idx) => (
-              <button
+              <Button
                 key={idx}
+                variant="outline"
+                size="sm"
                 onClick={() => sendMessage(s)}
-                className="
-                  text-[10px] font-bold bg-white dark:bg-zinc-900 text-black dark:text-white border border-zinc-200 dark:border-zinc-800 px-2 py-1.5 rounded-full
-                  hover:bg-lime-300 dark:hover:bg-lime-500 hover:text-black dark:text-white hover:-translate-y-0.5
-                  transition-all duration-150 cursor-pointer
-                "
+                className="h-8 text-xs font-medium bg-transparent border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-white transition-all duration-300 relative overflow-hidden group shadow-sm"
               >
-                {s}
-              </button>
+                <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-500/10 via-pink-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative z-10">{s}</span>
+              </Button>
             ))}
-          </div>
+          </MessageFooter>
         )}
-      </div>
-    </div>
+      </MessageContent>
+    </MessageWrapper>
   );
 }

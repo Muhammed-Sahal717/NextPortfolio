@@ -12,18 +12,18 @@ export default function ProfileConnect() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="grid grid-cols-1 md:grid-cols-3 gap-6"
+      className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-800 border border-dashed border-border rounded-xl overflow-hidden"
     >
       <a
         href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}
         target="_blank"
         rel="noopener noreferrer"
-        className="group bg-zinc-900/30 border border-zinc-800/50 hover:border-lime-500/30 hover:bg-zinc-900/80 rounded-3xl p-8 flex flex-col items-center justify-center gap-4 transition-all duration-300"
+        className="group bg-background p-12 flex flex-col items-center justify-center gap-6 hover:bg-zinc-900/50 transition-all duration-300"
       >
-        <SiGithub className="text-4xl text-zinc-400 group-hover:text-white transition-colors" />
+        <SiGithub className="text-5xl text-zinc-500 group-hover:text-white transition-colors" />
         <div className="text-center">
-          <div className="text-xl font-bold text-white mb-1">GitHub</div>
-          <div className="text-zinc-500 text-sm font-mono uppercase tracking-widest">
+          <div className="text-2xl font-bold text-foreground mb-2">GitHub</div>
+          <div className="text-muted-foreground text-xs font-mono uppercase tracking-widest">
             Code
           </div>
         </div>
@@ -33,12 +33,12 @@ export default function ProfileConnect() {
         href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#"}
         target="_blank"
         rel="noopener noreferrer"
-        className="group bg-zinc-900/30 border border-zinc-800/50 hover:border-lime-500/30 hover:bg-zinc-900/80 rounded-3xl p-8 flex flex-col items-center justify-center gap-4 transition-all duration-300"
+        className="group bg-background p-12 flex flex-col items-center justify-center gap-6 hover:bg-zinc-900/50 transition-all duration-300"
       >
-        <SiLinkedin className="text-4xl text-zinc-400 group-hover:text-[#0A66C2] transition-colors" />
+        <SiLinkedin className="text-5xl text-zinc-500 group-hover:text-white transition-colors" />
         <div className="text-center">
-          <div className="text-xl font-bold text-white mb-1">LinkedIn</div>
-          <div className="text-zinc-500 text-sm font-mono uppercase tracking-widest">
+          <div className="text-2xl font-bold text-foreground mb-2">LinkedIn</div>
+          <div className="text-muted-foreground text-xs font-mono uppercase tracking-widest">
             Network
           </div>
         </div>
@@ -48,12 +48,12 @@ export default function ProfileConnect() {
         href="https://orbdarymycthwezfodwb.supabase.co/storage/v1/object/public/resume/resume_muhammedsahal_v1_0_0-3.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        className="group bg-zinc-900/30 border border-zinc-800/50 hover:border-lime-500/30 hover:bg-zinc-900/80 rounded-3xl p-8 flex flex-col items-center justify-center gap-4 transition-all duration-300"
+        className="group bg-background p-12 flex flex-col items-center justify-center gap-6 hover:bg-zinc-900/50 transition-all duration-300"
       >
-        <FiFileText className="text-4xl text-zinc-400 group-hover:text-lime-400 transition-colors" />
+        <FiFileText className="text-5xl text-zinc-500 group-hover:text-white transition-colors" />
         <div className="text-center">
-          <div className="text-xl font-bold text-white mb-1">Resume</div>
-          <div className="text-zinc-500 text-sm font-mono uppercase tracking-widest">
+          <div className="text-2xl font-bold text-foreground mb-2">Resume</div>
+          <div className="text-muted-foreground text-xs font-mono uppercase tracking-widest">
             PDF
           </div>
         </div>
