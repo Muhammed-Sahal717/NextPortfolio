@@ -50,8 +50,8 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto lg:mx-0">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    <div className="w-full max-w-lg mx-auto">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-left">
         <div className="grid gap-2">
           <Label htmlFor="email">Email address</Label>
           <Input
