@@ -40,7 +40,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Horizontal Bar */}
-      <div className="w-full max-w-5xl mx-auto mt-32 px-6">
+      <div className="w-full max-w-[100rem] mx-auto mt-32 px-6 lg:px-16">
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted-foreground">
           
           {/* Navigation */}
