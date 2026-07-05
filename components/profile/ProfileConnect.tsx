@@ -12,7 +12,7 @@ export default function ProfileConnect() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-800 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden"
+      className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border rounded-xl overflow-hidden"
     >
       <a
         href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#"}

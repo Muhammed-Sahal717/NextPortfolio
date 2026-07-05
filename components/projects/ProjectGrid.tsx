@@ -18,11 +18,11 @@ function CellWrapper({
     <div className={`relative w-full h-full ${className}`}>
       {/* LG Diamond */}
       {isLgInternal && (
-        <div className="hidden lg:block absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-zinc-800" />
+        <div className="hidden lg:block absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
       )}
       {/* MD Diamond */}
       {isMdInternal && (
-        <div className="hidden md:block lg:hidden absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-zinc-800" />
+        <div className="hidden md:block lg:hidden absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
       )}
       {children}
     </div>
@@ -37,7 +37,7 @@ export default function ProjectGrid({ projects }: { projects: any[] }) {
 
   return (
     <div className="mx-auto w-full max-w-[100rem] px-6 lg:px-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-xl overflow-hidden shadow-sm">
         {projects.map((project, index) => (
           <CellWrapper key={project.id} index={index}>
             <ProjectCard project={project} index={index} />

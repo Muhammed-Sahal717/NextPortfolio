@@ -84,7 +84,7 @@ export default function LiquidNavbar() {
               {/* Desktop CTA */}
               <Button
                 asChild
-                className="hidden md:flex rounded-full px-6 font-bold"
+                className="hidden md:flex rounded-full px-6 font-bold hover:border-green-500/50 hover:bg-green-500/10 hover:text-green-500 dark:hover:text-green-400 transition-all border border-transparent"
               >
                 <a href="#contact">Let's connect</a>
               </Button>

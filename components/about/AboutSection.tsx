@@ -16,7 +16,7 @@ export default function AboutSection() {
         {/* 1. HEADER */}
         <AboutHeader />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800 rounded-xl overflow-hidden shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-xl overflow-hidden shadow-sm">
           {/* Top Row: Summary (2 cols) + Tech Stack (1 col) */}
           <div className="md:col-span-2 bg-background">
             <AboutSummary />
@@ -37,7 +37,7 @@ export default function AboutSection() {
               Tech Stack takes 2 cols (row 2).
               Stats takes 3 cells. 3 cells in a 2 col grid leaves 1 empty cell. We need a padding cell. */}
           <div className="relative hidden md:block lg:hidden bg-background">
-            <div className="absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-zinc-800" />
+            <div className="absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
           </div>
         </div>
       </div>

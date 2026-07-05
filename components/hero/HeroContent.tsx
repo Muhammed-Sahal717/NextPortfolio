@@ -39,7 +39,11 @@ export default function HeroContent() {
 
       {/* CTA Buttons */}
       <div className="flex flex-wrap justify-center gap-4">
-        <Button asChild size="lg" className="rounded-full h-12 px-8 text-base">
+        <Button
+          asChild
+          size="lg"
+          className="rounded-full h-12 px-8 text-base hover:border-green-500/50 hover:bg-green-500/10 hover:text-green-500 dark:hover:text-green-400 transition-all border border-transparent"
+        >
           <Link href="#projects">
             View Work <FiArrowRight className="ml-2 w-4 h-4" />
           </Link>

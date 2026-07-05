@@ -11,7 +11,7 @@ export default function ProfileOverview() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-zinc-800 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden"
+      className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-border border border-border rounded-xl overflow-hidden"
     >
       {/* Left: Summary */}
       <div className="bg-background p-8 lg:p-12">
