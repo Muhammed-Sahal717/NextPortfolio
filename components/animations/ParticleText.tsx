@@ -19,7 +19,6 @@ type Particle = {
   color: string;
   vx: number;
   vy: number;
-  vy: number;
   update: (pointer: { x: number; y: number; active: boolean; radius: number }) => void;
   draw: (ctx: CanvasRenderingContext2D) => void;
 };
