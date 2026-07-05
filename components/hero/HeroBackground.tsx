@@ -40,7 +40,7 @@ export default function HeroBackground() {
         />
       </div>
 
-      <Noise patternAlpha={15} />
+      <Noise patternAlpha={10} />
     </div>
   );
 }
