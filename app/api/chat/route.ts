@@ -69,7 +69,7 @@ export async function POST(req: Request) {
     // 1. Generate an embedding for the user's question
     console.log("[Chat API] Embedding user query for RAG...");
     const { embedding } = await embed({
-      model: google.textEmbeddingModel("text-embedding-004"),
+      model: google.textEmbeddingModel("gemini-embedding-2"),
       value: lastMessageContent,
     });
 

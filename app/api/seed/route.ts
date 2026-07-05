@@ -32,7 +32,7 @@ export async function GET(req: Request) {
       const textToEmbed = `Project Title: ${project.title}. Description: ${project.description}. Tech Stack: ${techStack}.`;
 
       const { embedding } = await embed({
-        model: google.textEmbeddingModel("text-embedding-004"),
+        model: google.textEmbeddingModel("gemini-embedding-2"),
         value: textToEmbed,
       });
 
@@ -51,7 +51,7 @@ export async function GET(req: Request) {
       const textToEmbed = `Experience Role: ${exp.role} at ${exp.company}. Duration: ${exp.start_date} to ${exp.end_date || 'Present'}. Description: ${exp.description}. Skills used: ${skills}.`;
 
       const { embedding } = await embed({
-        model: google.textEmbeddingModel("text-embedding-004"),
+        model: google.textEmbeddingModel("gemini-embedding-2"),
         value: textToEmbed,
       });
 
