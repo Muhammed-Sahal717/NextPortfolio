@@ -338,11 +338,24 @@ html {
 }
 
 @keyframes dreamy-fade-out {
-  0% { opacity: 1; filter: blur(0px); }
-  100% { opacity: 0; filter: blur(15px); }
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 @keyframes dreamy-fade-in {
-  0% { opacity: 0; filter: blur(15px); }
-  100% { opacity: 1; filter: blur(0px); }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Restore the dreamy blur effect for desktop devices where GPUs can handle it smoothly */
+@media (min-width: 768px) {
+  @keyframes dreamy-fade-out {
+    0% { opacity: 1; filter: blur(0px); }
+    100% { opacity: 0; filter: blur(15px); }
+  }
+
+  @keyframes dreamy-fade-in {
+    0% { opacity: 0; filter: blur(15px); }
+    100% { opacity: 1; filter: blur(0px); }
+  }
 }

@@ -3,12 +3,14 @@
 import { FiArrowRight, FiDownload } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 // import { motion } from "framer-motion"; // Kept for reference but not used
 
 export default function HeroContent() {
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/resume")
@@ -16,7 +18,8 @@ export default function HeroContent() {
       .then((data) => {
         if (data.url) setResumeUrl(data.url);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
@@ -50,7 +53,9 @@ export default function HeroContent() {
         </Button>
 
         {/* Resume Button */}
-        {resumeUrl && (
+        {isLoading ? (
+          <Skeleton className="rounded-full h-12 w-44" />
+        ) : resumeUrl ? (
           <Button
             asChild
             variant="outline"
@@ -62,7 +67,7 @@ export default function HeroContent() {
               View Resume
             </a>
           </Button>
-        )}
+        ) : null}
 
         <Button
           asChild

@@ -275,6 +275,7 @@ export default function LiquidEther({
         this.mouseMoved = true;
       }
       onDocumentMouseMove(event: MouseEvent) {
+        if (Common.isMobile && event.clientY < 80) return; // Ignore navbar area on mobile
         if (!this.updateHoverState(event.clientX, event.clientY)) return;
         if (this.onInteract) this.onInteract();
         if (this.isAutoActive && !this.hasUserControl && !this.takeoverActive) {
@@ -296,6 +297,7 @@ export default function LiquidEther({
       onDocumentTouchStart(event: TouchEvent) {
         if (event.touches.length !== 1) return;
         const t = event.touches[0];
+        if (Common.isMobile && t.clientY < 80) return; // Ignore navbar area on mobile
         if (!this.updateHoverState(t.clientX, t.clientY)) return;
         if (this.onInteract) this.onInteract();
         this.setCoords(t.clientX, t.clientY);
@@ -304,6 +306,7 @@ export default function LiquidEther({
       onDocumentTouchMove(event: TouchEvent) {
         if (event.touches.length !== 1) return;
         const t = event.touches[0];
+        if (Common.isMobile && t.clientY < 80) return; // Ignore navbar area on mobile
         if (!this.updateHoverState(t.clientX, t.clientY)) return;
         if (this.onInteract) this.onInteract();
         this.setCoords(t.clientX, t.clientY);
@@ -383,7 +386,10 @@ export default function LiquidEther({
         this.mouse.isAutoActive = false;
       }
       update() {
-        if (!this.enabled) return;
+        if (!this.enabled || Common.isMobile) {
+          if (this.active) this.forceStop();
+          return;
+        }
         const now = performance.now();
         const idle = now - this.manager.lastUserInteraction;
         if (idle < this.resumeDelay) {

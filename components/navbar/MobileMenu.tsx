@@ -20,9 +20,10 @@ export default function MobileMenu({ isOpen, setIsOpen, mainLinks }: MobileMenuP
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ type: "spring", bounce: 0, duration: 0.5 }}
-          className="md:hidden px-4 pb-4 overflow-hidden"
+          className="md:hidden overflow-hidden"
         >
-          <div className="pt-2 flex flex-col gap-1">
+          <div className="px-4 pb-4">
+            <div className="pt-2 flex flex-col gap-1">
             {mainLinks.map((link, i) => (
               <motion.div
                 key={link.name}
@@ -72,6 +73,7 @@ export default function MobileMenu({ isOpen, setIsOpen, mainLinks }: MobileMenuP
               <a href="#contact">Let&apos;s connect</a>
             </Button>
           </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
