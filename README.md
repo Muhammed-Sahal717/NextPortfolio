@@ -25,16 +25,15 @@ The codebase is organized to maintain separation of concerns and readability:
 
 ---
 
-## 🤖 AI Assistant & Context Injection
+## 🤖 AI Assistant & RAG Pipeline
 
-The portfolio features an AI chatbot powered by **Gemini 2.5 Flash** to answer questions about my skills and experience.
+The portfolio features a context-aware AI chatbot powered by **Gemini 2.5 Flash**, implementing a true Retrieval-Augmented Generation (RAG) architecture.
 
 ### How it Works:
-1. **Context Fetching**: When a chat session initiates, the backend fetches all active project and experience data directly from the Supabase database.
-2. **Dynamic Prompt Injection**: This data is injected into a strict system prompt. The model is instructed to adopt a professional persona and answer exclusively based on this injected context.
-3. **Streaming**: Responses are streamed back to the client using the `ReadableStream` API and Vercel AI SDK.
-
-*(Note: The codebase also includes an `/api/seed` route capable of generating embeddings via `text-embedding-004` and storing them in `pgvector`. While built for future Retrieval-Augmented Generation (RAG) capabilities, the current chat implementation relies purely on full-context prompt injection due to the small dataset size.)*
+1. **Data Seeding & Embeddings**: An admin-only API route (`/api/seed`) fetches project and experience records from Supabase. It generates 3072-dimensional vector embeddings using the `gemini-embedding-2` model and stores them securely via the `pgvector` extension.
+2. **Vector Similarity Search**: When a user asks a question, the backend converts their query into an embedding vector. It then executes a Postgres RPC function to perform a cosine similarity search (`<=>`) against the database, retrieving only the most mathematically relevant records.
+3. **Context Injection**: The highly relevant records are injected into the system prompt, ensuring the model relies on accurate, specific context rather than hallucinating or processing the entire database at once.
+4. **Streaming**: Responses are streamed back to the client using the `ReadableStream` API and Vercel AI SDK.
 
 ---
 
