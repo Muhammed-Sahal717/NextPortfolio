@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "./MobileMenu";
 import { ThemeToggle } from "./ThemeToggle";
-import AIIcon from "@/components/chat/AIIcon";
+import Logo from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -55,7 +55,7 @@ export default function LiquidNavbar() {
               className="flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
             >
               <div className="w-8 h-8 transition-transform group-hover:scale-110">
-                <AIIcon status="static" />
+                <Logo />
               </div>
             </Link>
 
