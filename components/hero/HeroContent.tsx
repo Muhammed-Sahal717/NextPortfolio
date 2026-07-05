@@ -28,7 +28,7 @@ export default function HeroContent() {
 
       {/* Main Heading */}
       <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-foreground">
-        Software Engineer
+        Full-Stack Engineer
       </h1>
 
       {/* Subheading */}
