@@ -7,6 +7,8 @@ import AIIcon from "@/components/chat/AIIcon";
 import ChatTrigger from "./ChatTrigger";
 import ChatInput from "./ChatInput";
 import ChatMessage, { Message } from "./ChatMessage";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -184,9 +186,9 @@ export default function ChatWidget() {
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[101] flex items-end justify-end"
           >
-            <div 
+              <div 
               style={{ "--chat-w": `${dimensions.w}px`, "--chat-h": `${dimensions.h}px` } as React.CSSProperties}
-              className="w-[calc(100vw-32px)] md:w-[var(--chat-w)] h-[500px] md:h-[var(--chat-h)] max-h-[85vh] bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 shadow-xl flex flex-col rounded-xl overflow-hidden relative z-10 transition-shadow ease-in-out"
+              className="w-[calc(100vw-32px)] md:w-[var(--chat-w)] h-[500px] md:h-[var(--chat-h)] max-h-[85vh] bg-background border border-border shadow-xl flex flex-col rounded-xl overflow-hidden relative z-10 transition-shadow ease-in-out"
             >
               {/* Drag Handle Top-Left (Only visible on desktop) */}
               <div 
@@ -194,51 +196,47 @@ export default function ChatWidget() {
                 className="hidden md:block absolute -top-[1px] -left-[1px] w-10 h-10 cursor-nwse-resize z-50 group/handle"
               >
                 {/* Seamless glowing border overlay */}
-                <div className="absolute top-0 left-0 w-full h-full rounded-tl-xl border-t-[3px] border-l-[3px] border-zinc-400 dark:border-zinc-600 group-hover/handle:border-fuchsia-500 transition-colors pointer-events-none group-hover/handle:drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]" />
+                <div className="absolute top-0 left-0 w-full h-full rounded-tl-xl border-t-[3px] border-l-[3px] border-muted-foreground/30 group-hover/handle:border-fuchsia-500 transition-colors pointer-events-none group-hover/handle:drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]" />
               </div>
               
               {/* Header */}
-              <div className="h-14 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-row justify-between items-center px-4 shrink-0 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 flex items-center justify-center p-[2px]">
+              <div className="flex flex-row justify-between items-center p-3 shrink-0 z-20">
+                <Badge variant="outline" className="flex items-center gap-2 py-1.5 px-3 rounded-full bg-muted/30 shadow-sm border-border cursor-default">
+                  <div className="w-4 h-4 flex items-center justify-center">
                     <AIIcon status={currentStatus} />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="font-sans font-bold text-sm text-black dark:text-white leading-none">
-                      AI Assistant
-                    </span>
-                  </div>
-                </div>
+                  <span className="font-sans font-bold text-xs text-foreground">
+                    AI Assistant
+                  </span>
+                </Badge>
                 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="w-9 h-9 bg-white dark:bg-zinc-900 text-zinc-500 hover:text-black dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center rounded-md"
-                  >
-                    <X size={18} strokeWidth={2.5} />
-                  </button>
-                </div>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setIsOpen(false)}
+                  className="w-8 h-8 rounded-full bg-muted/30 border-border text-muted-foreground hover:text-foreground shadow-sm"
+                >
+                  <X size={16} strokeWidth={2.5} />
+                </Button>
               </div>
 
               {/* Chat Content */}
-              <div className="flex-1 overflow-hidden bg-white dark:bg-zinc-950 relative">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-
+              <div className="flex-1 overflow-hidden bg-background relative">
                 <div
                   data-lenis-prevent
-                  className="h-full w-full overflow-y-auto overscroll-contain overscroll-y-contain scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent"
+                  className="h-full w-full overflow-y-auto overscroll-contain overscroll-y-contain scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
                 >
                   <div className="p-4">
                     {messages.length === 0 && (
                       <div className="flex flex-col items-center justify-center h-full pt-8 opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full flex items-center justify-center mb-4 shadow-sm relative overflow-hidden group">
+                        <div className="w-20 h-20 bg-muted/50 border border-border rounded-full flex items-center justify-center mb-4 shadow-sm relative overflow-hidden group">
                           <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                          <Terminal size={32} className="text-black dark:text-white relative z-10" />
+                          <Terminal size={32} className="text-foreground relative z-10" />
                         </div>
-                        <p className="font-mono font-bold text-base mb-1 dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-pink-500 to-amber-500">
+                        <p className="font-mono font-bold text-base mb-1 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-pink-500 to-amber-500">
                           SYSTEM READY
                         </p>
-                        <p className="text-xs text-zinc-500 text-center max-w-[200px] mb-6 font-medium">
+                        <p className="text-xs text-muted-foreground text-center max-w-[200px] mb-6 font-medium">
                           Ask about Sahal&apos;s stack, projects, or hire him
                           immediately.
                         </p>
@@ -247,7 +245,7 @@ export default function ChatWidget() {
                             <button
                               key={q}
                               onClick={() => sendMessage(q)}
-                              className="text-[10px] font-mono font-bold border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 dark:text-white px-3 py-1.5 rounded-full hover:bg-gradient-to-r hover:from-fuchsia-500 hover:via-pink-500 hover:to-amber-500 hover:text-white hover:border-transparent transition-all duration-300 active:translate-y-0.5 shadow-sm"
+                              className="text-[10px] font-mono font-bold border border-border bg-background text-foreground px-3 py-1.5 rounded-full hover:bg-gradient-to-r hover:from-fuchsia-500 hover:via-pink-500 hover:to-amber-500 hover:text-white hover:border-transparent transition-all duration-300 active:translate-y-0.5 shadow-sm"
                             >
                               {"> "}
                               {q}
@@ -268,16 +266,16 @@ export default function ChatWidget() {
 
                       {isLoading && (
                         <div className="group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse mb-4" data-align="start">
-                          <div className="flex w-8 h-8 min-w-8 shrink-0 items-center justify-center self-start overflow-hidden rounded-full bg-transparent border border-zinc-200 dark:border-zinc-800 shadow-sm p-1 mt-1">
+                          <div className="flex w-8 h-8 min-w-8 shrink-0 items-center justify-center self-start overflow-hidden rounded-full bg-transparent border border-border shadow-sm p-1 mt-1">
                             <AIIcon status="loading" className="w-full h-full" />
                           </div>
                           
                           <div className="flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end">
                             <div className="group/bubble relative flex w-fit max-w-full min-w-0 flex-col gap-1 border-none bg-transparent">
                               <div className="w-fit max-w-full min-w-0 overflow-hidden px-1 py-3 text-sm leading-relaxed wrap-break-word bg-transparent h-full flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600 animate-bounce [animation-delay:-0.3s]"></span>
-                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600 animate-bounce [animation-delay:-0.15s]"></span>
-                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600 animate-bounce"></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:-0.3s]"></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:-0.15s]"></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce"></span>
                               </div>
                             </div>
                           </div>

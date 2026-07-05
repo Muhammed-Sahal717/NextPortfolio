@@ -8,6 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Copy, Check } from "lucide-react";
 import AIIcon from "@/components/chat/AIIcon";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type Message = {
   id: string;
@@ -42,21 +48,21 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
   return (
     <MessageWrapper align={isUser ? "end" : "start"} className="mb-4">
       {isUser ? (
-        <MessageAvatar className="w-8 h-8 mt-0 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+        <MessageAvatar className="w-8 h-8 mt-0 border border-border shadow-sm">
           <Avatar className="w-8 h-8">
-            <AvatarFallback className="bg-zinc-100 dark:bg-zinc-900">
-              <User className="w-4 h-4 text-zinc-500" />
+            <AvatarFallback className="bg-muted">
+              <User className="w-4 h-4 text-muted-foreground" />
             </AvatarFallback>
           </Avatar>
         </MessageAvatar>
       ) : (
-        <MessageAvatar className="w-8 h-8 bg-transparent border border-zinc-200 dark:border-zinc-800 shadow-sm p-1 mt-0">
+        <MessageAvatar className="w-8 h-8 bg-transparent border border-border shadow-sm p-1 mt-0">
           <AIIcon status="idle" className="w-full h-full" />
         </MessageAvatar>
       )}
 
       <MessageContent>
-        <MessageHeader className="text-[10px] text-zinc-400 font-medium px-1 mb-0.5">
+        <MessageHeader className="text-[10px] text-muted-foreground font-medium px-1 mb-0.5">
           {isUser ? "You" : "AI Assistant"}
         </MessageHeader>
         
@@ -64,14 +70,14 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
           <BubbleContent className={`
             leading-relaxed
             ${isUser 
-              ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black px-4 py-2.5 rounded-2xl rounded-tr-sm text-[15px]" 
-              : "bg-transparent text-zinc-900 dark:text-zinc-100 px-1 py-1 text-[15px]"
+              ? "bg-foreground text-background px-4 py-2.5 rounded-2xl rounded-tr-sm text-[15px]" 
+              : "bg-transparent text-foreground px-1 py-1 text-[15px]"
             }
           `}>
             {isUser ? (
               <div className="whitespace-pre-wrap break-words">{answer?.trim()}</div>
             ) : (
-              <div className="prose prose-sm dark:prose-invert prose-zinc max-w-none break-words prose-p:leading-relaxed prose-pre:bg-zinc-100 dark:prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-200 dark:prose-pre:border-zinc-800 prose-li:my-0.5 prose-ul:my-2 prose-p:my-2 first:prose-p:mt-0 last:prose-p:mb-0">
+              <div className="prose prose-sm dark:prose-invert prose-zinc max-w-none break-words prose-p:leading-relaxed prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-li:my-0.5 prose-ul:my-2 prose-p:my-2 first:prose-p:mt-0 last:prose-p:mb-0">
                 <ReactMarkdown>
                   {answer?.trim() || ""}
                 </ReactMarkdown>
@@ -90,7 +96,7 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
                     variant="outline"
                     size="sm"
                     onClick={() => sendMessage(s)}
-                    className="h-8 text-xs font-medium bg-transparent border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-zinc-900 dark:hover:text-white transition-all duration-300 relative overflow-hidden group shadow-sm"
+                    className="h-8 text-xs font-medium bg-transparent border-border text-foreground rounded-full hover:bg-muted transition-all duration-300 relative overflow-hidden group shadow-sm"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-500/10 via-pink-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <span className="relative z-10">{s}</span>
@@ -100,15 +106,24 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
             )}
             
             <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleCopy}
-                className="h-6 w-6 text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-                aria-label="Copy message"
-              >
-                {copied ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
-              </Button>
+              <TooltipProvider delayDuration={1000}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={handleCopy}
+                      className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                      aria-label="Copy message"
+                    >
+                      {copied ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">
+                    <p className="text-xs">{copied ? "Copied!" : "Copy"}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </MessageFooter>
         )}
