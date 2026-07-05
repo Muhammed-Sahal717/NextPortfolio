@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -40,13 +39,13 @@
   --color-border: var(--theme-green-border);
   --color-input: var(--theme-green-border);
   --color-ring: var(--theme-green-500);
-  
+
   --color-primary: var(--theme-white);
   --color-primary-foreground: var(--theme-black);
-  
+
   --color-muted: var(--theme-zinc-900);
   --color-muted-foreground: var(--theme-zinc-400);
-  
+
   --color-accent: var(--theme-zinc-800);
   --color-accent-foreground: var(--theme-white);
 
@@ -60,6 +59,14 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
 }
 
 :root {
@@ -68,7 +75,7 @@
   /* LIGHT: Clean Zinc (Shadcn Light Equivalent) */
   --theme-black: #ffffff;
   --theme-white: #09090b;
-  
+
   --theme-zinc-950: #ffffff;
   --theme-zinc-900: #f4f4f5;
   --theme-zinc-800: #e4e4e7;
@@ -90,9 +97,20 @@
   --theme-green-400: #22c55e;
   --theme-green-500: #16a34a;
   --theme-green-border: #bbf7d0; /* Very soft light green for minimal borders */
-  
+
   --theme-red-400: #ef4444;
   --theme-red-500: #dc2626;
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  --scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.4);
 }
 
 .dark {
@@ -119,9 +137,20 @@
   --theme-green-400: #4ade80;
   --theme-green-500: #22c55e;
   --theme-green-border: #052e16; /* Deep dark green for minimal borders */
-  
+
   --theme-red-400: #f87171;
   --theme-red-500: #ef4444;
+  --sidebar: hsl(0 0% 0%);
+  --sidebar-foreground: hsl(0 0% 100%);
+  --sidebar-primary: hsl(142 71% 45%);
+  --sidebar-primary-foreground: hsl(0 0% 0%);
+  --sidebar-accent: hsl(0 0% 8%);
+  --sidebar-accent-foreground: hsl(142 71% 45%);
+  --sidebar-border: hsl(0 0% 8%);
+  --sidebar-ring: hsl(142 71% 45%);
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.3);
 }
 
 @layer base {
@@ -185,11 +214,11 @@ html {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15); /* Faint gray, visible but subtle */
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--scrollbar-thumb-hover);
 }
 ::-webkit-scrollbar-thumb:active {
   background: var(--theme-zinc-500);
@@ -198,9 +227,8 @@ html {
 /* Firefox support */
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
-
 
 /* --- SAD ROBOT ANIMATIONS --- */
 

@@ -15,6 +15,42 @@ const supabaseAdmin = createClient(
     }
 );
 
+export async function GET() {
+    try {
+        const { data, error } = await supabaseAdmin.storage.from("resume").list("", {
+            limit: 10,
+            sortBy: { column: "created_at", order: "desc" },
+        });
+
+        if (error) {
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+
+        if (data && data.length > 0) {
+            const files = data.filter((f) => f.name !== ".emptyFolderPlaceholder");
+            if (files.length > 0) {
+                const file = files[0];
+                const {
+                    data: { publicUrl },
+                } = supabaseAdmin.storage.from("resume").getPublicUrl(file.name);
+                
+                return NextResponse.json({ 
+                    success: true, 
+                    fileName: file.name,
+                    url: publicUrl 
+                });
+            }
+        }
+        
+        return NextResponse.json({ success: true, fileName: null, url: null });
+    } catch (err: any) {
+        return NextResponse.json(
+            { error: err.message || "Internal server error" },
+            { status: 500 }
+        );
+    }
+}
+
 export async function POST(req: Request) {
     try {
         const formData = await req.formData();

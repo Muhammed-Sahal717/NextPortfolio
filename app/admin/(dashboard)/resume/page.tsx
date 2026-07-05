@@ -13,6 +13,7 @@ import {
   FiCheck,
   FiAlertCircle,
 } from "react-icons/fi";
+import { AdminGrid, AdminCellWrapper } from "@/components/admin/AdminGrid";
 
 export default function AdminResumePage() {
   const supabase = createSupabaseBrowserClient();
@@ -31,22 +32,18 @@ export default function AdminResumePage() {
   }, []);
 
   const fetchResume = async () => {
-    const { data } = await supabase.storage.from("resume").list("", {
-      limit: 10,
-      sortBy: { column: "created_at", order: "desc" },
-    });
-
-    if (data && data.length > 0) {
-      // Filter out .emptyFolderPlaceholder
-      const files = data.filter((f) => f.name !== ".emptyFolderPlaceholder");
-      if (files.length > 0) {
-        const file = files[0];
-        setResumeFileName(file.name);
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("resume").getPublicUrl(file.name);
-        setResumeUrl(publicUrl);
+    try {
+      const res = await fetch("/api/admin/resume");
+      const data = await res.json();
+      if (data.success && data.fileName && data.url) {
+        setResumeFileName(data.fileName);
+        setResumeUrl(data.url);
+      } else {
+        setResumeFileName(null);
+        setResumeUrl(null);
       }
+    } catch (err) {
+      console.error("Failed to fetch resume", err);
     }
   };
 
@@ -125,126 +122,155 @@ export default function AdminResumePage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="space-y-12">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-white tracking-tight">Resume</h1>
-        <p className="text-zinc-500 text-sm mt-1">
-          Upload your resume to make it downloadable from the portfolio
-        </p>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">Resume Management</h1>
+          <p className="text-lg text-muted-foreground">
+            Upload and manage the PDF resume displayed on your portfolio.
+          </p>
+        </div>
+        
+        {/* Upload Action */}
+        <label
+          className={`inline-flex items-center gap-2 px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
+            uploading
+              ? "bg-muted text-muted-foreground cursor-not-allowed border border-border"
+              : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm"
+          }`}
+        >
+          {uploading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+              Processing...
+            </>
+          ) : (
+            <>
+              <FiUpload size={18} />
+              {resumeUrl ? "Replace File" : "Upload File"}
+            </>
+          )}
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={handleUpload}
+            disabled={uploading}
+            className="hidden"
+          />
+        </label>
       </div>
 
       {/* Message */}
       {message && (
         <div
-          className={`flex items-center gap-3 p-3 rounded-xl text-sm ${
+          className={`flex items-center gap-3 p-4 rounded-xl text-sm font-medium ${
             message.type === "success"
               ? "bg-green-500/10 border border-green-500/20 text-green-400"
               : "bg-red-500/10 border border-red-500/20 text-red-400"
           }`}
         >
           {message.type === "success" ? (
-            <FiCheck size={16} />
+            <FiCheck size={18} />
           ) : (
-            <FiAlertCircle size={16} />
+            <FiAlertCircle size={18} />
           )}
           {message.text}
         </div>
       )}
 
-      {/* Current Resume */}
-      {resumeUrl ? (
-        <div className="bg-zinc-950/60 backdrop-blur border border-white/[0.06] rounded-2xl p-6 space-y-4">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-lime-400/10 border border-lime-400/20 flex items-center justify-center">
-                <FiFile className="text-lime-400" size={22} />
+      {/* Bento Grid */}
+      <AdminGrid className="grid-cols-1 md:grid-cols-12">
+        {/* Left Column: Details */}
+        <AdminCellWrapper index={0} columnsMd={12} columnsLg={12} className="md:col-span-4">
+          <div className="flex flex-col p-6 h-full">
+            <h3 className="text-lg font-bold text-foreground mb-6">Document Details</h3>
+            
+            {resumeUrl ? (
+              <div className="space-y-6 flex-1">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                    <FiFile className="text-primary" size={20} />
+                  </div>
+                  <div className="flex-1 overflow-hidden">
+                    <p className="text-sm font-medium text-foreground mb-0.5">Current File</p>
+                    <p className="text-[10px] text-muted-foreground font-mono truncate" title={resumeName || ""}>
+                      {resumeName}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <a 
+                    href={resumeUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-3 rounded-lg bg-border hover:bg-muted transition-colors text-foreground group"
+                  >
+                    <span className="text-xs font-medium">Open in new tab</span>
+                    <FiExternalLink size={14} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                  </a>
+                  <a 
+                    href={resumeUrl} 
+                    download
+                    className="flex items-center justify-between p-3 rounded-lg bg-border hover:bg-muted transition-colors text-foreground group"
+                  >
+                    <span className="text-xs font-medium">Download PDF</span>
+                    <FiDownload size={14} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                  </a>
+                  <button 
+                    onClick={handleDelete}
+                    disabled={deleting}
+                    className="flex items-center justify-between p-3 rounded-lg bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 transition-colors text-red-400 hover:text-red-300 group disabled:opacity-50"
+                  >
+                    <span className="text-xs font-medium">{deleting ? "Deleting..." : "Delete Document"}</span>
+                    <FiTrash2 size={14} className="text-red-500/50 group-hover:text-red-400 transition-colors" />
+                  </button>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-white">Current Resume</p>
-                <p className="text-xs text-zinc-600 font-mono mt-0.5">
-                  {resumeName}
+            ) : (
+              <div className="flex flex-col items-center justify-center text-center flex-1 py-12">
+                <div className="w-12 h-12 rounded-xl bg-border flex items-center justify-center mb-3">
+                  <FiFile className="text-muted-foreground" size={20} />
+                </div>
+                <p className="text-muted-foreground text-sm font-medium mb-1">No document available</p>
+                <p className="text-muted-foreground opacity-80 text-[10px]">
+                  Upload a PDF to make it available for download.
                 </p>
               </div>
+            )}
+          </div>
+        </AdminCellWrapper>
+
+        {/* Right Column: Preview */}
+        <AdminCellWrapper index={1} columnsMd={12} columnsLg={12} className="md:col-span-8">
+          <div className="p-6 h-full flex flex-col">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-bold text-foreground">Live Preview</h3>
+              {resumeUrl && (
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20 text-[9px] font-mono text-primary uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  Active
+                </span>
+              )}
             </div>
-
-            <div className="flex items-center gap-2">
-              <a
-                href={resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-zinc-500 hover:text-lime-400 transition-colors"
-                title="View"
-              >
-                <FiExternalLink size={16} />
-              </a>
-              <a
-                href={resumeUrl}
-                download
-                className="p-2 text-zinc-500 hover:text-lime-400 transition-colors"
-                title="Download"
-              >
-                <FiDownload size={16} />
-              </a>
-              <button
-                onClick={handleDelete}
-                disabled={deleting}
-                className="p-2 text-zinc-600 hover:text-red-400 transition-colors disabled:opacity-50"
-                title="Delete"
-              >
-                <FiTrash2 size={16} />
-              </button>
-            </div>
+            
+            {resumeUrl ? (
+              <div className="flex-1 min-h-[500px] border border-border rounded-xl overflow-hidden bg-card">
+                <iframe
+                  src={resumeUrl}
+                  className="w-full h-full border-0"
+                  title="Resume Preview"
+                />
+              </div>
+            ) : (
+              <div className="flex-1 min-h-[500px] border border-dashed border-border rounded-xl flex items-center justify-center bg-card/50">
+                <p className="text-muted-foreground text-xs font-mono uppercase tracking-widest">Preview Area</p>
+              </div>
+            )}
           </div>
-
-          {/* Preview */}
-          <div className="mt-4 border border-white/[0.06] rounded-xl overflow-hidden bg-zinc-900/50">
-            <iframe
-              src={resumeUrl}
-              className="w-full h-[500px]"
-              title="Resume Preview"
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="bg-zinc-950/60 backdrop-blur border border-dashed border-white/[0.08] rounded-2xl p-12 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-4">
-            <FiFile className="text-zinc-600" size={28} />
-          </div>
-          <p className="text-zinc-500 text-sm mb-1">No resume uploaded yet</p>
-          <p className="text-zinc-700 text-xs">
-            Upload a PDF to enable the download button on your portfolio
-          </p>
-        </div>
-      )}
-
-      {/* Upload Button */}
-      <label
-        className={`flex items-center justify-center gap-3 px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
-          uploading
-            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed"
-            : "bg-lime-400 hover:bg-lime-300 text-black"
-        }`}
-      >
-        {uploading ? (
-          <>
-            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-            Uploading...
-          </>
-        ) : (
-          <>
-            <FiUpload size={16} />
-            {resumeUrl ? "Replace Resume" : "Upload Resume"}
-          </>
-        )}
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={handleUpload}
-          disabled={uploading}
-          className="hidden"
-        />
-      </label>
+        </AdminCellWrapper>
+      </AdminGrid>
     </div>
   );
 }

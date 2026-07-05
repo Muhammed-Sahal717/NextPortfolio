@@ -72,7 +72,7 @@ export default function ProjectForm({
   };
 
   const inputClasses =
-    "w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-lime-400/50 focus:ring-1 focus:ring-lime-400/20 transition-all text-sm";
+    "w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-green-400/50 focus:ring-1 focus:ring-green-400/20 transition-all text-sm";
   const labelClasses =
     "block text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2";
 
@@ -127,7 +127,7 @@ export default function ProjectForm({
           <button
             type="button"
             onClick={() => setShowPreview(!showPreview)}
-            className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-lime-400 transition-colors font-mono uppercase tracking-widest"
+            className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-green-400 transition-colors font-mono uppercase tracking-widest"
           >
             {showPreview ? (
               <>
@@ -141,7 +141,7 @@ export default function ProjectForm({
           </button>
         </div>
         {showPreview ? (
-          <div className="bg-white/[0.02] border border-white/[0.08] rounded-xl p-6 min-h-[200px] prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-zinc-400 prose-strong:text-lime-400">
+          <div className="bg-white/[0.02] border border-white/[0.08] rounded-xl p-6 min-h-[200px] prose prose-invert prose-sm max-w-none prose-headings:text-white prose-p:text-zinc-400 prose-strong:text-green-400">
             <ReactMarkdown>
               {contentValue || "*Nothing to preview*"}
             </ReactMarkdown>
@@ -164,7 +164,7 @@ export default function ProjectForm({
           {techStack.map((tech) => (
             <span
               key={tech}
-              className="inline-flex items-center gap-1.5 bg-lime-400/10 text-lime-400 text-xs font-mono px-3 py-1.5 rounded-lg border border-lime-400/20"
+              className="inline-flex items-center gap-1.5 bg-green-400/10 text-green-400 text-xs font-mono px-3 py-1.5 rounded-lg border border-green-400/20"
             >
               {tech}
               <button
@@ -193,7 +193,7 @@ export default function ProjectForm({
           <button
             type="button"
             onClick={addTech}
-            className="px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-zinc-400 hover:text-lime-400 hover:border-lime-400/30 transition-all"
+            className="px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-zinc-400 hover:text-green-400 hover:border-green-400/30 transition-all"
           >
             <FiPlus size={16} />
           </button>
@@ -293,7 +293,7 @@ export default function ProjectForm({
           <button
             type="button"
             onClick={addGalleryImage}
-            className="px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-zinc-400 hover:text-lime-400 hover:border-lime-400/30 transition-all"
+            className="px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-zinc-400 hover:text-green-400 hover:border-green-400/30 transition-all"
           >
             <FiPlus size={16} />
           </button>
@@ -305,7 +305,7 @@ export default function ProjectForm({
         <button
           type="submit"
           disabled={loading}
-          className="px-8 py-3 bg-lime-400 hover:bg-lime-300 text-black font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm uppercase tracking-wider"
+          className="px-8 py-3 bg-green-400 hover:bg-green-300 text-black font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm uppercase tracking-wider"
         >
           {loading ? (
             <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin mx-auto" />

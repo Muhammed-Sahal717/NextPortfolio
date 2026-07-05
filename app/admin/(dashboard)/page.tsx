@@ -1,121 +1,195 @@
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import Link from "next/link";
 import { FiFolder, FiPlus, FiArrowRight, FiActivity } from "react-icons/fi";
+import { Badge } from "@/components/ui/badge";
+import { AdminGrid, AdminCellWrapper } from "@/components/admin/AdminGrid";
+import {
+  Pagination,
+  PaginationContent,
+  
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-export default async function AdminDashboard() {
+export default async function AdminDashboard({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = await searchParams;
+  const page = parseInt(
+    typeof resolvedParams.page === "string" ? resolvedParams.page : "1",
+    10
+  );
+  const limit = 5;
+  const offset = (page - 1) * limit;
+
   const supabase = await createSupabaseServerClient();
-  const { data: projects } = await supabase
+  
+  // Get total count
+  const { count } = await supabase
+    .from("projects")
+    .select("*", { count: "exact", head: true });
+    
+  const totalProjects = count || 0;
+  const totalPages = Math.ceil(totalProjects / limit);
+
+  // Get paginated projects
+  const { data: recentProjects } = await supabase
     .from("projects")
     .select("id, title, slug, category, created_at")
-    .order("id", { ascending: false });
-
-  const projectCount = projects?.length || 0;
-  const recentProjects = projects?.slice(0, 5) || [];
+    .order("id", { ascending: false })
+    .range(offset, offset + limit - 1);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white tracking-tight">
-          Dashboard
+        <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">
+          Overview
         </h1>
-        <p className="text-zinc-500 text-sm mt-1">
-          Manage your portfolio content
+        <p className="text-sm text-muted-foreground">
+          Monitor your projects and system status.
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Total Projects */}
-        <div className="bg-zinc-950/60 backdrop-blur border border-white/[0.06] rounded-2xl p-6 hover:border-white/[0.1] transition-colors">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-xl bg-lime-400/10 flex items-center justify-center">
-              <FiFolder className="text-lime-400" size={20} />
+      <AdminGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {/* Total Projects Card */}
+        <AdminCellWrapper index={0}>
+          <div className="flex flex-col p-6 h-full">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-muted-foreground">Total Projects</span>
+              <FiFolder className="text-primary h-4 w-4" />
             </div>
-            <span className="text-xs font-mono text-zinc-600 uppercase tracking-widest">
-              Total
-            </span>
-          </div>
-          <p className="text-4xl font-bold text-white">{projectCount}</p>
-          <p className="text-zinc-500 text-sm mt-1">Projects</p>
-        </div>
-
-        {/* Quick Add */}
-        <Link
-          href="/admin/projects/new"
-          className="group bg-zinc-950/60 backdrop-blur border border-dashed border-white/[0.08] rounded-2xl p-6 hover:border-lime-400/30 hover:bg-lime-400/[0.02] transition-all"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-xl bg-white/[0.04] group-hover:bg-lime-400/10 flex items-center justify-center transition-colors">
-              <FiPlus
-                className="text-zinc-500 group-hover:text-lime-400 transition-colors"
-                size={20}
-              />
+            <div>
+              <div className="text-3xl font-bold text-foreground">{totalProjects}</div>
+              <p className="text-xs text-muted-foreground mt-1">Published on portfolio</p>
             </div>
-            <FiArrowRight className="text-zinc-700 group-hover:text-lime-400 group-hover:translate-x-1 transition-all" />
           </div>
-          <p className="text-lg font-semibold text-zinc-400 group-hover:text-white transition-colors">
-            Add New Project
-          </p>
-          <p className="text-zinc-600 text-sm mt-1">
-            Create a new portfolio entry
-          </p>
-        </Link>
+        </AdminCellWrapper>
 
-        {/* Status */}
-        <div className="bg-zinc-950/60 backdrop-blur border border-white/[0.06] rounded-2xl p-6 hover:border-white/[0.1] transition-colors">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-xl bg-green-400/10 flex items-center justify-center">
-              <FiActivity className="text-green-400" size={20} />
+        {/* Quick Add Action Card */}
+        <AdminCellWrapper index={1}>
+          <Link href="/admin/projects/new" className="flex flex-col p-6 h-full group transition-colors hover:bg-muted/50">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                New Project
+              </span>
+              <FiPlus className="text-muted-foreground group-hover:text-primary h-4 w-4 transition-colors" />
             </div>
-            <span className="text-xs font-mono text-zinc-600 uppercase tracking-widest">
-              Status
-            </span>
-          </div>
-          <p className="text-lg font-semibold text-white">Live</p>
-          <p className="text-zinc-500 text-sm mt-1">Portfolio is active</p>
-        </div>
-      </div>
-
-      {/* Recent Projects */}
-      <div className="bg-zinc-950/60 backdrop-blur border border-white/[0.06] rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-white uppercase tracking-wider">
-            Recent Projects
-          </h2>
-          <Link
-            href="/admin/projects"
-            className="text-xs font-mono text-lime-400 hover:text-lime-300 transition-colors uppercase tracking-widest flex items-center gap-1"
-          >
-            View All <FiArrowRight size={12} />
+            <div>
+              <div className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                Create Entry
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Add a new case study</p>
+            </div>
           </Link>
-        </div>
-        {recentProjects.length === 0 ? (
-          <div className="px-6 py-12 text-center text-zinc-600 text-sm">
-            No projects yet. Create your first one!
+        </AdminCellWrapper>
+
+        {/* System Status Card */}
+        <AdminCellWrapper index={2}>
+          <div className="flex flex-col p-6 h-full">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-muted-foreground">System Status</span>
+              <FiActivity className="text-primary h-4 w-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <div className="text-xl font-bold text-foreground">Online</div>
+                <Badge variant="outline" className="border-primary/30 text-primary bg-primary/10 text-[10px] px-1.5 py-0">Active</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">All systems functional</p>
+            </div>
           </div>
-        ) : (
-          <div className="divide-y divide-white/[0.04]">
-            {recentProjects.map((project) => (
-              <Link
-                key={project.id}
-                href={`/admin/projects/${project.id}/edit`}
-                className="flex items-center justify-between px-6 py-4 hover:bg-white/[0.02] transition-colors group"
+        </AdminCellWrapper>
+
+        {/* Recent Projects Table / List */}
+        <AdminCellWrapper index={3} className="md:col-span-2 lg:col-span-3">
+          <div className="p-6">
+            <div className="flex flex-row items-center justify-between border-b border-border pb-4 mb-4">
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Recent Projects</h3>
+              </div>
+              <Link 
+                href="/admin/projects"
+                className="hidden sm:inline-flex items-center text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
               >
-                <div>
-                  <p className="text-sm font-medium text-white group-hover:text-lime-400 transition-colors">
-                    {project.title}
-                  </p>
-                  <p className="text-xs text-zinc-600 font-mono mt-0.5">
-                    {project.category || "Uncategorized"} • /{project.slug}
-                  </p>
-                </div>
-                <FiArrowRight className="text-zinc-700 group-hover:text-lime-400 group-hover:translate-x-1 transition-all" />
+                View All <FiArrowRight className="ml-1 h-3 w-3" />
               </Link>
-            ))}
+            </div>
+            
+            <div className="w-full">
+              {!recentProjects || recentProjects.length === 0 ? (
+                <div className="py-8 text-center text-muted-foreground text-xs">
+                  No projects found.
+                </div>
+              ) : (
+                <div className="divide-y divide-border">
+                  {recentProjects.map((project) => (
+                    <Link
+                      key={project.id}
+                      href={`/admin/projects/${project.id}/edit`}
+                      className="flex flex-col sm:flex-row sm:items-center justify-between py-3 hover:bg-muted/50 transition-colors group -mx-4 px-4 rounded-lg"
+                    >
+                      <div className="space-y-1 mb-1 sm:mb-0">
+                        <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                          {project.title}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground font-mono">
+                          {project.category || "Uncategorized"} <span className="text-border mx-1">•</span> /{project.slug}
+                        </p>
+                      </div>
+                      <div className="flex items-center text-muted-foreground group-hover:text-primary transition-colors text-xs">
+                        Edit <FiArrowRight className="ml-1 group-hover:translate-x-1 transition-all h-3 w-3" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-6 border-t border-border pt-4">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        href={page > 1 ? `/admin?page=${page - 1}` : "#"} 
+                        className={page <= 1 ? "pointer-events-none opacity-50 text-xs" : "text-xs"}
+                      />
+                    </PaginationItem>
+                    
+                    {[...Array(totalPages)].map((_, i) => {
+                      const pageNum = i + 1;
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationLink 
+                            href={`/admin?page=${pageNum}`}
+                            isActive={page === pageNum}
+                            className={`text-xs w-8 h-8 ${page === pageNum ? 'bg-primary/10 text-primary border-primary/20' : ''}`}
+                          >
+                            {pageNum}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    })}
+
+                    <PaginationItem>
+                      <PaginationNext 
+                        href={page < totalPages ? `/admin?page=${page + 1}` : "#"}
+                        className={page >= totalPages ? "pointer-events-none opacity-50 text-xs" : "text-xs"}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </AdminCellWrapper>
+      </AdminGrid>
     </div>
   );
 }
