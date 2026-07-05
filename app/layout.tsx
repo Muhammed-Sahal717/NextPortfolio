@@ -37,6 +37,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  verification: {
+    google: "o8FMHsWjZvsUTdfTzsPMoSzivK3xRmEJyA9gZrSR8oE",
+  },
 
   title: {
     default: "Sahal | Full-Stack Developer",
