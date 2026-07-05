@@ -31,22 +31,22 @@ export default async function EditProjectPage({
       <div className="flex items-center gap-4">
         <Link
           href="/admin/projects"
-          className="p-2 text-zinc-500 hover:text-white transition-colors rounded-lg hover:bg-white/[0.04]"
+          className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
         >
           <FiArrowLeft size={18} />
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">
             Edit Project
           </h1>
-          <p className="text-zinc-500 text-sm mt-1">
+          <p className="text-muted-foreground text-sm mt-1">
             Editing &ldquo;{project.title}&rdquo;
           </p>
         </div>
       </div>
 
       {/* Form */}
-      <div className="bg-zinc-950/60 backdrop-blur border border-white/[0.06] rounded-2xl p-6 md:p-8">
+      <div className="bg-card/60 backdrop-blur border border-border rounded-2xl p-6 md:p-8">
         <ProjectForm
           project={project}
           action={updateProjectWithId}
