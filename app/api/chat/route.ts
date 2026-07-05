@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { google } from "@ai-sdk/google";
+import { embed } from "ai";
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabaseClient";
 import { generateSystemPrompt } from "@/lib/ai-prompt";
@@ -63,54 +64,41 @@ export async function POST(req: Request) {
       );
     }
 
-    // Fetch projects from Supabase (with timeout)
-    console.log("[Chat API] Fetching projects from Supabase...");
-    let projects: any[] | null = null;
+    const lastMessageContent = messages[messages.length - 1].content;
+
+    // 1. Generate an embedding for the user's question
+    console.log("[Chat API] Embedding user query for RAG...");
+    const { embedding } = await embed({
+      model: google.textEmbeddingModel("text-embedding-004"),
+      value: lastMessageContent,
+    });
+
+    // 2. Search Supabase for the most relevant documents
+    console.log("[Chat API] Searching vector database...");
+    let matchedDocs: any[] | null = null;
 
     try {
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .abortSignal(AbortSignal.timeout(3000));
+      const { data, error } = await supabase.rpc("match_documents", {
+        query_embedding: embedding,
+        match_threshold: 0.5,
+        match_count: 5,
+      }).abortSignal(AbortSignal.timeout(3000));
 
       if (error) {
-        console.error("[Chat API] Error fetching projects:", error);
+        console.error("[Chat API] RPC Error:", error);
       } else {
-        projects = data;
+        matchedDocs = data;
       }
     } catch (dbError) {
       console.error("[Chat API] Supabase connection failed:", dbError);
-      // Continue with limited context
     }
 
-    console.log(
-      `[Chat API] Fetched ${projects?.length || 0} projects`
-    );
+    console.log(`[Chat API] Found ${matchedDocs?.length || 0} relevant documents`);
 
-    // Build context
-    const projectContext = projects
-      ? projects
-        .map(
-          (p) => `
-ID: ${p.id}
-Title: ${p.title}
-Description: ${p.description}
-Tech Stack: ${Array.isArray(p.tech_stack)
-              ? p.tech_stack.join(", ")
-              : p.tech_stack
-            }
-Category: ${p.category}
-Timeline: ${p.timeline}
-Live Demo: ${p.demo_url || "N/A"}
-Source Code: ${p.github_url || "N/A"}
-User Notes: ${p.content
-              ? p.content.substring(0, 500) + "..."
-              : "N/A"
-            }
-`
-        )
-        .join("\n---\n")
-      : "No project data available. Provide general answers about Sahal's skills.";
+    // 3. Build context only from the mathematically relevant documents
+    const projectContext = matchedDocs && matchedDocs.length > 0
+      ? matchedDocs.map((doc, idx) => `[Relevant Information ${idx + 1}]:\n${doc.content}`).join("\n\n")
+      : "No specific background data matched the query. Provide a helpful general answer about Sahal.";
 
     console.log("[Chat API] Initializing Gemini model...");
 
@@ -131,9 +119,6 @@ User Notes: ${p.content
       role: m.role === "user" ? "user" : "model",
       parts: [{ text: m.content }],
     }));
-
-    const lastMessageContent =
-      messages[messages.length - 1].content;
 
     const chat = model.startChat({ history });
 

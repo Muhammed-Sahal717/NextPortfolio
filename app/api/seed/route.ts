@@ -18,30 +18,50 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // 2. Fetch all projects
+  // 1. Wipe old embeddings to prevent duplicates
+  await supabase.from("documents").delete().neq("id", 0);
+
+  // 2. Fetch projects and experience
   const { data: projects } = await supabase.from("projects").select("*");
+  const { data: experiences } = await supabase.from("experience").select("*");
 
-  if (!projects) return NextResponse.json({ message: "No projects found" });
+  // 3. Process Projects
+  if (projects) {
+    for (const project of projects) {
+      const techStack = Array.isArray(project.tech_stack) ? project.tech_stack.join(", ") : project.tech_stack;
+      const textToEmbed = `Project Title: ${project.title}. Description: ${project.description}. Tech Stack: ${techStack}.`;
 
-  // 3. Loop through each project and "Teach" the AI
-  for (const project of projects) {
-    // Combine title and description into a meaningful sentence
-    const textToEmbed = `Project Title: ${project.title}. Description: ${project.description
-      }. Tech Stack: ${project.tech_stack.join(", ")}.`;
+      const { embedding } = await embed({
+        model: google.textEmbeddingModel("text-embedding-004"),
+        value: textToEmbed,
+      });
 
-    // 4. Generate the Vector (The Math) using Gemini
-    const { embedding } = await embed({
-      model: google.textEmbeddingModel("text-embedding-004"),
-      value: textToEmbed,
-    });
-
-    // 5. Save to the 'documents' table
-    await supabase.from("documents").insert({
-      content: textToEmbed,
-      embedding: embedding, // The vector array
-      metadata: { source: "projects", id: project.id },
-    });
+      await supabase.from("documents").insert({
+        content: textToEmbed,
+        embedding: embedding,
+        metadata: { source: "projects", id: project.id },
+      });
+    }
   }
 
-  return NextResponse.json({ message: "Success! AI memory updated." });
+  // 4. Process Experience
+  if (experiences) {
+    for (const exp of experiences) {
+      const skills = Array.isArray(exp.skills) ? exp.skills.join(", ") : exp.skills;
+      const textToEmbed = `Experience Role: ${exp.role} at ${exp.company}. Duration: ${exp.start_date} to ${exp.end_date || 'Present'}. Description: ${exp.description}. Skills used: ${skills}.`;
+
+      const { embedding } = await embed({
+        model: google.textEmbeddingModel("text-embedding-004"),
+        value: textToEmbed,
+      });
+
+      await supabase.from("documents").insert({
+        content: textToEmbed,
+        embedding: embedding,
+        metadata: { source: "experience", id: exp.id },
+      });
+    }
+  }
+
+  return NextResponse.json({ message: "Success! AI memory updated with Projects and Experience." });
 }

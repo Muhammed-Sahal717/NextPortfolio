@@ -1,41 +1,77 @@
-# Muhammed Sahal's Developer Portfolio 🚀
+# Muhammed Sahal | Full-Stack Developer Portfolio
 
-A highly interactive, enterprise-grade developer portfolio built with **Next.js** and a powerful modern web stack. Designed to showcase projects, skills, and experience with stunning cinematic visuals and clean architecture.
+A production-ready developer portfolio built with **Next.js 16 (App Router)**. Designed to showcase projects, skills, and experience with a focus on performance, modern UI patterns, and practical AI integration.
 
-## ✨ Key Features
-
-- **Immersive WebGL Experiences**: Features a custom-built Liquid Ether WebGL background simulation for butter-smooth, interactive ambient visuals.
-- **AI Agent Integration**: Powered by the Gemini API and Vercel AI SDK to provide a smart, context-aware AI chatbot assistant built natively into the UI.
-- **Enterprise-Grade Architecture**: Fully modular codebase utilizing the "Orchestrator + Subcomponents" pattern. The repository is meticulously organized into domains like `animations/`, `providers/`, `chat/`, and `projects/`.
-- **Premium Design Aesthetics**: Includes high-end glassmorphism, editorial typography, and scroll-driven parallax effects.
-- **Custom Easter Eggs**: Interactive UI elements that react to user behavior, including a system-overload shutter crash state built into the liquid navigation bar.
-- **Dynamic Content Integration**: Server-side integrations to securely serve the latest resume, dynamic projects, and more via Supabase.
-- **Seamless Contact**: Form integration using EmailJS with built-in toast notifications.
+---
 
 ## 🛠 Tech Stack
 
-- **Framework**: [Next.js](https://nextjs.org) (App Router)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com), `clsx`, `tailwind-merge`
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Backend/Auth/Storage**: [Supabase](https://supabase.com) (`@supabase/ssr`)
-- **AI Tools**: Vercel AI SDK, `@google/generative-ai`
-- **UI Architecture**: Headless component design, heavily optimized for zero dead-code.
+- **Core Framework**: [Next.js 16](https://nextjs.org) (App Router, Turbopack)
+- **Styling & UI**: [Tailwind CSS v4](https://tailwindcss.com), [Shadcn UI](https://ui.shadcn.com)
+- **Animations & Graphics**: [Framer Motion](https://www.framer.com/motion/), [Three.js](https://threejs.org/) (WebGL)
+- **Backend & Database**: [Supabase](https://supabase.com) (PostgreSQL)
+- **AI Integration**: Google Generative AI (Gemini 2.5 Flash), Vercel AI SDK
+- **Forms & Contact**: EmailJS
 
-## 📁 Codebase Structure
+---
 
-The `components/` directory is strictly organized by feature domain to ensure massive scalability:
-- `/animations/`: Framer Motion and WebGL visual effects (`LiquidEther`, `Noise`, `ParticleText`, etc.)
-- `/providers/`: Global contexts and loading indicators.
-- `/common/`: Reusable, interactive UI elements like the custom cursor.
-- `/navbar/`: The orchestrator and subcomponents for the liquid navigation bar.
-- `/chat/`: The AI widget, message bubbles, input formatting, and AI avatar.
-- `/hero/`, `/about/`, `/projects/`, `/footer/`: Dedicated directories for page sections.
+## 📐 Architecture & Organization
+
+The codebase is organized to maintain separation of concerns and readability:
+
+- **Component Organization**: The `components/` directory is structured by feature domains (e.g., `/animations`, `/chat`, `/providers`, `/hero`).
+- **Server Components & Actions**: Initial data fetching and database mutations are handled server-side using React Server Components (RSC) and Server Actions.
+- **TypeScript**: The project uses TypeScript for API routes, database payloads, and component props to ensure type safety.
+
+---
+
+## 🤖 AI Assistant & Context Injection
+
+The portfolio features an AI chatbot powered by **Gemini 2.5 Flash** to answer questions about my skills and experience.
+
+### How it Works:
+1. **Context Fetching**: When a chat session initiates, the backend fetches all active project and experience data directly from the Supabase database.
+2. **Dynamic Prompt Injection**: This data is injected into a strict system prompt. The model is instructed to adopt a professional persona and answer exclusively based on this injected context.
+3. **Streaming**: Responses are streamed back to the client using the `ReadableStream` API and Vercel AI SDK.
+
+*(Note: The codebase also includes an `/api/seed` route capable of generating embeddings via `text-embedding-004` and storing them in `pgvector`. While built for future Retrieval-Augmented Generation (RAG) capabilities, the current chat implementation relies purely on full-context prompt injection due to the small dataset size.)*
+
+---
+
+## 🎨 Design & UI Patterns
+
+The user interface implements modern design patterns while maintaining accessibility and readability:
+
+- **Bento Grid**: Project and experience sections utilize a structured grid layout for organized content presentation.
+- **Glassmorphism**: Backdrop filters are used sparingly to maintain text legibility over animated backgrounds.
+- **Theme System**: Implements a standard CSS variable-based approach for Light and Dark modes.
+- **View Transitions**: Theme toggling uses standard opacity crossfades to ensure smooth transitions without layout shifts.
+
+---
+
+## ⚡ Performance Optimization
+
+- **Hardware Acceleration**: Framer Motion animations target `transform` and `opacity` properties.
+- **WebGL Tuning**: The `LiquidEther` Three.js simulation adjusts resolution based on device capabilities. On mobile (`window.innerWidth <= 768`), the pixel ratio is capped at `1.0` and interaction drivers are simplified to maintain 60 FPS.
+- **Next.js Caching**: Static assets and API responses leverage standard Next.js App Router caching mechanisms.
+
+---
+
+## 🔒 Security & Admin Panel
+
+A custom admin dashboard (`/admin`) is used to manage content, implemented with a focus on security:
+
+- **Authentication**: The dashboard is protected by Supabase Auth, with server-side layout checks enforcing access control.
+- **Server Action Protection**: Database mutations (Create, Update, Delete) explicitly verify the user's session token (`supabase.auth.getUser()`) before execution.
+- **Rate Limiting**: The public `/api/chat` endpoint includes a basic in-memory IP-based rate limiter (evaluating `x-forwarded-for`) to mitigate abuse. *(Note: While sufficient for a personal portfolio, a true distributed system would replace this with Vercel KV or Redis to persist across serverless instances and deployments).*
+- **Route Validation**: Privileged API routes validate environment secrets before execution.
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
-You will need a [Supabase](https://supabase.com) project, an [EmailJS](https://www.emailjs.com/) account, and a Google Generative AI access key.
+You will need a [Supabase](https://supabase.com) project, an [EmailJS](https://www.emailjs.com/) account, and a Google Generative AI API Key.
 
 ### 1. Clone & Install
 
@@ -46,7 +82,6 @@ npm install
 ```
 
 ### 2. Environment Variables
-
 Create a `.env.local` file in the root directory:
 
 ```env
@@ -57,16 +92,11 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
 # Integrations
 GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_key
+SEED_SECRET_KEY=your_custom_secret_key_for_ai_seeding
 
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_id
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_id
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_id
-
-# App Settings & Contact Info
-NEXT_PUBLIC_CONTACT_EMAIL=your_email@example.com
-NEXT_PUBLIC_CONTACT_LINKEDIN=your_linkedin
-NEXT_PUBLIC_CONTACT_GITHUB=your_github
-NEXT_PUBLIC_PORTFOLIO_URL=deployed_url
 ```
 
 ### 3. Run Development Server
@@ -75,8 +105,4 @@ NEXT_PUBLIC_PORTFOLIO_URL=deployed_url
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## 📦 Deployment
-
-The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com/new). Make sure to add all the production environment variables in your Vercel project settings before deploying.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
