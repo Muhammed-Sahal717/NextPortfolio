@@ -98,7 +98,7 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
                     onClick={() => sendMessage(s)}
                     className="h-8 text-xs font-medium bg-transparent border-border text-foreground rounded-full hover:bg-muted transition-all duration-300 relative overflow-hidden group shadow-sm"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-500/10 via-pink-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-green-400/10 to-lime-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <span className="relative z-10">{s}</span>
                   </Button>
                 ))}

@@ -196,7 +196,7 @@ export default function ChatWidget() {
                 className="hidden md:block absolute -top-[1px] -left-[1px] w-10 h-10 cursor-nwse-resize z-50 group/handle"
               >
                 {/* Seamless glowing border overlay */}
-                <div className="absolute top-0 left-0 w-full h-full rounded-tl-xl border-t-[3px] border-l-[3px] border-muted-foreground/30 group-hover/handle:border-fuchsia-500 transition-colors pointer-events-none group-hover/handle:drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]" />
+                <div className="absolute top-0 left-0 w-full h-full rounded-tl-xl border-t-[3px] border-l-[3px] border-muted-foreground/30 group-hover/handle:border-emerald-500 transition-colors pointer-events-none group-hover/handle:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
               </div>
               
               {/* Header */}
@@ -230,10 +230,10 @@ export default function ChatWidget() {
                     {messages.length === 0 && (
                       <div className="flex flex-col items-center justify-center h-full pt-8 opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="w-20 h-20 bg-muted/50 border border-border rounded-full flex items-center justify-center mb-4 shadow-sm relative overflow-hidden group">
-                          <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-lime-400/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                           <Terminal size={32} className="text-foreground relative z-10" />
                         </div>
-                        <p className="font-mono font-bold text-base mb-1 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-pink-500 to-amber-500">
+                        <p className="font-mono font-bold text-base mb-1 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-green-400 to-lime-400">
                           SYSTEM READY
                         </p>
                         <p className="text-xs text-muted-foreground text-center max-w-[200px] mb-6 font-medium">
@@ -245,7 +245,7 @@ export default function ChatWidget() {
                             <button
                               key={q}
                               onClick={() => sendMessage(q)}
-                              className="text-[10px] font-mono font-bold border border-border bg-background text-foreground px-3 py-1.5 rounded-full hover:bg-gradient-to-r hover:from-fuchsia-500 hover:via-pink-500 hover:to-amber-500 hover:text-white hover:border-transparent transition-all duration-300 active:translate-y-0.5 shadow-sm"
+                              className="text-[10px] font-mono font-bold border border-border bg-background text-foreground px-3 py-1.5 rounded-full hover:bg-gradient-to-r hover:from-emerald-500 hover:via-green-400 hover:to-lime-400 hover:text-white hover:border-transparent transition-all duration-300 active:translate-y-0.5 shadow-sm"
                             >
                               {"> "}
                               {q}

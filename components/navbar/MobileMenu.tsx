@@ -47,7 +47,7 @@ export default function MobileMenu({ isOpen, setIsOpen, mainLinks }: MobileMenuP
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex justify-between items-center mt-4 pt-4 border-t border-dashed border-border px-2"
+            className="flex justify-between items-center mt-4 pt-4 border-t border-dashed border-zinc-200 dark:border-zinc-800 px-2"
           >
             <div className="flex gap-3">
               <a

@@ -24,10 +24,10 @@ const concepts = [
 export default function CoreConcepts() {
   return (
     <div className="mt-24 md:mt-32 pt-12 md:pt-24 max-w-5xl mx-auto">
-      <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-left border-b border-dashed border-border pb-6">
+      <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 text-left border-b border-dashed border-zinc-200 dark:border-zinc-800 pb-6">
         Core Concepts
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-800 border border-dashed border-border rounded-xl overflow-hidden shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-800 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm">
         {concepts.map((concept, i) => (
           <motion.div
             key={i}

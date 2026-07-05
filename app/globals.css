@@ -36,10 +36,10 @@
   --color-red-400: var(--theme-red-400);
   --color-red-500: var(--theme-red-500);
 
-  /* Shadcn defaults */
-  --color-border: var(--theme-zinc-800);
-  --color-input: var(--theme-zinc-800);
-  --color-ring: var(--theme-zinc-400);
+  /* Minimal Green Accents */
+  --color-border: var(--theme-green-border);
+  --color-input: var(--theme-green-border);
+  --color-ring: var(--theme-green-500);
   
   --color-primary: var(--theme-white);
   --color-primary-foreground: var(--theme-black);
@@ -89,6 +89,8 @@
 
   --theme-green-400: #22c55e;
   --theme-green-500: #16a34a;
+  --theme-green-border: #bbf7d0; /* Very soft light green for minimal borders */
+  
   --theme-red-400: #ef4444;
   --theme-red-500: #dc2626;
 }
@@ -116,6 +118,8 @@
 
   --theme-green-400: #4ade80;
   --theme-green-500: #22c55e;
+  --theme-green-border: #052e16; /* Deep dark green for minimal borders */
+  
   --theme-red-400: #f87171;
   --theme-red-500: #ef4444;
 }

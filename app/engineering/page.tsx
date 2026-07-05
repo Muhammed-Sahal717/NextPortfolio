@@ -13,7 +13,7 @@ export default function EngineeringPage() {
       <LiquidNavbar />
 
       <div className="relative z-10 max-w-[100rem] mx-auto px-6 lg:px-16 pt-32 pb-32">
-        <header className="mb-12 relative z-10 border-b border-dashed border-border pb-8 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+        <header className="mb-12 relative z-10 border-b border-dashed border-zinc-200 dark:border-zinc-800 pb-8 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
           <div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

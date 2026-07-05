@@ -9,7 +9,7 @@ import AboutStats from "./AboutStats";
 export default function AboutSection() {
   return (
     <section
-      className="w-full bg-black text-white py-16 lg:py-24 transition-colors border-t border-dashed border-border"
+      className="w-full bg-black text-white py-16 lg:py-24 transition-colors border-t border-dashed border-zinc-200 dark:border-zinc-800"
       id="about"
     >
       <div className="w-full max-w-[100rem] mx-auto px-6 lg:px-16">

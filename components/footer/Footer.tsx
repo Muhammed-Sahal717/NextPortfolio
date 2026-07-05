@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-background text-foreground relative border-t border-dashed border-border flex flex-col pt-24 pb-12"
+      className="bg-background text-foreground relative border-t border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col pt-24 pb-12"
       id="contact"
     >
       <div className="w-full max-w-2xl mx-auto px-6 flex flex-col items-center text-center gap-12">
@@ -41,7 +41,7 @@ export default function Footer() {
 
       {/* Bottom Horizontal Bar */}
       <div className="w-full max-w-[100rem] mx-auto mt-32 px-6 lg:px-16">
-        <div className="border-t border-dashed border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted-foreground">
+        <div className="border-t border-dashed border-zinc-200 dark:border-zinc-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted-foreground">
           
           {/* Navigation */}
           <div className="flex items-center gap-6">

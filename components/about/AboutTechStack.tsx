@@ -61,7 +61,7 @@ export default function AboutTechStack() {
             {[...row1, ...row1, ...row1, ...row1].map((item, i) => (
               <div
                 key={`r1-${i}`}
-                className="group flex items-center gap-3 px-5 py-3 bg-zinc-900/50 border border-zinc-800 rounded-xl shrink-0 transition-colors hover:bg-zinc-800 cursor-default"
+                className="group flex items-center gap-3 px-5 py-3 bg-muted/50 border border-border rounded-xl shrink-0 transition-all hover:bg-green-500/10 hover:border-green-500/30 cursor-default"
               >
                 <item.Icon className={`text-xl text-muted-foreground transition-colors ${item.hoverColor}`} />
                 <span className="font-mono text-muted-foreground text-xs font-bold uppercase tracking-wider transition-colors group-hover:text-foreground">
@@ -86,7 +86,7 @@ export default function AboutTechStack() {
             {[...row2, ...row2, ...row2, ...row2].map((item, i) => (
               <div
                 key={`r2-${i}`}
-                className="group flex items-center gap-3 px-5 py-3 bg-zinc-900/50 border border-zinc-800 rounded-xl shrink-0 transition-colors hover:bg-zinc-800 cursor-default"
+                className="group flex items-center gap-3 px-5 py-3 bg-muted/50 border border-border rounded-xl shrink-0 transition-all hover:bg-green-500/10 hover:border-green-500/30 cursor-default"
               >
                 <item.Icon className={`text-xl text-muted-foreground transition-colors ${item.hoverColor}`} />
                 <span className="font-mono text-muted-foreground text-xs font-bold uppercase tracking-wider transition-colors group-hover:text-foreground">

@@ -22,7 +22,7 @@ export default function HeroContent() {
   return (
     <div className="w-full flex flex-col items-center text-center z-20">
       {/* Status Badge */}
-      <div className="inline-flex items-center justify-center rounded-full border px-4 py-1.5 text-sm font-medium mb-8 bg-muted/50 text-muted-foreground">
+      <div className="inline-flex items-center justify-center rounded-full border px-4 py-1.5 text-sm font-medium mb-8 bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">
         Open for Opportunities
       </div>
 
@@ -33,7 +33,8 @@ export default function HeroContent() {
 
       {/* Subheading */}
       <p className="text-lg md:text-xl text-muted-foreground font-medium max-w-2xl leading-relaxed mb-10">
-        Hi, I'm Sahal. I specialize in building robust full-stack applications and integrating AI functionalities to solve complex problems.
+        Hi, I'm Sahal. I specialize in building robust full-stack applications
+        and integrating AI functionalities to solve complex problems.
       </p>
 
       {/* CTA Buttons */}
@@ -66,7 +67,9 @@ export default function HeroContent() {
           className="rounded-full h-12 w-12"
         >
           <Link
-            href={process.env.NEXT_PUBLIC_CONTACT_GITHUB || "https://github.com"}
+            href={
+              process.env.NEXT_PUBLIC_CONTACT_GITHUB || "https://github.com"
+            }
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -81,7 +84,9 @@ export default function HeroContent() {
           className="rounded-full h-12 w-12"
         >
           <Link
-            href={process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "https://linkedin.com"}
+            href={
+              process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "https://linkedin.com"
+            }
             target="_blank"
             rel="noopener noreferrer"
           >
