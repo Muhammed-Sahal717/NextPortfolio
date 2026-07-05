@@ -402,13 +402,7 @@ export default function LiquidEther({
         let dtSec = (now - this.lastTime) / 1000;
         this.lastTime = now;
         if (dtSec > 0.2) dtSec = 0.016;
-        const dir = this._tmpDir.subVectors(this.target, this.current);
-        const dist = dir.length();
-        if (dist < 0.01) {
-          this.pickNewTarget();
-          return;
-        }
-        dir.normalize();
+        
         let ramp = 1;
         if (this.rampDurationMs > 0) {
           const t = Math.min(
@@ -417,9 +411,21 @@ export default function LiquidEther({
           );
           ramp = t * t * (3 - 2 * t);
         }
-        const step = this.speed * dtSec * ramp;
-        const move = Math.min(step, dist);
-        this.current.addScaledVector(dir, move);
+
+        // Create a beautiful, organic sweeping curve using time
+        // The speed parameter now controls how fast the curves are drawn
+        const time = now * 0.0005 * this.speed; 
+        
+        // Lissajous curve with secondary oscillation for an organic, liquid feel
+        const targetX = Math.sin(time) * 0.55 + Math.sin(time * 0.73) * 0.25;
+        const targetY = Math.cos(time * 1.12) * 0.55 + Math.sin(time * 0.47) * 0.25;
+
+        // Smoothly interpolate the current position towards the mathematical path
+        // This ensures it elegantly curves towards the path without jumping
+        const lerpSpeed = 3.0; // How closely it tracks the path
+        this.current.x += (targetX - this.current.x) * (dtSec * lerpSpeed) * ramp;
+        this.current.y += (targetY - this.current.y) * (dtSec * lerpSpeed) * ramp;
+        
         this.mouse.setNormalized(this.current.x, this.current.y);
       }
     }
