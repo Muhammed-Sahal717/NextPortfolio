@@ -92,9 +92,9 @@ export default function ChatTrigger({
                 setIsOpen(true);
                 setShowWelcomeMessage(false); // Hide message if they click it early
               }}
-              className="h-20 w-20 md:h-24 md:w-24 flex items-center justify-center transition-all duration-300 ease-out"
+              className="h-16 w-16 md:h-24 md:w-24 flex items-center justify-center transition-all duration-300 ease-out"
             >
-              <div className="relative w-20 h-20 md:w-24 md:h-24 p-1 flex items-center justify-center">
+              <div className="relative w-16 h-16 md:w-24 md:h-24 p-1 flex items-center justify-center">
                 <AIIcon
                   status={currentStatus}
                   className="hover:scale-110 transition-transform duration-200 origin-bottom"
