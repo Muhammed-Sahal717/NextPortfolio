@@ -47,7 +47,7 @@ export default function LiquidNavbar() {
       <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
         <div className="relative text-foreground transition-all duration-500">
           {/* --- HEADER ROW (ALWAYS VISIBLE) --- */}
-          <div className="flex items-center justify-between py-4 sm:py-5 relative z-20">
+          <div className="flex items-center justify-between py-2 md:py-5 relative z-20">
             {/* Left: Logo */}
             <Link
               href="/#home"
