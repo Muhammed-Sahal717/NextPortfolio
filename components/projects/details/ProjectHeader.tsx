@@ -24,19 +24,19 @@ export default function ProjectHeader({
         {/* Tech Stack Pills */}
         <div className="flex flex-wrap gap-2 mb-6">
           {techStack?.map((tech: string) => (
-            <Badge key={tech} variant="outline" className="px-3 py-1 text-xs font-medium bg-white/5 backdrop-blur-md border-zinc-200 dark:border-white/10">
+            <Badge key={tech} variant="secondary" className="font-normal rounded-md px-3 py-1 bg-muted hover:bg-muted/80 text-foreground border-none">
               {tech}
             </Badge>
           ))}
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
           {title}
         </h1>
 
         {/* Description */}
-        <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
           {description}
         </p>
       </div>

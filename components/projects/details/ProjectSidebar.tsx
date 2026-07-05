@@ -21,21 +21,21 @@ export default function ProjectSidebar({
       
       <div className="space-y-8 flex-1">
         <div>
-          <span className="mb-2 text-sm font-medium text-zinc-500 block">
+          <span className="mb-2 text-sm font-medium text-muted-foreground block">
             Category
           </span>
-          <div className="flex items-center gap-2 font-medium text-zinc-900 dark:text-white">
-            <FiLayers className="text-zinc-400" />
+          <div className="flex items-center gap-2 font-medium text-foreground">
+            <FiLayers className="text-muted-foreground" />
             {category || "Engineering"}
           </div>
         </div>
 
         <div>
-          <span className="mb-2 text-sm font-medium text-zinc-500 block">
+          <span className="mb-2 text-sm font-medium text-muted-foreground block">
             Timeline
           </span>
-          <div className="flex items-center gap-2 font-medium text-zinc-900 dark:text-white">
-            <FiCalendar className="text-zinc-400" />
+          <div className="flex items-center gap-2 font-medium text-foreground">
+            <FiCalendar className="text-muted-foreground" />
             {timeline || "Completed"}
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function ProjectSidebar({
       <div className="mt-auto pt-12">
         <Separator className="mb-6" />
         <div className="space-y-4">
-          <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm font-medium text-muted-foreground">
             Have questions about this project?
           </p>
           <ClientButton
@@ -52,7 +52,7 @@ export default function ProjectSidebar({
             variant="outline"
             className="w-full py-5 gap-2 group font-medium"
           >
-            <FiMessageSquare size={16} className="text-zinc-400 group-hover:text-fuchsia-500 transition-colors" /> 
+            <FiMessageSquare size={16} className="text-muted-foreground group-hover:text-fuchsia-500 transition-colors" /> 
             Ask AI Assistant
           </ClientButton>
         </div>

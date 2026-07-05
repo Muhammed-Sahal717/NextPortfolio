@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import ProjectCarousel from "@/components/projects/ProjectCarousel";
 import ProjectHeader from "@/components/projects/details/ProjectHeader";
 import ProjectSidebar from "@/components/projects/details/ProjectSidebar";
+import { ThemeToggle } from "@/components/navbar/ThemeToggle";
 
 export const revalidate = 0;
 
@@ -67,26 +68,30 @@ export default async function ProjectPage({
   );
 
   return (
-    <main className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-white font-sans selection:bg-[var(--theme-lime-400)]/30 pb-32">
+    <main className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground pb-32">
       {/* 1. SIMPLE TOP NAV */}
-      <div className="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-dashed border-zinc-200 dark:border-white/20">
-        <div className="mx-auto flex h-16 max-w-[100rem] items-center px-6 lg:px-16">
+      <div className="fixed top-0 left-0 w-full z-[1000] bg-background border-b border-dashed border-zinc-200 dark:border-zinc-800 shadow-md">
+        <div className="mx-auto flex h-16 max-w-[100rem] items-center justify-between px-6 lg:px-16">
           <Link
             href="/#projects"
-            className="group flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
+            className="group flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             <FiArrowLeft className="transition-transform group-hover:-translate-x-1" />{" "}
             Back to Projects
           </Link>
+          
+          <div className="flex items-center">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-[100rem] px-6 pt-32 lg:px-16">
         {/* SINGLE BOARD WRAPPER */}
-        <div className="border border-zinc-200 dark:border-white/10 rounded-[2rem] overflow-hidden bg-white/5 dark:bg-black/20 backdrop-blur-sm flex flex-col shadow-2xl">
+        <div className="border border-border rounded-[2rem] overflow-hidden bg-card flex flex-col shadow-sm">
           
           {/* 1. HERO HEADER */}
-          <div className="border-b border-zinc-200 dark:border-white/10">
+          <div className="border-b border-border">
             <ProjectHeader
               title={project.title}
               description={project.description}
@@ -99,24 +104,24 @@ export default async function ProjectPage({
           {/* 2. MAIN GRID (Carousel + Content vs Sidebar) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 bg-transparent relative">
             {/* LEFT COLUMN: Carousel + Content (8 Cols) */}
-            <div className="lg:col-span-8 border-b lg:border-b-0 lg:border-r border-zinc-200 dark:border-white/10 flex flex-col">
+            <div className="lg:col-span-8 border-b lg:border-b-0 lg:border-r border-border flex flex-col">
               
               {/* Carousel Section */}
-              <div className="w-full aspect-video relative border-b border-zinc-200 dark:border-white/10 bg-black overflow-hidden">
+              <div className="w-full aspect-video relative border-b border-border bg-black overflow-hidden">
                 <ProjectCarousel images={allProjectImages} />
               </div>
 
               {/* Main Content Section */}
               <div className="p-8 md:p-12">
                 <div
-                  className="prose prose-zinc max-w-none 
+                  className="prose max-w-none 
                     dark:prose-invert
-                    prose-headings:font-semibold prose-headings:text-zinc-900 dark:prose-headings:text-white 
-                    prose-p:text-zinc-600 dark:prose-p:text-zinc-400 prose-p:leading-relaxed 
-                    prose-li:text-zinc-600 dark:prose-li:text-zinc-400
-                    prose-strong:text-zinc-900 dark:prose-strong:text-white
-                    prose-code:text-zinc-900 dark:prose-code:text-white prose-code:bg-zinc-100 dark:prose-code:bg-zinc-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-zinc-200 dark:prose-code:border-zinc-800 prose-code:before:content-none prose-code:after:content-none
-                    prose-a:text-black dark:prose-a:text-white hover:prose-a:underline hover:prose-a:opacity-80
+                    prose-headings:font-semibold prose-headings:text-foreground
+                    prose-p:text-muted-foreground prose-p:leading-relaxed 
+                    prose-li:text-muted-foreground
+                    prose-strong:text-foreground
+                    prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-border prose-code:before:content-none prose-code:after:content-none
+                    prose-a:text-primary hover:prose-a:underline hover:prose-a:opacity-80
                   "
                 >
                   <ReactMarkdown>
@@ -127,7 +132,7 @@ export default async function ProjectPage({
             </div>
 
             {/* RIGHT COLUMN: Sidebar (4 Cols) */}
-            <div className="lg:col-span-4 bg-zinc-50/50 dark:bg-black/10">
+            <div className="lg:col-span-4 bg-muted/20">
               <ProjectSidebar
                 title={project.title}
                 category={project.category}

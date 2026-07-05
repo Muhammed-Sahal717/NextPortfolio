@@ -53,28 +53,24 @@ export default function ExperienceList({ experience }: { experience: any[] }) {
                     </p>
                   </div>
                   
-                  <div className="text-sm md:text-base font-semibold px-3 py-1 bg-zinc-100 dark:bg-zinc-900 rounded-full text-foreground whitespace-nowrap self-start md:self-auto border border-zinc-200 dark:border-zinc-800">
+                  <div className="text-sm md:text-base font-semibold px-3 py-1 bg-muted rounded-full text-foreground whitespace-nowrap self-start md:self-auto border border-border">
                     {formatDuration(item.start_date, item.end_date)}
                   </div>
                 </div>
 
                 {item.description && (
-                  <ul className="text-muted-foreground leading-relaxed mt-2 list-disc pl-5 space-y-1">
-                    {Array.isArray(item.description) 
-                      ? item.description.map((point: string, i: number) => (
-                          <li key={i}>{point}</li>
-                        ))
-                      : item.description.split('\n').filter((point: string) => point.trim() !== '').map((point: string, i: number) => (
-                          <li key={i}>{point}</li>
-                        ))
-                    }
+                  <ul className="text-muted-foreground leading-relaxed mt-2 list-disc list-inside space-y-1">
+                    {item.description.split('\n').map((point: string, i: number) => {
+                      if (!point.trim()) return null;
+                      return <li key={i}>{point.trim()}</li>;
+                    })}
                   </ul>
                 )}
 
                 {item.skills && item.skills.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-4">
                     {item.skills.map((skill: string, i: number) => (
-                      <Badge key={i} variant="secondary" className="font-normal rounded-md px-3 py-1 bg-zinc-100 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-foreground border-none">
+                      <Badge key={i} variant="secondary" className="font-normal rounded-md px-3 py-1 bg-muted hover:bg-muted/80 text-foreground border-none">
                         {skill}
                       </Badge>
                     ))}
