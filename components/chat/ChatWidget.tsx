@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { X, Terminal, Maximize2, Minimize2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import AiraIcon from "@/components/chat/AiraIcon";
+import AIIcon from "@/components/chat/AIIcon";
 import ChatTrigger from "./ChatTrigger";
 import ChatInput from "./ChatInput";
 import ChatMessage, { Message } from "./ChatMessage";
@@ -201,7 +201,7 @@ export default function ChatWidget() {
               <div className="h-14 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-row justify-between items-center px-4 shrink-0 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 flex items-center justify-center p-[2px]">
-                    <AiraIcon status={currentStatus} />
+                    <AIIcon status={currentStatus} />
                   </div>
                   <div className="flex flex-col">
                     <span className="font-sans font-bold text-sm text-black dark:text-white leading-none">
@@ -269,7 +269,7 @@ export default function ChatWidget() {
                       {isLoading && (
                         <div className="group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse mb-4" data-align="start">
                           <div className="flex w-8 h-8 min-w-8 shrink-0 items-center justify-center self-start overflow-hidden rounded-full bg-transparent border border-zinc-200 dark:border-zinc-800 shadow-sm p-1 mt-1">
-                            <AiraIcon status="loading" className="w-full h-full" />
+                            <AIIcon status="loading" className="w-full h-full" />
                           </div>
                           
                           <div className="flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end">

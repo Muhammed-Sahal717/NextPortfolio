@@ -2,12 +2,12 @@
 
 import React from "react";
 
-type AiraIconProps = {
+type AIIconProps = {
   status: "idle" | "loading" | "error" | "sad";
   className?: string;
 };
 
-export default function AiraIcon({ status, className = "" }: AiraIconProps) {
+export default function AIIcon({ status, className = "" }: AIIconProps) {
   return (
     <div className={`relative flex items-center justify-center w-full h-full ${className}`}>
       <svg

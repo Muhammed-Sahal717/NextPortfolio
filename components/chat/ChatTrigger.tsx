@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import AiraIcon from "@/components/chat/AiraIcon";
+import AIIcon from "@/components/chat/AIIcon";
 
 interface ChatTriggerProps {
   isOpen: boolean;
@@ -48,11 +48,11 @@ export default function ChatTrigger({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.8, y: 10 }}
                   transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className="absolute bottom-full right-0 mb-4 w-max pr-6 bg-zinc-900/95 backdrop-blur-md text-zinc-100 px-5 py-3 rounded-2xl rounded-br-sm border border-zinc-800 shadow-2xl z-10 pointer-events-none"
+                  className="absolute bottom-full right-0 mb-4 w-max pr-6 bg-popover/95 backdrop-blur-md text-popover-foreground px-5 py-3 rounded-2xl rounded-br-sm border border-border shadow-2xl z-10 pointer-events-none"
                   style={{ transformOrigin: "bottom right", willChange: "transform, opacity" }}
                 >
-                  <p className="text-sm font-semibold text-cyan-400 flex items-center gap-1.5">
-                    Hi! I'm Aira
+                  <p className="text-sm font-semibold flex items-center gap-1.5">
+                    AI Assistant
                     <svg width="0" height="0" className="absolute">
                       <defs>
                         <linearGradient
@@ -72,10 +72,10 @@ export default function ChatTrigger({
                       style={{ stroke: "url(#sparkleGradient)" }}
                     />
                   </p>
-                  <p className="text-xs text-zinc-300 mt-0.5">Need any help?</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Need any help?</p>
 
                   {/* Triangle Pointer */}
-                  <div className="absolute right-8 -bottom-[7px] w-3.5 h-3.5 bg-zinc-900/95 border-r border-b border-zinc-800 rotate-45 rounded-sm"></div>
+                  <div className="absolute right-8 -bottom-[7px] w-3.5 h-3.5 bg-popover border-r border-b border-border rotate-45 rounded-sm"></div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -95,7 +95,7 @@ export default function ChatTrigger({
               className="h-20 w-20 md:h-24 md:w-24 flex items-center justify-center transition-all duration-300 ease-out"
             >
               <div className="relative w-20 h-20 md:w-24 md:h-24 p-1 flex items-center justify-center">
-                <AiraIcon
+                <AIIcon
                   status={currentStatus}
                   className="hover:scale-110 transition-transform duration-200 origin-bottom"
                 />

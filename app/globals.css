@@ -50,6 +50,12 @@
   --color-accent: var(--theme-zinc-800);
   --color-accent-foreground: var(--theme-white);
 
+  --color-card: var(--theme-zinc-950);
+  --color-card-foreground: var(--theme-white);
+
+  --color-popover: var(--theme-zinc-950);
+  --color-popover-foreground: var(--theme-white);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,45 +65,32 @@
 :root {
   --radius: 0.625rem;
 
-  /* LIGHT: Cyber Violet */
+  /* LIGHT: Clean Zinc (Shadcn Light Equivalent) */
   --theme-black: #ffffff;
-  /* canvas */
-  --theme-white: #000000;
-  /* text */
+  --theme-white: #09090b;
+  
+  --theme-zinc-950: #ffffff;
+  --theme-zinc-900: #f4f4f5;
+  --theme-zinc-800: #e4e4e7;
+  --theme-zinc-700: #d4d4d8;
+  --theme-zinc-600: #a1a1aa;
+  --theme-zinc-500: #71717a;
+  --theme-zinc-400: #71717a; /* mapped to muted-foreground */
+  --theme-zinc-300: #52525b;
+  --theme-zinc-200: #3f3f46;
+  --theme-zinc-100: #18181b;
 
-  --theme-zinc-950: #F6F6F4;
-  /* soft gray panels */
-  --theme-zinc-900: #E7E7E4;
-  /* muted gray panels */
-  --theme-zinc-800: #DCDCC9;
-  /* borders */
-  --theme-zinc-700: #A1A19A;
-  --theme-zinc-600: #7A7A73;
-  /* dim gray */
-  --theme-zinc-500: #5E5E55;
-  --theme-zinc-400: #42423B;
-  /* soft gray text */
-  --theme-zinc-300: #272723;
-  --theme-zinc-200: #181816;
-  --theme-zinc-100: #0C0C0B;
+  /* Lime accents optimized for light mode */
+  --theme-lime-300: #84cc16;
+  --theme-lime-400: #65a30d;
+  --theme-lime-500: #4d7c0f;
+  --theme-lime-600: #3f6212;
+  --theme-lime-900: #ecfccb;
 
-  --theme-lime-300: #410D9B;
-  /* hover violet */
-  --theme-lime-400: #5C19CA;
-  /* electric violet */
-  --theme-lime-500: #550D7F;
-  /* for drop shadow */
-  --theme-lime-600: #9A5CF2;
-  /* mid violet */
-  --theme-lime-900: #C9ACEB;
-  /* deep violet context */
-
-  --theme-green-400: #EDA2D6;
-  --theme-green-500: #DD3AA1;
-  /* success magenta */
-  --theme-red-400: #5AE1E1;
-  --theme-red-500: #10BBBB;
-  /* destructive cyan */
+  --theme-green-400: #22c55e;
+  --theme-green-500: #16a34a;
+  --theme-red-400: #ef4444;
+  --theme-red-500: #dc2626;
 }
 
 .dark {

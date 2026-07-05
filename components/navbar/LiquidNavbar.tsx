@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "./MobileMenu";
+import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -81,6 +82,8 @@ export default function LiquidNavbar() {
 
             {/* Right: CTA & Hamburger */}
             <div className="flex items-center gap-2 shrink-0">
+              <ThemeToggle />
+              
               {/* Desktop CTA */}
               <Button
                 asChild

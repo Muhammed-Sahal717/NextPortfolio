@@ -36,7 +36,9 @@ export default function AboutSection() {
               Summary takes 2 cols (row 1).
               Tech Stack takes 2 cols (row 2).
               Stats takes 3 cells. 3 cells in a 2 col grid leaves 1 empty cell. We need a padding cell. */}
-          <div className="hidden md:block lg:hidden bg-background" />
+          <div className="relative hidden md:block lg:hidden bg-background">
+            <div className="absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-zinc-800" />
+          </div>
         </div>
       </div>
     </section>

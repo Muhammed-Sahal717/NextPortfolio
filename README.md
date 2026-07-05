@@ -5,7 +5,7 @@ A highly interactive, enterprise-grade developer portfolio built with **Next.js*
 ## ✨ Key Features
 
 - **Immersive WebGL Experiences**: Features a custom-built Liquid Ether WebGL background simulation for butter-smooth, interactive ambient visuals.
-- **AI Agent Integration**: Powered by the Gemini API and Vercel AI SDK to provide a smart, context-aware AI chatbot assistant (Aira) built natively into the UI.
+- **AI Agent Integration**: Powered by the Gemini API and Vercel AI SDK to provide a smart, context-aware AI chatbot assistant built natively into the UI.
 - **Enterprise-Grade Architecture**: Fully modular codebase utilizing the "Orchestrator + Subcomponents" pattern. The repository is meticulously organized into domains like `animations/`, `providers/`, `chat/`, and `projects/`.
 - **Premium Design Aesthetics**: Includes high-end glassmorphism, editorial typography, and scroll-driven parallax effects.
 - **Custom Easter Eggs**: Interactive UI elements that react to user behavior, including a system-overload shutter crash state built into the liquid navigation bar.
@@ -28,7 +28,7 @@ The `components/` directory is strictly organized by feature domain to ensure ma
 - `/providers/`: Global contexts and loading indicators.
 - `/common/`: Reusable, interactive UI elements like the custom cursor.
 - `/navbar/`: The orchestrator and subcomponents for the liquid navigation bar.
-- `/chat/`: The AI widget, message bubbles, input formatting, and Aira avatar.
+- `/chat/`: The AI widget, message bubbles, input formatting, and AI avatar.
 - `/hero/`, `/about/`, `/projects/`, `/footer/`: Dedicated directories for page sections.
 
 ## 🚀 Getting Started

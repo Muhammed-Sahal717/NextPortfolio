@@ -7,7 +7,7 @@ import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Copy, Check } from "lucide-react";
-import AiraIcon from "@/components/chat/AiraIcon";
+import AIIcon from "@/components/chat/AIIcon";
 
 export type Message = {
   id: string;
@@ -51,7 +51,7 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
         </MessageAvatar>
       ) : (
         <MessageAvatar className="w-8 h-8 bg-transparent border border-zinc-200 dark:border-zinc-800 shadow-sm p-1 mt-0">
-          <AiraIcon status="idle" className="w-full h-full" />
+          <AIIcon status="idle" className="w-full h-full" />
         </MessageAvatar>
       )}
 

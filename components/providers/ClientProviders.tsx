@@ -10,7 +10,9 @@ const SmoothScrolling = dynamic(() => import("@/components/providers/SmoothScrol
 export default function ClientProviders() {
   return (
     <>
-      <ChatWidget />
+      <div id="ai-chat-widget-container">
+        <ChatWidget />
+      </div>
       <SmoothScrolling />
     </>
   );
