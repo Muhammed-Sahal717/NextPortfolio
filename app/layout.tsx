@@ -111,7 +111,8 @@ export default function RootLayout({
     url: "https://sahal-web.vercel.app",
     jobTitle: "Full-Stack Developer",
     sameAs: [
-      "https://github.com/Muhammed-Sahal717"
+      "https://github.com/Muhammed-Sahal717",
+      "https://linkedin.com/in/mhd-sahal"
     ],
   };
 
