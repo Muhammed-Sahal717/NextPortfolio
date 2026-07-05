@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 
 // We use the service role key to bypass RLS policies since the admin

@@ -24,7 +24,7 @@ export const getCleanImages = (
             parsed.forEach((item) => processEntry(item));
             return;
           }
-        } catch (e) {
+        } catch {
           // Fallback if parsing fails
         }
       }

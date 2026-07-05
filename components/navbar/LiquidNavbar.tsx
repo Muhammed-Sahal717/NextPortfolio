@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "./MobileMenu";
@@ -86,7 +85,7 @@ export default function LiquidNavbar() {
                 asChild
                 className="hidden md:flex rounded-full px-6 font-bold hover:border-green-500/50 hover:bg-green-500/10 hover:text-green-500 dark:hover:text-green-400 transition-all border border-transparent"
               >
-                <a href="#contact">Let's connect</a>
+                <a href="#contact">Let&apos;s connect</a>
               </Button>
 
               {/* Mobile Hamburger Toggle */}

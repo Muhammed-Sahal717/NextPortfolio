@@ -16,7 +16,7 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.message) {
-      toast.custom((t) => (
+      toast.custom(() => (
         <Bubble align="start">
           <BubbleContent className="bg-zinc-800 text-white border-zinc-700 border">
             Please fill in all fields
@@ -41,20 +41,21 @@ export default function ContactForm() {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "",
       );
       
-      toast.custom((t) => (
+      toast.custom(() => (
         <Bubble align="start">
           <BubbleContent className="bg-zinc-800 text-white border-zinc-700 border">
             <strong>Message sent successfully!</strong><br />
-            I'll get back to you as soon as possible.
+            I&apos;ll get back to you as soon as possible.
           </BubbleContent>
         </Bubble>
       ));
       
       setFormData({ email: "", message: "" });
       setStatus("IDLE");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("EmailJS Error:", error);
-      toast.custom((t) => (
+      toast.custom(() => (
         <Bubble align="start">
           <BubbleContent className="bg-zinc-800 text-white border-zinc-700 border">
             <strong>Failed to send message</strong><br />

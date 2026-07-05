@@ -6,7 +6,7 @@ import { Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -22,7 +22,17 @@ export function ThemeToggle() {
   }
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+    const isDark = resolvedTheme === "dark";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (!(document as any).startViewTransition) {
+      setTheme(isDark ? "light" : "dark");
+      return;
+    }
+    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (document as any).startViewTransition(() => {
+      setTheme(isDark ? "light" : "dark");
+    });
   };
 
   return (

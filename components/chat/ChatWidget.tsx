@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { X, Terminal, Maximize2, Minimize2 } from "lucide-react";
+import { X, Terminal } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AIIcon from "@/components/chat/AIIcon";
 import ChatTrigger from "./ChatTrigger";

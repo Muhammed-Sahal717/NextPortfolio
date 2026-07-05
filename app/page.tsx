@@ -3,7 +3,6 @@ import HeroSection from "@/components/hero/HeroSection";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import AboutSection from "@/components/about/AboutSection";
 import Footer from "@/components/footer/Footer"; // <--- Import this
-import ScrollReveal from "@/components/animations/ScrollReveal";
 
 export const revalidate = 3600; // Cache for 1 hour instead of every request
 

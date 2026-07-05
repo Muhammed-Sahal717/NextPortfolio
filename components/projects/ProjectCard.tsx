@@ -8,10 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export default function ProjectCard({
   project,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   project: any;
   index: number;
 }) {

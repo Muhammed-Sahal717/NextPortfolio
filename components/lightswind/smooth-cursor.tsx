@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useSpring } from "framer-motion";
-import { FC, JSX, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 // Utility function 'cn' (classnames) - implemented directly to resolve import error
 function cn(...inputs: (string | undefined | null | boolean)[]) {
@@ -130,14 +130,12 @@ export function SmoothCursor({
   onCursorLeave,
   disabled = false,
 }: SmoothCursorProps) {
-  const [isMoving, setIsMoving] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [isClicking, setIsClicking] = useState(false);
   const [trail, setTrail] = useState<Position[]>([]);
 
   const lastMousePos = useRef<Position>({ x: 0, y: 0 });
   const velocity = useRef<Position>({ x: 0, y: 0 });
-  const lastUpdateTime = useRef(Date.now());
+  const lastUpdateTime = useRef(0);
   const previousAngle = useRef(0);
   const accumulatedRotation = useRef(0);
   
@@ -166,6 +164,7 @@ export function SmoothCursor({
 
     const updateVelocity = (currentPos: Position) => {
       const currentTime = Date.now();
+      if (lastUpdateTime.current === 0) lastUpdateTime.current = currentTime;
       const deltaTime = currentTime - lastUpdateTime.current;
 
       if (deltaTime > 0) {
@@ -193,7 +192,7 @@ export function SmoothCursor({
       if (!showTrail) return;
 
       setTrail(function (prev) {
-        var newTrail = [pos].concat(prev.slice(0, trailLength - 1));
+        const newTrail = [pos].concat(prev.slice(0, trailLength - 1));
         return newTrail;
       });
     };
@@ -255,11 +254,8 @@ export function SmoothCursor({
         if (!isHoveringRef.current && !isClickingRef.current) {
           scale.set(0.95);
         }
-        setIsMoving(true);
-
         const timeout = setTimeout(function () {
           updateScale();
-          setIsMoving(false);
         }, 150);
 
         return function () {

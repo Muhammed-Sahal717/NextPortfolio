@@ -6,7 +6,6 @@ import ReactMarkdown from "react-markdown";
 import ProjectCarousel from "@/components/projects/ProjectCarousel";
 import ProjectHeader from "@/components/projects/details/ProjectHeader";
 import ProjectSidebar from "@/components/projects/details/ProjectSidebar";
-import { Card, CardContent } from "@/components/ui/card";
 
 export const revalidate = 0;
 

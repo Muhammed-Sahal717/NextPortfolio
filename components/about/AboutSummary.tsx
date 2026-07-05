@@ -1,8 +1,6 @@
 "use client";
 
-import { FiCode } from "react-icons/fi";
-import AnimatedCounter from "./AnimatedCounter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 // import Noise from "@/components/animations/Noise"; // Kept for reference
 // import { motion } from "framer-motion"; // Kept for reference
 

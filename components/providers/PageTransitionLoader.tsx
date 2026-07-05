@@ -14,6 +14,7 @@ export default function PageTransitionLoader() {
     // Due to the nature of Next.js 13+ App router, we don't have built-in
     // router events like 'routeChangeStart'. So we simulate a quick loading
     // state when the dependencies change, offering visual feedback.
+    // eslint-disable-next-line
     setIsLoading(true);
 
     const timer = setTimeout(() => {

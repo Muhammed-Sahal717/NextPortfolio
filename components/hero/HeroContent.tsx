@@ -33,7 +33,7 @@ export default function HeroContent() {
 
       {/* Subheading */}
       <p className="text-lg md:text-xl text-muted-foreground font-medium max-w-2xl leading-relaxed mb-10">
-        Hi, I'm Sahal. I specialize in building robust full-stack applications
+        Hi, I&apos;m Sahal. I specialize in building robust full-stack applications
         and integrating AI functionalities to solve complex problems.
       </p>
 

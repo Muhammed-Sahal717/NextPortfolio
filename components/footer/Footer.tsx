@@ -26,10 +26,10 @@ export default function Footer() {
         {/* Header Section */}
         <div className="flex flex-col gap-4">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
-            Let's work together.
+            Let&apos;s work together.
           </h2>
           <p className="text-lg text-muted-foreground">
-            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </p>
         </div>
 

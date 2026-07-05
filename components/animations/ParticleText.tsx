@@ -19,9 +19,87 @@ type Particle = {
   color: string;
   vx: number;
   vy: number;
-  update: () => void;
-  draw: () => void;
+  vy: number;
+  update: (pointer: { x: number; y: number; active: boolean; radius: number }) => void;
+  draw: (ctx: CanvasRenderingContext2D) => void;
 };
+
+class ParticleClass implements Particle {
+  x: number;
+  y: number;
+  baseX: number;
+  baseY: number;
+  size: number;
+  density: number;
+  color: string;
+  vx: number;
+  vy: number;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+    this.baseX = x;
+    this.baseY = y;
+    this.size = Math.random() * 1.4 + 1.1;
+    this.density = Math.random() * 20 + 8;
+    this.vx = 0;
+    this.vy = 0;
+
+    const palette = [
+      "rgba(255,255,255,0.82)",
+      "rgba(255,255,255,0.65)",
+      "rgba(168,255,79,0.92)",
+      "rgba(168,255,79,0.72)",
+    ];
+    this.color = palette[Math.floor(Math.random() * palette.length)];
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    if (!ctx) return;
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.shadowColor = this.color;
+    ctx.shadowBlur = 10;
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+
+  update(pointer: { x: number; y: number; active: boolean; radius: number }) {
+    if (pointer.active) {
+      const dx = pointer.x - this.x;
+      const dy = pointer.y - this.y;
+      const distance = Math.max(Math.sqrt(dx * dx + dy * dy), 0.001);
+
+      if (distance < pointer.radius) {
+        const force = (pointer.radius - distance) / pointer.radius;
+        // Add randomness so they scatter freely instead of forming a perfect circle shape
+        const randomAngle = Math.random() * Math.PI * 2;
+        const scatterForceX = Math.cos(randomAngle);
+        const scatterForceY = Math.sin(randomAngle);
+
+        // Blend radial repulsion with random scattering
+        const repulsionX = (dx / distance) * 0.3 + scatterForceX * 0.7;
+        const repulsionY = (dy / distance) * 0.3 + scatterForceY * 0.7;
+
+        const repulsionStrength = force * this.density * 1.5;
+        this.vx -= repulsionX * repulsionStrength;
+        this.vy -= repulsionY * repulsionStrength;
+      }
+    }
+
+    const ease = 0.075;
+
+    this.vx += (this.baseX - this.x) * ease;
+    this.vy += (this.baseY - this.y) * ease;
+
+    this.vx *= 0.82;
+    this.vy *= 0.82;
+
+    this.x += this.vx;
+    this.y += this.vy;
+  }
+}
 
 export default function ParticleText({
   text,
@@ -46,7 +124,7 @@ export default function ParticleText({
     ).matches;
 
     let width = container.clientWidth;
-    let h = height;
+    const h = height;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     let particles: Particle[] = [];
@@ -74,82 +152,7 @@ export default function ParticleText({
       ctx.imageSmoothingEnabled = true;
     };
 
-    class ParticleClass {
-      x: number;
-      y: number;
-      baseX: number;
-      baseY: number;
-      size: number;
-      density: number;
-      color: string;
-      vx: number;
-      vy: number;
 
-      constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-        this.baseX = x;
-        this.baseY = y;
-        this.size = Math.random() * 1.4 + 1.1;
-        this.density = Math.random() * 20 + 8;
-        this.vx = 0;
-        this.vy = 0;
-
-        const palette = [
-          "rgba(255,255,255,0.82)",
-          "rgba(255,255,255,0.65)",
-          "rgba(168,255,79,0.92)",
-          "rgba(168,255,79,0.72)",
-        ];
-        this.color = palette[Math.floor(Math.random() * palette.length)];
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.shadowColor = this.color;
-        ctx.shadowBlur = 10;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      }
-
-      update() {
-        if (pointer.active) {
-          const dx = pointer.x - this.x;
-          const dy = pointer.y - this.y;
-          const distance = Math.max(Math.sqrt(dx * dx + dy * dy), 0.001);
-
-          if (distance < pointer.radius) {
-            const force = (pointer.radius - distance) / pointer.radius;
-            // Add randomness so they scatter freely instead of forming a perfect circle shape
-            const randomAngle = Math.random() * Math.PI * 2;
-            const scatterForceX = Math.cos(randomAngle);
-            const scatterForceY = Math.sin(randomAngle);
-
-            // Blend radial repulsion with random scattering
-            const repulsionX = (dx / distance) * 0.3 + scatterForceX * 0.7;
-            const repulsionY = (dy / distance) * 0.3 + scatterForceY * 0.7;
-
-            const repulsionStrength = force * this.density * 1.5;
-            this.vx -= repulsionX * repulsionStrength;
-            this.vy -= repulsionY * repulsionStrength;
-          }
-        }
-
-        const ease = 0.075;
-
-        this.vx += (this.baseX - this.x) * ease;
-        this.vy += (this.baseY - this.y) * ease;
-
-        this.vx *= 0.82;
-        this.vy *= 0.82;
-
-        this.x += this.vx;
-        this.y += this.vy;
-      }
-    }
 
     const buildParticles = () => {
       if (width <= 0 || h <= 0) return;
@@ -218,8 +221,8 @@ export default function ParticleText({
       ctx.fillRect(0, 0, width, h);
 
       for (const p of particles) {
-        p.update();
-        p.draw();
+        p.update(pointer);
+        p.draw(ctx);
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -252,7 +255,7 @@ export default function ParticleText({
       // Still draw once for reduced motion users
       ctx.clearRect(0, 0, width, h);
       for (const p of particles) {
-        p.draw();
+        p.draw(ctx);
       }
     }
 

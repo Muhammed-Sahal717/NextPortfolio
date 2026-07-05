@@ -69,7 +69,7 @@ export default function MobileMenu({ isOpen, setIsOpen, mainLinks }: MobileMenuP
             </div>
 
             <Button asChild onClick={() => setIsOpen(false)} className="rounded-md font-medium">
-              <a href="#contact">Let's connect</a>
+              <a href="#contact">Let&apos;s connect</a>
             </Button>
           </motion.div>
         </motion.div>

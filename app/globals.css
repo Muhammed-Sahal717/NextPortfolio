@@ -293,3 +293,28 @@ html {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--theme-zinc-500);
 }
+
+/* --- VIEW TRANSITIONS (Theme Toggle) --- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: dreamy-fade-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+::view-transition-new(root) {
+  animation: dreamy-fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes dreamy-fade-out {
+  0% { opacity: 1; filter: blur(0px); }
+  100% { opacity: 0; filter: blur(15px); }
+}
+
+@keyframes dreamy-fade-in {
+  0% { opacity: 0; filter: blur(15px); }
+  100% { opacity: 1; filter: blur(0px); }
+}
