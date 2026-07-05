@@ -67,6 +67,17 @@ A custom admin dashboard (`/admin`) is used to manage content, implemented with 
 
 ---
 
+## 🔎 SEO & Discovery
+
+The portfolio implements comprehensive technical SEO best practices to maximize discoverability:
+
+- **JSON-LD Structured Data**: Injects a `Person` schema into the global layout to help search engines generate Knowledge Panels and Rich Snippets.
+- **Dynamic Sitemap**: The `app/sitemap.ts` file automatically queries the database and generates a dynamic XML sitemap containing all active static routes and dynamic project URLs.
+- **Robots.txt & Canonical Routing**: Programmatic `app/robots.ts` configuration allows public crawling while protecting admin routes, combined with absolute canonical URL enforcement to prevent duplicate content indexing.
+- **Next.js Metadata API**: Utilizes native App Router metadata generation for automatic OpenGraph tags, Twitter Cards, and dynamic title templating.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites

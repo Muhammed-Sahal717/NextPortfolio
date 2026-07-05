@@ -34,6 +34,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sahal-web.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
 
   title: {
     default: "Sahal | Full-Stack Developer",
@@ -98,6 +101,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Muhammed Sahal",
+    url: "https://sahal-web.vercel.app",
+    jobTitle: "Full-Stack Developer",
+    sameAs: [
+      "https://github.com/Muhammed-Sahal717"
+    ],
+  };
+
   return (
     // Added 'scroll-smooth' for better navigation feel
     <html lang="en" suppressHydrationWarning>
@@ -118,6 +132,10 @@ export default function RootLayout({
           </Suspense>
           <ClientProviders />
           <Toaster />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
         </ThemeProvider>
       </body>
     </html>
