@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   const { headers } = req;
   const seedKey = headers.get("x-seed-key");
 
-  if (seedKey !== process.env.SEED_SECRET_KEY) {
+  if (!process.env.SEED_SECRET_KEY || seedKey !== process.env.SEED_SECRET_KEY) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

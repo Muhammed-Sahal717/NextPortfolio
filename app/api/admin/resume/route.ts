@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 
 // We use the service role key to bypass RLS policies since the admin
 // is authenticated via middleware, ensuring they are authorized.
@@ -53,6 +54,16 @@ export async function GET() {
 
 export async function POST(req: Request) {
     try {
+        const supabase = await createSupabaseServerClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+            return NextResponse.json(
+                { error: "Unauthorized: You must be logged in to upload a resume." },
+                { status: 401 }
+            );
+        }
+
         const formData = await req.formData();
         const file = formData.get("file") as File;
         const oldFileName = formData.get("oldFileName") as string | null;
@@ -110,6 +121,16 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
     try {
+        const supabase = await createSupabaseServerClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+            return NextResponse.json(
+                { error: "Unauthorized: You must be logged in to delete a resume." },
+                { status: 401 }
+            );
+        }
+
         const { searchParams } = new URL(req.url);
         const fileName = searchParams.get("fileName");
 

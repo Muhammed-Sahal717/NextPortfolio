@@ -14,6 +14,11 @@ export async function signOut() {
 // --- Create Project ---
 export async function createProject(formData: FormData) {
     const supabase = await createSupabaseServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return { error: "Unauthorized: You must be logged in to create a project." };
+    }
 
     const title = formData.get("title") as string;
     const slug =
@@ -64,6 +69,11 @@ export async function createProject(formData: FormData) {
 // --- Update Project ---
 export async function updateProject(id: number, formData: FormData) {
     const supabase = await createSupabaseServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return { error: "Unauthorized: You must be logged in to update a project." };
+    }
 
     const title = formData.get("title") as string;
     const slug =
@@ -118,6 +128,11 @@ export async function updateProject(id: number, formData: FormData) {
 // --- Delete Project ---
 export async function deleteProject(id: number) {
     const supabase = await createSupabaseServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        return { error: "Unauthorized: You must be logged in to delete a project." };
+    }
 
     const { error } = await supabase.from("projects").delete().eq("id", id);
 

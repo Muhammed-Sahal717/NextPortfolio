@@ -13,11 +13,43 @@ const apiKey =
 
 const genAI = new GoogleGenerativeAI(apiKey || "");
 
+// Basic in-memory rate limiting (per edge node isolate)
+const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const windowMs = 60 * 1000; // 1 minute window
+  const maxRequests = 15; // Max 15 requests per minute
+
+  let record = rateLimitMap.get(ip);
+  if (!record || now - record.lastReset > windowMs) {
+    record = { count: 1, lastReset: now };
+    rateLimitMap.set(ip, record);
+    return true;
+  }
+
+  if (record.count >= maxRequests) {
+    return false;
+  }
+
+  record.count += 1;
+  return true;
+}
+
 export async function POST(req: Request) {
   if (!apiKey) {
     return NextResponse.json(
       { error: "Missing GOOGLE_GENERATIVE_AI_API_KEY environment variable" },
       { status: 500 }
+    );
+  }
+
+  // Rate Limiting Check
+  const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
     );
   }
 
