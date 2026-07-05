@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "./MobileMenu";
 import { ThemeToggle } from "./ThemeToggle";
+import AIIcon from "@/components/chat/AIIcon";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -40,26 +41,22 @@ export default function LiquidNavbar() {
     <nav
       className={`fixed top-0 left-0 w-full z-[1000] transition-colors duration-500 ${
         isScrolled || isOpen
-          ? "bg-background/90 border-b border-dashed border-border shadow-md backdrop-blur-md"
+          ? "bg-background border-b border-dashed border-border shadow-md"
           : "bg-transparent border-b border-dashed border-transparent shadow-none"
       }`}
     >
-      <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="w-full max-w-[100rem] mx-auto px-6 lg:px-16">
         <div className="relative text-foreground transition-all duration-500">
           {/* --- HEADER ROW (ALWAYS VISIBLE) --- */}
-          <div className="flex items-center justify-between py-2 md:py-5 relative z-20">
+          <div className="flex items-center justify-between py-2 md:py-3 relative z-20">
             {/* Left: Logo */}
             <Link
               href="/#home"
               className="flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
             >
-              <Image
-                src="/icon.svg"
-                alt="Logo"
-                width={32}
-                height={32}
-                className="transition-transform group-hover:scale-110"
-              />
+              <div className="w-8 h-8 transition-transform group-hover:scale-110">
+                <AIIcon status="static" />
+              </div>
             </Link>
 
             {/* Center: Desktop Links (Shadcn NavigationMenu) */}
@@ -97,7 +94,7 @@ export default function LiquidNavbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden w-12 h-12 text-muted-foreground hover:text-foreground"
+                className="md:hidden w-10 h-10 text-muted-foreground hover:text-foreground"
                 aria-label="Toggle Menu"
               >
                 <AnimatePresence mode="wait">
@@ -109,7 +106,7 @@ export default function LiquidNavbar() {
                       exit={{ opacity: 0, rotate: 90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <FiX className="!w-8 !h-8" />
+                      <FiX className="!w-6 !h-6" />
                     </motion.div>
                   ) : (
                     <motion.div
@@ -119,7 +116,7 @@ export default function LiquidNavbar() {
                       exit={{ opacity: 0, rotate: -90 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <FiMenu className="!w-8 !h-8" />
+                      <FiMenu className="!w-6 !h-6" />
                     </motion.div>
                   )}
                 </AnimatePresence>
