@@ -14,6 +14,7 @@ import {
   SiDocker,
   SiVercel,
   SiGit,
+  SiFastapi,
 } from "react-icons/si";
 
 export default function AboutTechStack() {
@@ -26,6 +27,7 @@ export default function AboutTechStack() {
     { name: "Supabase", Icon: SiSupabase, hoverColor: "group-hover:text-[#3FCF8E]" },
     { name: "PostgreSQL", Icon: SiPostgresql, hoverColor: "group-hover:text-[#4169E1]" },
     { name: "Python", Icon: SiPython, hoverColor: "group-hover:text-[#3776AB]" },
+    { name: "FastAPI", Icon: SiFastapi, hoverColor: "group-hover:text-[#009688]" },
     { name: "Docker", Icon: SiDocker, hoverColor: "group-hover:text-[#2496ED]" },
     { name: "Vercel", Icon: SiVercel, hoverColor: "group-hover:text-white" },
     { name: "Git", Icon: SiGit, hoverColor: "group-hover:text-[#F05032]" },
