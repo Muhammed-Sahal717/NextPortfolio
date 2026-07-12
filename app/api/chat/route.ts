@@ -75,6 +75,7 @@ export async function POST(req: Request) {
 
     // 2. Search Supabase for the most relevant documents
     console.log("[Chat API] Searching vector database...");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let matchedDocs: any[] | null = null;
 
     try {
@@ -115,6 +116,7 @@ export async function POST(req: Request) {
     });
 
     // Build chat history
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const history = messages.slice(0, -1).map((m: any) => ({
       role: m.role === "user" ? "user" : "model",
       parts: [{ text: m.content }],
@@ -151,6 +153,7 @@ export async function POST(req: Request) {
       },
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Chat API Error:", error);
 

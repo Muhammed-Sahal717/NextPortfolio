@@ -1295,7 +1295,6 @@ export default function LiquidEther({
     if (!webgl) return;
 
     // Dynamically update palette colors without recreating context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const outputLayer = (webgl as any).output?.output;
     if (outputLayer) {
       const material = outputLayer.material as THREE.RawShaderMaterial;

@@ -4,6 +4,7 @@ import React from "react";
 import ExperienceList from "./ExperienceList";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ExperienceSection({ experience }: { experience: any[] }) {
   return (
     <section id="experience" className="relative w-full py-20 lg:py-32">

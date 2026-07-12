@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/app/admin/actions";
-import { FiHome, FiFolder, FiFileText, FiLogOut, FiZap } from "react-icons/fi";
+import { FiHome, FiFolder, FiFileText, FiLogOut } from "react-icons/fi";
+import Image from "next/image";
 import {
   Sidebar,
   SidebarContent,
@@ -37,9 +38,11 @@ export function AppSidebar() {
           href="/admin"
           className="flex items-center gap-2 px-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center h-8"
         >
-          <img
+          <Image
             src="/icon.svg"
             alt="Logo"
+            width={20}
+            height={20}
             className="w-5 h-5 shrink-0 hidden group-data-[collapsible=icon]:block"
           />
           <div className="overflow-hidden group-data-[collapsible=icon]:hidden">

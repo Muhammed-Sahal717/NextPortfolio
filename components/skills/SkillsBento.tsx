@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { FiServer, FiDatabase, FiMessageSquare, FiLayout, FiTerminal, FiCpu, FiCode } from "react-icons/fi";
+import { motion, Variants } from "framer-motion";
+import { FiServer, FiMessageSquare, FiLayout, FiTerminal, FiCpu, FiCode } from "react-icons/fi";
 import {
   SiReact,
   SiNextdotjs,
@@ -21,7 +21,7 @@ import {
 } from "react-icons/si";
 
 export default function SkillsBento() {
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };

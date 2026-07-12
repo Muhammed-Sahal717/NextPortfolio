@@ -27,6 +27,7 @@ function formatDuration(startDateStr: string, endDateStr: string | null) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ExperienceList({ experience }: { experience: any[] }) {
   if (!experience || experience.length === 0) return null;
 
