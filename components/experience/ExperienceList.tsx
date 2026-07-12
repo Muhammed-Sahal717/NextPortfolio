@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 
 function formatDuration(startDateStr: string, endDateStr: string | null) {
@@ -31,12 +32,33 @@ export default function ExperienceList({ experience }: { experience: any[] }) {
 
   return (
     <div className="mx-auto w-full max-w-[100rem] px-6 lg:px-16">
-      <div className="grid grid-cols-1 gap-px bg-border border border-border rounded-xl overflow-hidden shadow-sm">
+      <motion.div 
+        className="grid grid-cols-1 gap-px bg-border border border-border rounded-xl overflow-hidden shadow-sm"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, margin: "-50px" }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.15,
+            },
+          },
+        }}
+      >
         {experience.map((item, index) => {
           const isInternal = index >= 1; // Any item after the first has a top border
 
           return (
-            <div key={item.id} className="relative w-full h-full">
+            <motion.div 
+              key={item.id} 
+              className="relative w-full h-full"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+              }}
+            >
               {/* Top border diamond for items other than the first */}
               {isInternal && (
                 <div className="absolute -top-[0.5px] left-1/2 md:left-12 w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
@@ -77,10 +99,10 @@ export default function ExperienceList({ experience }: { experience: any[] }) {
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import React from "react";
 import ExperienceList from "./ExperienceList";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 export default function ExperienceSection({ experience }: { experience: any[] }) {
   return (
@@ -10,14 +11,10 @@ export default function ExperienceSection({ experience }: { experience: any[] })
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 border-b border-dashed border-zinc-200 dark:border-zinc-800 pb-8">
           <div>
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight">
-              Experience
+              <ScrollReveal text="Experience" />
             </h2>
           </div>
-          <div className="max-w-md text-muted-foreground text-lg leading-relaxed">
-            <p>
-              My professional journey and the roles I&apos;ve undertaken to build high-performance applications.
-            </p>
-          </div>
+
         </div>
       </div>
 
