@@ -31,13 +31,16 @@ export default function HeroContent() {
 
       {/* Main Heading */}
       <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6 text-foreground">
-        Full-Stack Engineer
+        Muhammed Sahal AP
       </h1>
 
       {/* Subheading */}
       <p className="text-lg md:text-xl text-muted-foreground font-medium max-w-2xl leading-relaxed mb-10">
-        Hi, I&apos;m Sahal. I specialize in building robust full-stack applications
-        and integrating AI functionalities to solve complex problems.
+        I am a Full Stack Developer with a passion for building high-quality web
+        applications. I specialize in creating seamless and intuitive user
+        experiences with a focus on clean, maintainable code. My expertise
+        covers the entire development lifecycle, from front-end design to
+        back-end implementation.
       </p>
 
       {/* CTA Buttons */}
