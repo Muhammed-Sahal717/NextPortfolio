@@ -19,8 +19,10 @@ import {
 const mainLinks = [
   { name: "Home", href: "/#home" },
   { name: "About", href: "/#about" },
+  { name: "Skills", href: "/#skills" },
+  { name: "Experience", href: "/#experience" },
   { name: "Work", href: "/#projects" },
-  { name: "Profile", href: "/profile" },
+  // { name: "Profile", href: "/profile" },
   { name: "Journey", href: "/engineering" },
 ];
 

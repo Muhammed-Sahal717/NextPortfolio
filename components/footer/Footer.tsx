@@ -9,8 +9,10 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 
 export default function Footer() {
   const navLinks = [
-    { name: "Projects", href: "#projects" },
     { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Experience", href: "#experience" },
+    { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
   ];
 
