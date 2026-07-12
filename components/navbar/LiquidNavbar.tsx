@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "./MobileMenu";
 import { ThemeToggle } from "./ThemeToggle";
+import Logo from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -47,8 +48,15 @@ export default function LiquidNavbar() {
         <div className="relative text-foreground transition-all duration-500">
           {/* --- HEADER ROW (ALWAYS VISIBLE) --- */}
           <div className="flex items-center justify-between py-2 md:py-3 relative z-20">
-            {/* Left: Empty Spacer for Logo */}
-            <div></div>
+            {/* Left: Logo */}
+            <Link
+              href="/#home"
+              className="flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
+            >
+              <div className="w-8 h-8 transition-transform group-hover:scale-110">
+                <Logo />
+              </div>
+            </Link>
 
             {/* Center: Desktop Links (Shadcn NavigationMenu) */}
             <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
