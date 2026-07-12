@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabaseClient";
 import HeroSection from "@/components/hero/HeroSection";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import AboutSection from "@/components/about/AboutSection";
+import SkillsSection from "@/components/skills/SkillsSection";
 import ExperienceSection from "@/components/experience/ExperienceSection";
 import Footer from "@/components/footer/Footer"; // <--- Import this
 
@@ -24,6 +25,9 @@ export default async function Home() {
 
       {/* The Bento "About" Section */}
       <AboutSection />
+
+      {/* The Bento "Skills" Section */}
+      <SkillsSection />
 
       {/* The Experience Section */}
       <ExperienceSection experience={experience || []} />
