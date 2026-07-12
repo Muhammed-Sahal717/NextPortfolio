@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import AboutHeader from "./AboutHeader";
 import AboutSummary from "./AboutSummary";
-import AboutTechStack from "./AboutTechStack";
+// import AboutTechStack from "./AboutTechStack";
 import AboutStats from "./AboutStats";
 
 export default function AboutSection() {
@@ -16,30 +18,99 @@ export default function AboutSection() {
         {/* 1. HEADER */}
         <AboutHeader />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-xl overflow-hidden shadow-sm">
-          {/* Top Row: Summary (2 cols) + Tech Stack (1 col) */}
-          <div className="md:col-span-2 bg-background">
-            <AboutSummary />
-          </div>
+        {/* 2. MAIN CONTENT AREA */}
+        <motion.div 
+          className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mt-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
           
-          <div className="md:col-span-2 lg:col-span-1 bg-background">
-            <AboutTechStack />
-          </div>
+          {/* Left Column: Image (Takes up 5 columns on lg) */}
+          <motion.div 
+            className="lg:col-span-5 relative w-full h-[400px] sm:h-[500px] lg:h-auto lg:min-h-[550px] rounded-3xl overflow-hidden border border-border/50 bg-zinc-900/50 flex-shrink-0 group"
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+            }}
+          >
+            {/* Subtle Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent z-10 pointer-events-none" />
+            
+            <Image
+              src="/about-sahal.png"
+              alt="Sahal - Software Developer"
+              fill
+              className="object-cover object-top transition-transform duration-700 ease-in-out group-hover:scale-105"
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              priority
+            />
+          </motion.div>
 
-          {/* Bottom Row: Stats (3 items, taking 1 col each on lg, spreading on md) */}
-          {/* On md:grid-cols-2, we need 3 items to fit nicely, so we can wrap them in a fragment and let the grid place them. */}
-          <AboutStats />
-          
-          {/* Padding dummy cell for md screens since 2 + 1 + 3 = 6 items which fits perfectly in 2 cols (3 rows) and 3 cols (2 rows)! */}
-          {/* Wait: Top row is (2 col) + (1 col if lg, or 2 col if md). 
-              If md (2 cols):
-              Summary takes 2 cols (row 1).
-              Tech Stack takes 2 cols (row 2).
-              Stats takes 3 cells. 3 cells in a 2 col grid leaves 1 empty cell. We need a padding cell. */}
-          <div className="relative hidden md:block lg:hidden bg-background">
-            <div className="absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
-          </div>
-        </div>
+          {/* Right Column: Text & Stats (Takes up 7 columns on lg) */}
+          <motion.div 
+            className="lg:col-span-7 flex flex-col gap-6 lg:gap-8"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { 
+                opacity: 1, 
+                transition: { 
+                  staggerChildren: 0.2,
+                  delayChildren: 0.3
+                } 
+              }
+            }}
+          >
+            
+            {/* Professional Summary Box */}
+            <motion.div 
+              className="bg-background border border-border rounded-3xl overflow-hidden shadow-sm flex-1"
+              variants={{
+                hidden: { opacity: 0, x: 30 },
+                visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
+              }}
+            >
+              <AboutSummary />
+            </motion.div>
+            
+            {/* Tech Stack (Temporarily Commented Out) */}
+            {/* 
+            <div className="bg-background border border-border rounded-3xl overflow-hidden shadow-sm">
+              <AboutTechStack />
+            </div>
+            */}
+
+            {/* Stats Row */}
+            <motion.div 
+              className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-border border border-border rounded-3xl overflow-hidden shadow-sm shrink-0"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0, 
+                  transition: { 
+                    duration: 0.6, 
+                    ease: "easeOut",
+                    staggerChildren: 0.15,
+                    delayChildren: 0.3
+                  } 
+                }
+              }}
+            >
+              <AboutStats />
+            </motion.div>
+
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
