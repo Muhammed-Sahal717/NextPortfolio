@@ -20,7 +20,7 @@ export default function ProjectCard({
   const mainImage = allImages.length > 0 ? allImages[0] : null;
 
   return (
-    <Card className="flex flex-col p-0 gap-0 h-full overflow-hidden border-none rounded-none shadow-none bg-background group transition-colors hover:bg-zinc-950/50">
+    <Card className="flex flex-col p-0 gap-0 h-full overflow-hidden border-none rounded-none shadow-none bg-background group transition-colors hover:bg-zinc-900/20">
       
       {/* Top: Image */}
       <CardContent className="p-0">

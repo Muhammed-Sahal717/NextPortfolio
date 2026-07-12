@@ -35,9 +35,9 @@
   --color-red-400: var(--theme-red-400);
   --color-red-500: var(--theme-red-500);
 
-  /* Minimal Green Accents */
-  --color-border: var(--theme-green-border);
-  --color-input: var(--theme-green-border);
+  /* Minimal Borders */
+  --color-border: var(--theme-zinc-800);
+  --color-input: var(--theme-zinc-800);
   --color-ring: var(--theme-green-500);
 
   --color-primary: var(--theme-white);
