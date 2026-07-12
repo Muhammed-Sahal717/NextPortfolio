@@ -1,6 +1,7 @@
 "use client";
 
 import ProjectCard from "./ProjectCard";
+import { motion } from "framer-motion";
 
 function CellWrapper({ 
   children, 
@@ -15,7 +16,13 @@ function CellWrapper({
   const isMdInternal = index >= 2 && index % 2 !== 0;
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
+    <motion.div 
+      className={`relative w-full h-full ${className}`}
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+      }}
+    >
       {/* LG Diamond */}
       {isLgInternal && (
         <div className="hidden lg:block absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
@@ -25,7 +32,7 @@ function CellWrapper({
         <div className="hidden md:block lg:hidden absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
       )}
       {children}
-    </div>
+    </motion.div>
   );
 }
 
@@ -37,7 +44,21 @@ export default function ProjectGrid({ projects }: { projects: any[] }) {
 
   return (
     <div className="mx-auto w-full max-w-[100rem] px-6 lg:px-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-xl overflow-hidden shadow-sm">
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border rounded-xl overflow-hidden shadow-sm"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, margin: "-50px" }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.15,
+            },
+          },
+        }}
+      >
         {projects.map((project, index) => (
           <CellWrapper key={project.id} index={index}>
             <ProjectCard project={project} index={index} />
@@ -59,7 +80,7 @@ export default function ProjectGrid({ projects }: { projects: any[] }) {
             <CellWrapper key={`empty-md-${i}`} index={index} className="hidden md:block lg:hidden bg-background" />
           );
         })}
-      </div>
+      </motion.div>
     </div>
   );
 }
