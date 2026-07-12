@@ -23,7 +23,7 @@ export default function AboutSection() {
           className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mt-12"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           variants={{
             hidden: { opacity: 0 },
             visible: {
