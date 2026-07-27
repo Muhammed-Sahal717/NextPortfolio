@@ -20,7 +20,7 @@ export default function ProjectCard({
   const mainImage = allImages.length > 0 ? allImages[0] : null;
 
   return (
-    <Card className="flex flex-col p-0 gap-0 h-full overflow-hidden border-none rounded-none shadow-none bg-background group transition-colors hover:bg-zinc-900/20">
+    <Card className="flex flex-col p-0 gap-0 h-full overflow-hidden border-none rounded-none shadow-none bg-background group transition-colors">
       
       {/* Top: Image */}
       <CardContent className="p-0">
@@ -48,12 +48,20 @@ export default function ProjectCard({
       {/* Middle: Content */}
       <CardHeader className="flex flex-col flex-1 p-6 gap-3">
         <div>
-          <Link href={`/projects/${project.slug}`} className="w-fit">
-            <CardTitle className="text-2xl font-bold transition-colors group-hover:text-primary">
+          <Link href={`/projects/${project.slug}`} className="w-fit relative block">
+            {/* Base Text */}
+            <CardTitle className="text-2xl font-bold text-foreground">
+              {project.title}
+            </CardTitle>
+            {/* Fill Text Overlay */}
+            <CardTitle 
+              className="text-2xl font-bold text-green-500 absolute inset-0 transition-[clip-path] duration-500 ease-out [clip-path:inset(0_100%_0_0)] group-hover:[clip-path:inset(0_0_0_0)]"
+              aria-hidden="true"
+            >
               {project.title}
             </CardTitle>
           </Link>
-          <CardDescription className="line-clamp-3 text-sm text-muted-foreground mt-2 leading-relaxed">
+          <CardDescription className="line-clamp-3 text-sm text-muted-foreground mt-2 leading-relaxed opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:text-zinc-200">
             {project.description}
           </CardDescription>
         </div>
@@ -62,7 +70,7 @@ export default function ProjectCard({
         {project.tech_stack && project.tech_stack.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-2">
             {project.tech_stack.slice(0, 4).map((tech: string) => (
-              <Badge key={tech} variant="secondary" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground bg-zinc-900 border-zinc-800/50">
+              <Badge key={tech} variant="secondary" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground bg-zinc-900 border-zinc-800/50 transition-all duration-300 group-hover:border-green-500/50 group-hover:bg-green-500/10 group-hover:text-green-400 cursor-default">
                 {tech}
               </Badge>
             ))}
