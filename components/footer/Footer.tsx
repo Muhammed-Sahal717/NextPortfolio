@@ -24,7 +24,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-background text-foreground relative border-t border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col pt-24 pb-12"
+      className="bg-zinc-900 text-foreground relative border-t border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col pt-24 pb-12"
       id="contact"
     >
       <motion.div 

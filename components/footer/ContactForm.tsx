@@ -35,6 +35,8 @@ export default function ContactForm() {
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
         {
           from_email: formData.email,
+          reply_to: formData.email,
+          email: formData.email, // Added as fallback for standard templates
           message: formData.message,
           to_name: "Sahal",
         },
