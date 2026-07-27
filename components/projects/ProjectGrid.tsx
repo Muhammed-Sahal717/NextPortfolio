@@ -16,12 +16,8 @@ function CellWrapper({
   const isMdInternal = index >= 2 && index % 2 !== 0;
 
   return (
-    <motion.div 
+    <div 
       className={`relative w-full h-full ${className}`}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-      }}
     >
       {/* LG Diamond */}
       {isLgInternal && (
@@ -32,7 +28,7 @@ function CellWrapper({
         <div className="hidden md:block lg:hidden absolute -top-[0.5px] -left-[0.5px] w-[10px] h-[10px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-background z-10 border border-border" />
       )}
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -54,7 +50,7 @@ export default function ProjectGrid({ projects }: { projects: any[] }) {
           visible: {
             opacity: 1,
             transition: {
-              staggerChildren: 0.15,
+              duration: 0.5,
             },
           },
         }}
