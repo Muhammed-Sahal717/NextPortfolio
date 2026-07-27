@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "./MobileMenu";
@@ -27,16 +28,65 @@ const mainLinks = [
 ];
 
 export default function LiquidNavbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
+  // Set initial active section based on current route
+  useEffect(() => {
+    if (pathname === "/engineering") {
+      setActiveSection("Journey");
+    } else if (pathname === "/") {
+      setActiveSection("Home");
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 20);
+      
+      // Definitively set Home as active when at the very top of the homepage
+      if (pathname === "/" && currentScrollY < 100) {
+        setActiveSection("Home");
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    let observer: IntersectionObserver | null = null;
+
+    // Only track scroll spy sections if we are on the homepage
+    if (pathname === "/") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.id;
+              const link = mainLinks.find((l) => l.href.endsWith(`#${id}`));
+              if (link) setActiveSection(link.name);
+            }
+          });
+        },
+        { rootMargin: "-50% 0px -49% 0px" }
+      );
+
+      setTimeout(() => {
+        mainLinks.forEach((link) => {
+          if (link.href.includes("#")) {
+            const id = link.href.split("#")[1];
+            const element = document.getElementById(id);
+            if (element && observer) observer.observe(element);
+          }
+        });
+      }, 100);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (observer) observer.disconnect();
+    };
+  }, [pathname]);
 
   return (
     <nav
@@ -61,16 +111,26 @@ export default function LiquidNavbar() {
             </Link>
 
             {/* Center: Desktop Links (Shadcn NavigationMenu) */}
-            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 bg-background backdrop-blur-md rounded-full px-2 py-1.5 shadow-sm">
+            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 bg-background backdrop-blur-md rounded-full px-2 py-1.5">
               <NavigationMenu>
                 <NavigationMenuList className="gap-1">
                   {mainLinks.map((link) => (
                     <NavigationMenuItem key={link.name}>
                       <NavigationMenuLink
                         asChild
-                        className={`${navigationMenuTriggerStyle()} rounded-full bg-transparent`}
+                        className={`${navigationMenuTriggerStyle()} relative rounded-full bg-transparent hover:bg-transparent`}
                       >
-                        <Link href={link.href}>{link.name}</Link>
+                        <Link href={link.href} onClick={() => setActiveSection(link.name)}>
+                          {activeSection === link.name && (
+                            <motion.div
+                              layoutId="activeNavIndicator"
+                              className="absolute inset-0 bg-zinc-200/50 dark:bg-zinc-800 rounded-full -z-10"
+                              initial={false}
+                              transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                            />
+                          )}
+                          <span className="relative z-10">{link.name}</span>
+                        </Link>
                       </NavigationMenuLink>
                     </NavigationMenuItem>
                   ))}
