@@ -43,7 +43,7 @@ export default function ExperienceList({ experience }: { experience: any[] }) {
           visible: {
             opacity: 1,
             transition: {
-              staggerChildren: 0.15,
+              duration: 0.5,
             },
           },
         }}
@@ -52,13 +52,9 @@ export default function ExperienceList({ experience }: { experience: any[] }) {
           const isInternal = index >= 1; // Any item after the first has a top border
 
           return (
-            <motion.div 
+            <div 
               key={item.id} 
               className="relative w-full h-full"
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-              }}
             >
               {/* Top border diamond for items other than the first */}
               {isInternal && (
@@ -100,7 +96,7 @@ export default function ExperienceList({ experience }: { experience: any[] }) {
                   </div>
                 )}
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </motion.div>
