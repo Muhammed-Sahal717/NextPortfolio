@@ -100,7 +100,7 @@ export default function ContactForm() {
         <Button
           type="submit"
           disabled={status === "SENDING"}
-          className="w-full sm:w-auto self-start gap-2"
+          className="w-full sm:w-auto self-start gap-2 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group"
         >
           {status === "SENDING" ? (
             <>
@@ -110,7 +110,7 @@ export default function ContactForm() {
           ) : (
             <>
               Send Message
-              <FiSend />
+              <FiSend className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </>
           )}
         </Button>
