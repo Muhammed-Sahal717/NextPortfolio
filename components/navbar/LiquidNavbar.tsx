@@ -61,14 +61,14 @@ export default function LiquidNavbar() {
             </Link>
 
             {/* Center: Desktop Links (Shadcn NavigationMenu) */}
-            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
+            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 bg-black backdrop-blur-md border border-zinc-800 rounded-full px-2 py-1.5 shadow-sm">
               <NavigationMenu>
-                <NavigationMenuList>
+                <NavigationMenuList className="gap-1">
                   {mainLinks.map((link) => (
                     <NavigationMenuItem key={link.name}>
                       <NavigationMenuLink
                         asChild
-                        className={navigationMenuTriggerStyle()}
+                        className={`${navigationMenuTriggerStyle()} rounded-full bg-transparent hover:bg-zinc-800 text-zinc-300 hover:text-white`}
                       >
                         <Link href={link.href}>{link.name}</Link>
                       </NavigationMenuLink>
