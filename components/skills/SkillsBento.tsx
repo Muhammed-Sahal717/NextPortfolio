@@ -47,10 +47,10 @@ export default function SkillsBento() {
           Building responsive, interactive, and highly polished user interfaces.
         </p>
         <ul className="space-y-4">
-          <li className="flex items-center gap-3 text-zinc-400"><SiReact className="text-zinc-500" /> React</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiNextdotjs className="text-zinc-500" /> Next.js</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiTailwindcss className="text-zinc-500" /> Tailwind CSS</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiShadcnui className="text-zinc-500" /> Shadcn UI</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiReact className="text-zinc-500 group-hover:text-[#61DAFB] transition-colors" /> React</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiNextdotjs className="text-zinc-500 group-hover:text-white transition-colors" /> Next.js</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiTailwindcss className="text-zinc-500 group-hover:text-[#06B6D4] transition-colors" /> Tailwind CSS</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiShadcnui className="text-zinc-500 group-hover:text-white transition-colors" /> Shadcn UI</li>
         </ul>
       </div>
 
@@ -66,10 +66,10 @@ export default function SkillsBento() {
           Designing scalable APIs and secure database architectures.
         </p>
         <ul className="space-y-4">
-          <li className="flex items-center gap-3 text-zinc-400"><SiNodedotjs className="text-zinc-500" /> Node.js</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiFastapi className="text-zinc-500" /> FastAPI</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiPostgresql className="text-zinc-500" /> PostgreSQL</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiSupabase className="text-zinc-500" /> Supabase</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiNodedotjs className="text-zinc-500 group-hover:text-[#339933] transition-colors" /> Node.js</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiFastapi className="text-zinc-500 group-hover:text-[#009688] transition-colors" /> FastAPI</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiPostgresql className="text-zinc-500 group-hover:text-[#4169E1] transition-colors" /> PostgreSQL</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiSupabase className="text-zinc-500 group-hover:text-[#3ECF8E] transition-colors" /> Supabase</li>
         </ul>
       </div>
 
@@ -85,9 +85,9 @@ export default function SkillsBento() {
           Streamlining deployment pipelines and containerizing applications.
         </p>
         <ul className="space-y-4">
-          <li className="flex items-center gap-3 text-zinc-400"><SiDocker className="text-zinc-500" /> Docker</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiVercel className="text-zinc-500" /> Vercel</li>
-          <li className="flex items-center gap-3 text-zinc-400"><FiServer className="text-zinc-500" /> Linux</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiDocker className="text-zinc-500 group-hover:text-[#2496ED] transition-colors" /> Docker</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiVercel className="text-zinc-500 group-hover:text-white transition-colors" /> Vercel</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><FiServer className="text-zinc-500 group-hover:text-[#FCC624] transition-colors" /> Linux</li>
         </ul>
       </div>
 
@@ -104,11 +104,11 @@ export default function SkillsBento() {
         </p>
         <div className="grid grid-cols-2 gap-4">
           <ul className="space-y-4">
-            <li className="flex items-center gap-3 text-zinc-400"><SiJavascript className="text-zinc-500" /> JavaScript</li>
-            <li className="flex items-center gap-3 text-zinc-400"><SiTypescript className="text-zinc-500" /> TypeScript</li>
+            <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiJavascript className="text-zinc-500 group-hover:text-[#F7DF1E] transition-colors" /> JavaScript</li>
+            <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiTypescript className="text-zinc-500 group-hover:text-[#3178C6] transition-colors" /> TypeScript</li>
           </ul>
           <ul className="space-y-4">
-            <li className="flex items-center gap-3 text-zinc-400"><SiPython className="text-zinc-500" /> Python</li>
+            <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiPython className="text-zinc-500 group-hover:text-[#FFD43B] transition-colors" /> Python</li>
           </ul>
         </div>
       </div>
@@ -125,9 +125,9 @@ export default function SkillsBento() {
           Leveraging LLMs and automation tools to rapidly accelerate development.
         </p>
         <ul className="space-y-4">
-          <li className="flex items-center gap-3 text-zinc-400"><SiClaude className="text-zinc-500" /> Claude Code</li>
-          <li className="flex items-center gap-3 text-zinc-400"><SiGooglegemini className="text-zinc-500" /> Gemini API</li>
-          <li className="flex items-center gap-3 text-zinc-400"><FiMessageSquare className="text-zinc-500" /> Prompt Engineering</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiClaude className="text-zinc-500 group-hover:text-[#D97757] transition-colors" /> Claude Code</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><SiGooglegemini className="text-zinc-500 group-hover:text-[#8E75B2] transition-colors" /> Gemini API</li>
+          <li className="flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors cursor-default"><FiMessageSquare className="text-zinc-500 group-hover:text-white transition-colors" /> Prompt Engineering</li>
         </ul>
       </div>
 
