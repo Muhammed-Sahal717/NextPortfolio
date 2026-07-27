@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 
 export default function AboutStats() {
@@ -13,13 +12,9 @@ export default function AboutStats() {
   return (
     <>
       {stats.map((stat, i) => (
-        <motion.div 
+        <div 
           key={i} 
           className="relative flex flex-col items-center justify-center p-8 bg-background text-center group h-full"
-          variants={{
-            hidden: { opacity: 0, scale: 0.8 },
-            visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } }
-          }}
         >
           <span className="block text-4xl xl:text-5xl font-black text-foreground relative z-10 transition-transform group-hover:scale-110 duration-500">
             <AnimatedCounter to={stat.value} suffix={stat.suffix} />
@@ -27,7 +22,7 @@ export default function AboutStats() {
           <span className="text-muted-foreground text-xs font-bold uppercase tracking-wider mt-2 relative z-10">
             {stat.label}
           </span>
-        </motion.div>
+        </div>
       ))}
     </>
   );
