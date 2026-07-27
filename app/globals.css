@@ -73,10 +73,10 @@
   --radius: 0.625rem;
 
   /* LIGHT: Clean Zinc (Shadcn Light Equivalent) */
-  --theme-black: #ffffff;
+  --theme-black: #fafafa;
   --theme-white: #09090b;
 
-  --theme-zinc-950: #ffffff;
+  --theme-zinc-950: #fafafa;
   --theme-zinc-900: #f4f4f5;
   --theme-zinc-800: #e4e4e7;
   --theme-zinc-700: #d4d4d8;
