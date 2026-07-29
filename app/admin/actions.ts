@@ -28,7 +28,6 @@ export async function createProject(formData: FormData) {
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/(^-|-$)/g, "");
     const description = formData.get("description") as string;
-    const content = formData.get("content") as string;
     const techStackRaw = formData.get("tech_stack") as string;
     const tech_stack = techStackRaw
         ? techStackRaw.split(",").map((t) => t.trim()).filter(Boolean)
@@ -47,7 +46,6 @@ export async function createProject(formData: FormData) {
         title,
         slug,
         description,
-        content,
         tech_stack,
         image_url,
         gallery_images,
@@ -83,7 +81,6 @@ export async function updateProject(id: number, formData: FormData) {
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/(^-|-$)/g, "");
     const description = formData.get("description") as string;
-    const content = formData.get("content") as string;
     const techStackRaw = formData.get("tech_stack") as string;
     const tech_stack = techStackRaw
         ? techStackRaw.split(",").map((t) => t.trim()).filter(Boolean)
@@ -104,7 +101,6 @@ export async function updateProject(id: number, formData: FormData) {
             title,
             slug,
             description,
-            content,
             tech_stack,
             image_url,
             gallery_images,

@@ -14,7 +14,9 @@ export default async function EditProjectPage({
   const supabase = await createSupabaseServerClient();
   const { data: project } = await supabase
     .from("projects")
-    .select("*")
+    .select(
+      "id, title, slug, description, tech_stack, demo_url, github_url, image_url, gallery_images, category, timeline, status"
+    )
     .eq("id", parseInt(id))
     .single();
 

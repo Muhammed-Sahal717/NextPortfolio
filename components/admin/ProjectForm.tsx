@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FiX, FiPlus, FiEye, FiEyeOff } from "react-icons/fi";
-import ReactMarkdown from "react-markdown";
+import { FiX, FiPlus } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -28,8 +27,6 @@ export default function ProjectForm({
     project?.gallery_images || [],
   );
   const [galleryInput, setGalleryInput] = useState("");
-  const [showPreview, setShowPreview] = useState(false);
-  const [contentValue, setContentValue] = useState(project?.content || "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -66,7 +63,6 @@ export default function ProjectForm({
     // Override with our managed state
     formData.set("tech_stack", techStack.join(","));
     formData.set("gallery_images", galleryImages.join(","));
-    formData.set("content", contentValue);
 
     const result = await action(formData);
     if (result?.error) {
@@ -120,43 +116,6 @@ export default function ProjectForm({
           placeholder="A brief description of the project..."
           className="rounded-xl resize-none"
         />
-      </div>
-
-      {/* Content (Markdown) */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <Label className={labelClasses + " mb-0"}>Content (Markdown)</Label>
-          <button
-            type="button"
-            onClick={() => setShowPreview(!showPreview)}
-            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors font-mono uppercase tracking-widest"
-          >
-            {showPreview ? (
-              <>
-                <FiEyeOff size={12} /> Editor
-              </>
-            ) : (
-              <>
-                <FiEye size={12} /> Preview
-              </>
-            )}
-          </button>
-        </div>
-        {showPreview ? (
-          <div className="bg-card border border-border rounded-xl p-6 min-h-[200px] prose prose-sm max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-primary dark:prose-invert">
-            <ReactMarkdown>
-              {contentValue || "*Nothing to preview*"}
-            </ReactMarkdown>
-          </div>
-        ) : (
-          <Textarea
-            value={contentValue}
-            onChange={(e) => setContentValue(e.target.value)}
-            rows={10}
-            placeholder="Write detailed project description in markdown..."
-            className="rounded-xl resize-y font-mono text-xs leading-relaxed"
-          />
-        )}
       </div>
 
       {/* Tech Stack Tags */}

@@ -11,7 +11,9 @@ export const revalidate = 3600; // Cache for 1 hour instead of every request
 export default async function Home() {
   const { data: projects } = await supabase
     .from("projects")
-    .select("*")
+    .select(
+      "id, title, slug, description, tech_stack, demo_url, github_url, image_url, gallery_images, category, timeline, status"
+    )
     .order("id", { ascending: true });
 
   const { data: experience } = await supabase

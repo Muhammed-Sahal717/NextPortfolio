@@ -3,10 +3,15 @@ import { FiArrowLeft } from "react-icons/fi";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ProjectCarousel from "@/components/projects/ProjectCarousel";
 import ProjectHeader from "@/components/projects/details/ProjectHeader";
 import ProjectSidebar from "@/components/projects/details/ProjectSidebar";
 import { ThemeToggle } from "@/components/navbar/ThemeToggle";
+import {
+  formatProjectDocumentation,
+  getProjectDocumentation,
+} from "@/lib/project-docs";
 
 export const revalidate = 0;
 
@@ -52,13 +57,22 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { data: project } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("slug", slug)
-    .single();
+  const [{ data: project }, documentation] = await Promise.all([
+    supabase
+      .from("projects")
+      .select(
+        "id, title, slug, description, tech_stack, demo_url, github_url, image_url, gallery_images, category, timeline, status"
+      )
+      .eq("slug", slug)
+      .single(),
+    getProjectDocumentation(slug),
+  ]);
 
   if (!project) return notFound();
+
+  const projectDocumentation = documentation
+    ? formatProjectDocumentation(documentation)
+    : null;
 
   // Combine all images for the carousel
   const mainImages = extractUrls(project.image_url);
@@ -111,24 +125,15 @@ export default async function ProjectPage({
                 <ProjectCarousel images={allProjectImages} />
               </div>
 
-              {/* Main Content Section */}
-              <div className="p-8 md:p-12">
-                <div
-                  className="prose max-w-none 
-                    dark:prose-invert
-                    prose-headings:font-semibold prose-headings:text-foreground
-                    prose-p:text-muted-foreground prose-p:leading-relaxed 
-                    prose-li:text-muted-foreground
-                    prose-strong:text-foreground
-                    prose-code:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-border prose-code:before:content-none prose-code:after:content-none
-                    prose-a:text-primary hover:prose-a:underline hover:prose-a:opacity-80
-                  "
-                >
-                  <ReactMarkdown>
-                    {project.content || "No detailed description provided."}
-                  </ReactMarkdown>
+              {projectDocumentation && (
+                <div className="p-8 md:p-12">
+                  <article className="project-markdown">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {projectDocumentation}
+                    </ReactMarkdown>
+                  </article>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* RIGHT COLUMN: Sidebar (4 Cols) */}
