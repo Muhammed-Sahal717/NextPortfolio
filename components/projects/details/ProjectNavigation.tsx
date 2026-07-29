@@ -33,8 +33,10 @@ export default function ProjectNavigation({
   sections = DEFAULT_SECTIONS,
   projectName,
 }: ProjectNavigationProps) {
+  const activeSections = sections && sections.length > 0 ? sections : DEFAULT_SECTIONS;
+
   const [activeSection, setActiveSection] = useState<string>(
-    sections[0]?.id || "overview"
+    activeSections[0]?.id || "overview"
   );
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -51,7 +53,7 @@ export default function ProjectNavigation({
       }
 
       // 2. Intersection detection for active section
-      const sectionElements = sections
+      const sectionElements = activeSections
         .map((sec) => document.getElementById(sec.id))
         .filter((el): el is HTMLElement => el !== null);
 
@@ -115,7 +117,7 @@ export default function ProjectNavigation({
 
         {/* Navigation List */}
         <nav className="space-y-0.5 max-h-[calc(100vh-28rem)] overflow-y-auto pr-1 custom-scrollbar text-sm">
-          {sections.map((sec) => {
+          {activeSections.map((sec) => {
             const isActive = activeSection === sec.id;
             return (
               <button

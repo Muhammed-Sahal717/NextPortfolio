@@ -12,6 +12,7 @@ import ProjectInfoPanel from "@/components/projects/details/ProjectInfoPanel";
 import {
   formatProjectDocumentation,
   getProjectDocumentation,
+  extractNavSections,
 } from "@/lib/project-docs";
 
 export const revalidate = 0;
@@ -75,6 +76,10 @@ export default async function ProjectPage({
     ? formatProjectDocumentation(documentation)
     : null;
 
+  const navSections = projectDocumentation
+    ? extractNavSections(projectDocumentation)
+    : [];
+
   // Combine all images for the browser showcase / carousel
   const mainImages = extractUrls(project.image_url);
   const galleryImages = extractUrls(project.gallery_images);
@@ -105,40 +110,29 @@ export default async function ProjectPage({
       <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-12 pt-28">
         
         {/* MOBILE / TABLET HORIZONTAL STICKY CHIPS (Visible <1024px) */}
-        <div className="lg:hidden sticky top-16 z-[900] bg-background/95 backdrop-blur-md py-3 mb-6 border-b border-border/40 overflow-x-auto scrollbar-none flex items-center gap-2">
-          <span className="text-[11px] font-mono text-muted-foreground uppercase shrink-0 mr-1">
-            Sections:
-          </span>
-          {[
-            { id: "overview", label: "Overview" },
-            { id: "problem", label: "Problem" },
-            { id: "solution", label: "Solution" },
-            { id: "features", label: "Features" },
-            { id: "tech-stack", label: "Tech Stack" },
-            { id: "architecture", label: "Architecture" },
-            { id: "database", label: "Database" },
-            { id: "authentication", label: "Authentication" },
-            { id: "challenges", label: "Challenges" },
-            { id: "performance", label: "Performance" },
-            { id: "deployment", label: "Deployment" },
-            { id: "lessons-learned", label: "Lessons Learned" },
-          ].map((sec) => (
-            <a
-              key={sec.id}
-              href={`#${sec.id}`}
-              className="text-xs px-3 py-1 rounded-full bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40 shrink-0 transition-colors"
-            >
-              {sec.label}
-            </a>
-          ))}
-        </div>
+        {navSections.length > 0 && (
+          <div className="lg:hidden sticky top-16 z-[900] bg-background/95 backdrop-blur-md py-3 mb-6 border-b border-border/40 overflow-x-auto scrollbar-none flex items-center gap-2">
+            <span className="text-[11px] font-mono text-muted-foreground uppercase shrink-0 mr-1">
+              Sections:
+            </span>
+            {navSections.map((sec) => (
+              <a
+                key={sec.id}
+                href={`#${sec.id}`}
+                className="text-xs px-3 py-1 rounded-full bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40 shrink-0 transition-colors"
+              >
+                {sec.label}
+              </a>
+            ))}
+          </div>
+        )}
 
         {/* 3-COLUMN DESKTOP GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start">
           
           {/* LEFT COLUMN: Sticky Table of Contents (3 Cols on lg / 2.5 on xl) */}
           <div className="hidden lg:block lg:col-span-3 xl:col-span-3 sticky top-28 self-start">
-            <ProjectNavigation projectName={project.title} />
+            <ProjectNavigation projectName={project.title} sections={navSections} />
           </div>
 
           {/* CENTER COLUMN: Main Case Study Content (6 Cols on lg / 6.5 on xl) */}

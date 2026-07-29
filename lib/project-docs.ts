@@ -30,6 +30,35 @@ export async function getProjectDocumentation(
   }
 }
 
+export interface NavSection {
+  id: string;
+  label: string;
+}
+
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .trim();
+}
+
+export function extractNavSections(markdown: string): NavSection[] {
+  const normalized = markdown.replace(/\r\n/g, "\n").trim();
+  const headingRegex = /^##\s+(.+)$/gm;
+  const matches = Array.from(normalized.matchAll(headingRegex));
+
+  if (matches.length === 0) {
+    return [{ id: "overview", label: "Overview" }];
+  }
+
+  return matches.map((match) => {
+    const label = match[1].trim();
+    const id = slugify(label);
+    return { id, label };
+  });
+}
+
 export function formatProjectDocumentation(markdown: string): string {
   return markdown
     .replace(/\r\n/g, "\n")
