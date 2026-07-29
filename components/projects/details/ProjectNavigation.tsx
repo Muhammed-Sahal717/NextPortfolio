@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Sparkles, MessageSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export interface NavSection {
   id: string;
@@ -32,7 +34,7 @@ export default function ProjectNavigation({
   projectName,
 }: ProjectNavigationProps) {
   const [activeSection, setActiveSection] = useState<string>(
-    sections[0]?.id || "overview",
+    sections[0]?.id || "overview"
   );
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -44,7 +46,7 @@ export default function ProjectNavigation({
         document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
         setScrollProgress(
-          Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100)),
+          Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100))
         );
       }
 
@@ -80,13 +82,13 @@ export default function ProjectNavigation({
     }
   };
 
-  const handleOpenAIChat = () => {
+  const triggerPrompt = (promptText: string) => {
     window.dispatchEvent(
       new CustomEvent("open-chat", {
         detail: {
-          message: `Tell me about the ${projectName} project.`,
+          message: `${promptText} for the ${projectName} project.`,
         },
-      }),
+      })
     );
   };
 
@@ -112,7 +114,7 @@ export default function ProjectNavigation({
         </div>
 
         {/* Navigation List */}
-        <nav className="space-y-0.5 max-h-[calc(100vh-22rem)] overflow-y-auto pr-1 custom-scrollbar text-sm">
+        <nav className="space-y-0.5 max-h-[calc(100vh-28rem)] overflow-y-auto pr-1 custom-scrollbar text-sm">
           {sections.map((sec) => {
             const isActive = activeSection === sec.id;
             return (
@@ -130,6 +132,27 @@ export default function ProjectNavigation({
             );
           })}
         </nav>
+      </div>
+
+      {/* AI Assistant Card */}
+      <div className="p-5 border border-emerald-500/30 rounded-2xl bg-emerald-500/5 dark:bg-emerald-950/20 space-y-4 shadow-sm">
+        <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+          <Sparkles className="w-4 h-4 text-emerald-500" />
+          <span>Ask AI Assistant</span>
+        </div>
+
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Ask anything about this project to get instant architectural explanations.
+        </p>
+
+        {/* Green CTA Button */}
+        <Button
+          onClick={() => triggerPrompt("Tell me about the technical details")}
+          className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs h-10 gap-2 shadow-sm"
+        >
+          <MessageSquare className="w-3.5 h-3.5" />
+          <span>Ask AI Assistant</span>
+        </Button>
       </div>
     </aside>
   );
