@@ -1,11 +1,25 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { google } from "@ai-sdk/google";
 import { embed } from "ai";
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabaseClient";
 import { generateSystemPrompt } from "@/lib/ai-prompt";
+import { geminiEmbeddingModel } from "@/lib/gemini";
 
 export const runtime = "edge";
+const MATCH_THRESHOLD = 0.5;
+const MATCH_COUNT = 8;
+
+type MatchedDocument = {
+  content: string;
+  metadata?: {
+    source?: string;
+    project_id?: string | number;
+    slug?: string;
+    chunk_index?: number;
+    id?: string | number;
+  } | null;
+  similarity?: number;
+};
 
 // Ensure the API key is available
 const apiKey =
@@ -64,25 +78,31 @@ export async function POST(req: Request) {
       );
     }
 
-    const lastMessageContent = messages[messages.length - 1].content;
+    const lastMessageContent = messages[messages.length - 1]?.content;
+
+    if (typeof lastMessageContent !== "string" || !lastMessageContent.trim()) {
+      return NextResponse.json(
+        { error: "Last message must contain text" },
+        { status: 400 }
+      );
+    }
 
     // 1. Generate an embedding for the user's question
     console.log("[Chat API] Embedding user query for RAG...");
     const { embedding } = await embed({
-      model: google.textEmbeddingModel("gemini-embedding-2"),
-      value: lastMessageContent,
+      model: geminiEmbeddingModel,
+      value: lastMessageContent.trim(),
     });
 
     // 2. Search Supabase for the most relevant documents
     console.log("[Chat API] Searching vector database...");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let matchedDocs: any[] | null = null;
+    let matchedDocs: MatchedDocument[] | null = null;
 
     try {
       const { data, error } = await supabase.rpc("match_documents", {
         query_embedding: embedding,
-        match_threshold: 0.5,
-        match_count: 5,
+        match_threshold: MATCH_THRESHOLD,
+        match_count: MATCH_COUNT,
       }).abortSignal(AbortSignal.timeout(3000));
 
       if (error) {
@@ -98,8 +118,8 @@ export async function POST(req: Request) {
 
     // 3. Build context only from the mathematically relevant documents
     const projectContext = matchedDocs && matchedDocs.length > 0
-      ? matchedDocs.map((doc, idx) => `[Relevant Information ${idx + 1}]:\n${doc.content}`).join("\n\n")
-      : "No specific background data matched the query. Provide a helpful general answer about Sahal.";
+      ? matchedDocs.map(formatMatchedDocument).join("\n\n")
+      : "No relevant RAG context was retrieved for this question. Say that you do not have enough indexed information to answer confidently, then suggest asking about Sahal's projects, skills, or experience.";
 
     console.log("[Chat API] Initializing Gemini model...");
 
@@ -126,7 +146,7 @@ export async function POST(req: Request) {
 
     console.log("[Chat API] Sending message...");
 
-    const result = await chat.sendMessageStream(lastMessageContent);
+    const result = await chat.sendMessageStream(lastMessageContent.trim());
 
     // Stream response
     const stream = new ReadableStream({
@@ -192,4 +212,20 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
+}
+
+function formatMatchedDocument(doc: MatchedDocument, idx: number): string {
+  const metadata = doc.metadata || {};
+  const source = metadata.source || "unknown";
+  const slug = metadata.slug ? `, slug: ${metadata.slug}` : "";
+  const chunkIndex =
+    typeof metadata.chunk_index === "number"
+      ? `, chunk: ${metadata.chunk_index}`
+      : "";
+  const similarity =
+    typeof doc.similarity === "number"
+      ? `, similarity: ${doc.similarity.toFixed(3)}`
+      : "";
+
+  return `[RAG Result ${idx + 1} | source: ${source}${slug}${chunkIndex}${similarity}]\n${doc.content}`;
 }

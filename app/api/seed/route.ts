@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
-import { google } from "@ai-sdk/google";
 import { embed } from "ai";
 import { NextResponse } from "next/server";
+import { geminiEmbeddingModel } from "@/lib/gemini";
 import {
   chunkProjectDocument,
   formatProjectDocumentation,
@@ -24,13 +24,36 @@ export async function GET(req: Request) {
   }
 
   // 1. Wipe old embeddings to prevent duplicates
-  await supabase.from("documents").delete().neq("id", 0);
+  const { error: deleteError } = await supabase
+    .from("documents")
+    .delete()
+    .neq("id", 0);
+
+  if (deleteError) {
+    return NextResponse.json({ error: deleteError.message }, { status: 500 });
+  }
 
   // 2. Fetch projects and experience
-  const { data: projects } = await supabase
+  const { data: projects, error: projectsError } = await supabase
     .from("projects")
     .select("id, title, slug, description, tech_stack");
-  const { data: experiences } = await supabase.from("experience").select("*");
+  const { data: experiences, error: experiencesError } = await supabase
+    .from("experience")
+    .select("*");
+
+  if (projectsError) {
+    return NextResponse.json({ error: projectsError.message }, { status: 500 });
+  }
+
+  if (experiencesError) {
+    return NextResponse.json(
+      { error: experiencesError.message },
+      { status: 500 }
+    );
+  }
+
+  let projectChunkCount = 0;
+  let experienceCount = 0;
 
   // 3. Process Projects
   if (projects) {
@@ -52,11 +75,11 @@ export async function GET(req: Request) {
 
       for (const [chunkIndex, chunk] of chunks.entries()) {
         const { embedding } = await embed({
-          model: google.textEmbeddingModel("gemini-embedding-2"),
+          model: geminiEmbeddingModel,
           value: chunk,
         });
 
-        await supabase.from("documents").insert({
+        const { error: insertError } = await supabase.from("documents").insert({
           content: chunk,
           embedding: embedding,
           metadata: {
@@ -66,6 +89,15 @@ export async function GET(req: Request) {
             chunk_index: chunkIndex,
           },
         });
+
+        if (insertError) {
+          return NextResponse.json(
+            { error: insertError.message },
+            { status: 500 }
+          );
+        }
+
+        projectChunkCount += 1;
       }
     }
   }
@@ -77,17 +109,30 @@ export async function GET(req: Request) {
       const textToEmbed = `Experience Role: ${exp.role} at ${exp.company}. Duration: ${exp.start_date} to ${exp.end_date || 'Present'}. Description: ${exp.description}. Skills used: ${skills}.`;
 
       const { embedding } = await embed({
-        model: google.textEmbeddingModel("gemini-embedding-2"),
+        model: geminiEmbeddingModel,
         value: textToEmbed,
       });
 
-      await supabase.from("documents").insert({
+      const { error: insertError } = await supabase.from("documents").insert({
         content: textToEmbed,
         embedding: embedding,
         metadata: { source: "experience", id: exp.id },
       });
+
+      if (insertError) {
+        return NextResponse.json(
+          { error: insertError.message },
+          { status: 500 }
+        );
+      }
+
+      experienceCount += 1;
     }
   }
 
-  return NextResponse.json({ message: "Success! AI memory updated with Projects and Experience." });
+  return NextResponse.json({
+    message: "Success! AI memory updated with Projects and Experience.",
+    project_chunks: projectChunkCount,
+    experience_documents: experienceCount,
+  });
 }
