@@ -38,7 +38,7 @@ export default function SkillsBento() {
       {/* Frontend Development - col-span-2 */}
       <div className="bg-background p-8 lg:p-10 hover:bg-zinc-900/20 transition-colors md:col-span-2 lg:col-span-2 group">
         <h3 className="text-foreground font-semibold text-xl mb-4 flex items-center gap-3">
-          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors">
+          <span className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 group-hover:text-emerald-400 transition-all duration-300">
             <FiLayout />
           </span>
           Frontend Development
@@ -57,7 +57,7 @@ export default function SkillsBento() {
       {/* Backend - col-span-1 */}
       <div className="bg-background p-8 lg:p-10 hover:bg-zinc-900/20 transition-colors md:col-span-1 lg:col-span-1 group">
         <h3 className="text-foreground font-semibold text-xl mb-4 flex items-center gap-3">
-          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors">
+          <span className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 group-hover:text-emerald-400 transition-all duration-300">
             <FiTerminal />
           </span>
           Backend
@@ -76,7 +76,7 @@ export default function SkillsBento() {
       {/* DevOps - col-span-1 */}
       <div className="bg-background p-8 lg:p-10 hover:bg-zinc-900/20 transition-colors md:col-span-1 lg:col-span-1 group">
         <h3 className="text-foreground font-semibold text-xl mb-4 flex items-center gap-3">
-          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors">
+          <span className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 group-hover:text-emerald-400 transition-all duration-300">
             <FiServer />
           </span>
           DevOps
@@ -94,7 +94,7 @@ export default function SkillsBento() {
       {/* Languages - col-span-2 */}
       <div className="bg-background p-8 lg:p-10 hover:bg-zinc-900/20 transition-colors md:col-span-2 lg:col-span-2 group">
         <h3 className="text-foreground font-semibold text-xl mb-4 flex items-center gap-3">
-          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors">
+          <span className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 group-hover:text-emerald-400 transition-all duration-300">
             <FiCode />
           </span>
           Languages
@@ -116,7 +116,7 @@ export default function SkillsBento() {
       {/* AI Workflow - col-span-2 */}
       <div className="bg-background p-8 lg:p-10 hover:bg-zinc-900/20 transition-colors md:col-span-2 lg:col-span-2 group">
         <h3 className="text-foreground font-semibold text-xl mb-4 flex items-center gap-3">
-          <span className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-white transition-colors">
+          <span className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 group-hover:text-emerald-400 transition-all duration-300">
             <FiCpu />
           </span>
             AI Workflow
