@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,21 +9,13 @@ import MobileMenu from "./MobileMenu";
 import { ThemeToggle } from "./ThemeToggle";
 import Logo from "@/components/common/Logo";
 import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 
 const mainLinks = [
   { name: "Home", href: "/#home" },
   { name: "About", href: "/#about" },
   { name: "Skills", href: "/#skills" },
   { name: "Experience", href: "/#experience" },
-  { name: "Work", href: "/#projects" },
-  // { name: "Profile", href: "/profile" },
+  { name: "Projects", href: "/#projects" },
   { name: "Journey", href: "/engineering" },
 ];
 
@@ -32,6 +24,32 @@ export default function LiquidNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  // Track hovered state for the fluid background pill
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+
+  // Position and width of the single background indicator pill
+  const [pillStyle, setPillStyle] = useState<{ left: number; width: number } | null>(null);
+  const navItemRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
+
+  const targetSection = hoveredSection || activeSection;
+
+  // Update pill coordinates whenever active or hovered section changes or window resizes
+  useEffect(() => {
+    const updatePill = () => {
+      if (!targetSection) return;
+      const currentEl = navItemRefs.current[targetSection];
+      if (currentEl) {
+        setPillStyle({
+          left: currentEl.offsetLeft,
+          width: currentEl.offsetWidth,
+        });
+      }
+    };
+
+    updatePill();
+    window.addEventListener("resize", updatePill);
+    return () => window.removeEventListener("resize", updatePill);
+  }, [targetSection]);
 
   // Set initial active section based on current route
   useEffect(() => {
@@ -46,7 +64,7 @@ export default function LiquidNavbar() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setIsScrolled(currentScrollY > 20);
-      
+
       // Definitively set Home as active when at the very top of the homepage
       if (pathname === "/" && currentScrollY < 100) {
         setActiveSection("Home");
@@ -68,7 +86,7 @@ export default function LiquidNavbar() {
             }
           });
         },
-        { rootMargin: "-50% 0px -49% 0px" }
+        { rootMargin: "-50% 0px -49% 0px" },
       );
 
       setTimeout(() => {
@@ -110,38 +128,65 @@ export default function LiquidNavbar() {
               </div>
             </Link>
 
-            {/* Center: Desktop Links (Shadcn NavigationMenu) */}
-            <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 bg-background backdrop-blur-md rounded-full px-2 py-1.5">
-              <NavigationMenu>
-                <NavigationMenuList className="gap-1">
-                  {mainLinks.map((link) => (
-                    <NavigationMenuItem key={link.name}>
-                      <NavigationMenuLink
-                        asChild
-                        className={`${navigationMenuTriggerStyle()} relative rounded-full bg-transparent hover:bg-transparent`}
+            {/* Center: Desktop Links (Fluid Pill Animation) */}
+            <div
+              className="hidden md:flex absolute left-1/2 -translate-x-1/2 bg-background backdrop-blur-md rounded-full px-2 py-1.5"
+              onMouseLeave={() => setHoveredSection(null)}
+            >
+              <ul className="relative flex items-center gap-1">
+                {/* Single Animated Background Pill */}
+                {pillStyle && (
+                  <motion.div
+                    className="absolute top-0 bottom-0 bg-zinc-200/50 dark:bg-zinc-800 rounded-full -z-10 pointer-events-none"
+                    initial={false}
+                    animate={{
+                      left: pillStyle.left,
+                      width: pillStyle.width,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30,
+                      mass: 0.8,
+                    }}
+                  />
+                )}
+
+                {mainLinks.map((link) => {
+                  const isSelected = targetSection === link.name;
+
+                  return (
+                    <li
+                      key={link.name}
+                      ref={(el) => {
+                        navItemRefs.current[link.name] = el;
+                      }}
+                      className="relative"
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setActiveSection(link.name)}
+                        onMouseEnter={() => setHoveredSection(link.name)}
+                        onFocus={() => setHoveredSection(link.name)}
+                        onBlur={() => setHoveredSection(null)}
+                        className={`relative z-10 block px-4 py-2 text-sm font-medium transition-colors duration-300 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                          isSelected
+                            ? "text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
                       >
-                        <Link href={link.href} onClick={() => setActiveSection(link.name)}>
-                          {activeSection === link.name && (
-                            <motion.div
-                              layoutId="activeNavIndicator"
-                              className="absolute inset-0 bg-zinc-200/50 dark:bg-zinc-800 rounded-full -z-10"
-                              initial={false}
-                              transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                            />
-                          )}
-                          <span className="relative z-10">{link.name}</span>
-                        </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-              </NavigationMenu>
+                        <span className="relative z-10">{link.name}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
 
             {/* Right: CTA & Hamburger */}
             <div className="flex items-center gap-2 shrink-0">
               <ThemeToggle />
-              
+
               {/* Desktop CTA */}
               <Button
                 asChild
