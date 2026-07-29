@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Sparkles, MessageSquare, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export interface NavSection {
   id: string;
@@ -33,16 +31,21 @@ export default function ProjectNavigation({
   sections = DEFAULT_SECTIONS,
   projectName,
 }: ProjectNavigationProps) {
-  const [activeSection, setActiveSection] = useState<string>(sections[0]?.id || "overview");
+  const [activeSection, setActiveSection] = useState<string>(
+    sections[0]?.id || "overview",
+  );
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // Scroll spy & progress calculation
   useEffect(() => {
     const handleScroll = () => {
       // 1. Calculate page scroll progress
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const totalHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
-        setScrollProgress(Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100)));
+        setScrollProgress(
+          Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100)),
+        );
       }
 
       // 2. Intersection detection for active section
@@ -71,7 +74,8 @@ export default function ProjectNavigation({
     const element = document.getElementById(id);
     if (element) {
       const yOffset = -120;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -82,7 +86,7 @@ export default function ProjectNavigation({
         detail: {
           message: `Tell me about the ${projectName} project.`,
         },
-      })
+      }),
     );
   };
 
@@ -122,35 +126,10 @@ export default function ProjectNavigation({
                 }`}
               >
                 <span className="truncate">{sec.label}</span>
-                {isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                )}
               </button>
             );
           })}
         </nav>
-      </div>
-
-      {/* AI Assistant Help Card */}
-      <div className="p-4 border border-emerald-500/20 rounded-2xl bg-emerald-500/5 dark:bg-emerald-950/20 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Need help?</span>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Ask the AI Assistant about this project&apos;s architecture, tech stack, or implementation details.
-        </p>
-        <Button
-          onClick={handleOpenAIChat}
-          variant="outline"
-          size="sm"
-          className="w-full text-xs h-8 border-emerald-500/30 hover:border-emerald-500 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 font-medium justify-between group"
-        >
-          <span className="flex items-center gap-1.5">
-            <MessageSquare className="w-3 h-3" /> Ask AI Assistant
-          </span>
-          <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
-        </Button>
       </div>
     </aside>
   );

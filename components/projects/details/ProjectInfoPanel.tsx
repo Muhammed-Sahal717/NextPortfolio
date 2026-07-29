@@ -3,19 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import {
-  Calendar,
   Layers,
-  Sparkles,
   ExternalLink,
   Github,
-  MessageSquare,
   Clock,
   User,
   Users,
   Activity,
   ArrowRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 interface ProjectInfoPanelProps {
@@ -41,16 +37,6 @@ export default function ProjectInfoPanel({
   demoUrl,
   githubUrl,
 }: ProjectInfoPanelProps) {
-  const triggerPrompt = (promptText: string) => {
-    window.dispatchEvent(
-      new CustomEvent("open-chat", {
-        detail: {
-          message: `${promptText} for the ${title} project.`,
-        },
-      })
-    );
-  };
-
   const hasMetadata = Boolean(status || category || timeline || role || teamSize);
 
   return (
@@ -65,8 +51,8 @@ export default function ProjectInfoPanel({
           <div className="space-y-4 text-xs">
             {/* Status */}
             {status && (
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground font-medium flex items-center gap-1.5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-muted-foreground font-medium flex items-center gap-1.5 shrink-0">
                   <Activity className="w-3.5 h-3.5 text-emerald-500" /> Status
                 </span>
                 <Badge
@@ -80,41 +66,41 @@ export default function ProjectInfoPanel({
 
             {/* Category */}
             {category && (
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground font-medium flex items-center gap-1.5">
+              <div className="flex items-start justify-between gap-3">
+                <span className="text-muted-foreground font-medium flex items-center gap-1.5 shrink-0 pt-0.5">
                   <Layers className="w-3.5 h-3.5 text-muted-foreground" /> Category
                 </span>
-                <span className="font-semibold text-foreground">{category}</span>
+                <span className="font-semibold text-foreground text-right leading-tight">{category}</span>
               </div>
             )}
 
             {/* Duration / Timeline */}
             {timeline && (
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground font-medium flex items-center gap-1.5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-muted-foreground font-medium flex items-center gap-1.5 shrink-0">
                   <Clock className="w-3.5 h-3.5 text-muted-foreground" /> Timeline
                 </span>
-                <span className="font-mono text-foreground">{timeline}</span>
+                <span className="font-mono text-foreground text-right">{timeline}</span>
               </div>
             )}
 
             {/* Role */}
             {role && (
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground font-medium flex items-center gap-1.5">
+              <div className="flex items-start justify-between gap-3">
+                <span className="text-muted-foreground font-medium flex items-center gap-1.5 shrink-0 pt-0.5">
                   <User className="w-3.5 h-3.5 text-muted-foreground" /> Role
                 </span>
-                <span className="font-semibold text-foreground text-right">{role}</span>
+                <span className="font-semibold text-foreground text-right leading-tight">{role}</span>
               </div>
             )}
 
             {/* Team Size */}
             {teamSize && (
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground font-medium flex items-center gap-1.5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-muted-foreground font-medium flex items-center gap-1.5 shrink-0">
                   <Users className="w-3.5 h-3.5 text-muted-foreground" /> Team
                 </span>
-                <span className="font-medium text-foreground">{teamSize}</span>
+                <span className="font-medium text-foreground text-right">{teamSize}</span>
               </div>
             )}
           </div>
@@ -175,54 +161,6 @@ export default function ProjectInfoPanel({
             </div>
           </div>
         )}
-      </div>
-
-      {/* AI Assistant Quick Actions Card */}
-      <div className="p-6 border border-emerald-500/30 rounded-2xl bg-emerald-500/5 dark:bg-emerald-950/20 space-y-4">
-        <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
-          <Sparkles className="w-4 h-4 text-emerald-500" />
-          <span>Ask AI Assistant</span>
-        </div>
-
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Ask anything about this project to get instant architectural explanations.
-        </p>
-
-        {/* Quick Prompts */}
-        <div className="space-y-2">
-          <button
-            onClick={() => triggerPrompt("Explain the architecture")}
-            className="w-full text-left p-2.5 rounded-xl border border-border/60 bg-card hover:border-emerald-500/50 hover:bg-emerald-500/10 text-xs font-medium text-foreground transition-all flex items-center justify-between group"
-          >
-            <span>Explain the architecture</span>
-            <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all" />
-          </button>
-
-          <button
-            onClick={() => triggerPrompt("How authentication works")}
-            className="w-full text-left p-2.5 rounded-xl border border-border/60 bg-card hover:border-emerald-500/50 hover:bg-emerald-500/10 text-xs font-medium text-foreground transition-all flex items-center justify-between group"
-          >
-            <span>How authentication works</span>
-            <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all" />
-          </button>
-
-          <button
-            onClick={() => triggerPrompt("Why this stack was chosen")}
-            className="w-full text-left p-2.5 rounded-xl border border-border/60 bg-card hover:border-emerald-500/50 hover:bg-emerald-500/10 text-xs font-medium text-foreground transition-all flex items-center justify-between group"
-          >
-            <span>Why this stack was chosen</span>
-            <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all" />
-          </button>
-        </div>
-
-        {/* Green CTA Button */}
-        <Button
-          onClick={() => triggerPrompt("Tell me about the technical details")}
-          className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs h-10 gap-2 shadow-sm"
-        >
-          <MessageSquare className="w-3.5 h-3.5" />
-          <span>Ask AI Assistant</span>
-        </Button>
       </div>
     </aside>
   );

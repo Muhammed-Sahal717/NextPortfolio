@@ -137,7 +137,7 @@ export default async function ProjectPage({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start">
           
           {/* LEFT COLUMN: Sticky Table of Contents (3 Cols on lg / 2.5 on xl) */}
-          <div className="hidden lg:block lg:col-span-3 xl:col-span-3">
+          <div className="hidden lg:block lg:col-span-3 xl:col-span-3 sticky top-28 self-start">
             <ProjectNavigation projectName={project.title} />
           </div>
 
@@ -173,7 +173,7 @@ export default async function ProjectPage({
           </div>
 
           {/* RIGHT COLUMN: Sticky Info Panel (3 Cols on lg / 3 on xl) */}
-          <div className="col-span-12 lg:col-span-3 xl:col-span-3">
+          <div className="col-span-12 lg:col-span-3 xl:col-span-3 lg:sticky lg:top-28 self-start">
             <ProjectInfoPanel
               title={project.title}
               category={project.category}
