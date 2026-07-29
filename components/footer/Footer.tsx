@@ -17,9 +17,21 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { icon: FiGithub, href: process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#", label: "GitHub" },
-    { icon: FiLinkedin, href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#", label: "LinkedIn" },
-    { icon: FiInstagram, href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM || "#", label: "Instagram" },
+    {
+      icon: FiGithub,
+      href: process.env.NEXT_PUBLIC_CONTACT_GITHUB || "#",
+      label: "GitHub",
+    },
+    {
+      icon: FiLinkedin,
+      href: process.env.NEXT_PUBLIC_CONTACT_LINKEDIN || "#",
+      label: "LinkedIn",
+    },
+    {
+      icon: FiInstagram,
+      href: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM || "#",
+      label: "Instagram",
+    },
   ];
 
   return (
@@ -27,7 +39,7 @@ export default function Footer() {
       className="bg-background text-foreground relative border-t border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col pt-24 pb-12"
       id="contact"
     >
-      <motion.div 
+      <motion.div
         className="w-full max-w-2xl mx-auto px-6 flex flex-col items-center text-center gap-12"
         initial="hidden"
         whileInView="visible"
@@ -36,33 +48,41 @@ export default function Footer() {
           hidden: { opacity: 0 },
           visible: {
             opacity: 1,
-            transition: { staggerChildren: 0.2 }
-          }
+            transition: { staggerChildren: 0.2 },
+          },
         }}
       >
-        
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           className="flex flex-col gap-4"
           variants={{
             hidden: { opacity: 0, y: 30 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.6, ease: "easeOut" },
+            },
           }}
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
             <ScrollReveal text="Let's work together." />
           </h2>
           <p className="text-lg text-muted-foreground">
-            I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            I&apos;m always open to discussing new projects, creative ideas, or
+            opportunities to be part of your vision.
           </p>
         </motion.div>
 
         {/* Form Section */}
-        <motion.div 
+        <motion.div
           className="w-full text-left"
           variants={{
             hidden: { opacity: 0, y: 30 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.6, ease: "easeOut" },
+            },
           }}
         >
           <ContactForm />
@@ -70,7 +90,7 @@ export default function Footer() {
       </motion.div>
 
       {/* Bottom Horizontal Bar */}
-      <motion.div 
+      <motion.div
         className="w-full max-w-[100rem] mx-auto mt-32 px-6 lg:px-16"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +98,6 @@ export default function Footer() {
         transition={{ duration: 0.6, delay: 0.2 }}
       >
         <div className="border-t border-dashed border-zinc-200 dark:border-zinc-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted-foreground">
-          
           {/* Navigation */}
           <div className="flex items-center gap-6">
             {navLinks.map((link) => (
@@ -94,7 +113,10 @@ export default function Footer() {
 
           {/* Copyright */}
           <div>
-             <p>© {new Date().getFullYear()} Sahal. All rights reserved.</p>
+            <p>
+              &copy; {new Date().getFullYear()} Sahal. Thanks for scrolling this
+              far.
+            </p>
           </div>
 
           {/* Socials */}
