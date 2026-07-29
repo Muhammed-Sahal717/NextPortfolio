@@ -70,7 +70,7 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
           <BubbleContent className={`
             leading-[1.8]
             ${isUser 
-              ? "bg-foreground text-background px-4 py-3 rounded-2xl rounded-tr-sm text-[16px] leading-[1.75]" 
+              ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border border-neutral-200/60 dark:border-neutral-700/60 px-4 py-2 rounded-2xl rounded-tr-sm text-[16px] leading-snug shadow-xs" 
               : "bg-transparent text-foreground px-1 py-1 text-[16px]"
             }
           `}>
