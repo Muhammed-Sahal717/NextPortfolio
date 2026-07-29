@@ -2,6 +2,11 @@ import { createClient } from "@supabase/supabase-js";
 import { google } from "@ai-sdk/google";
 import { embed } from "ai";
 import { NextResponse } from "next/server";
+import {
+  chunkProjectDocument,
+  formatProjectDocumentation,
+  getProjectDocumentation,
+} from "@/lib/project-docs";
 
 // 1. Setup Supabase (Admin access needed to write to DB)
 const supabase = createClient(
@@ -22,25 +27,46 @@ export async function GET(req: Request) {
   await supabase.from("documents").delete().neq("id", 0);
 
   // 2. Fetch projects and experience
-  const { data: projects } = await supabase.from("projects").select("*");
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("id, title, slug, description, tech_stack");
   const { data: experiences } = await supabase.from("experience").select("*");
 
   // 3. Process Projects
   if (projects) {
     for (const project of projects) {
       const techStack = Array.isArray(project.tech_stack) ? project.tech_stack.join(", ") : project.tech_stack;
-      const textToEmbed = `Project Title: ${project.title}. Description: ${project.description}. Tech Stack: ${techStack}.`;
+      const rawDocumentation = await getProjectDocumentation(project.slug);
+      const documentation = rawDocumentation
+        ? formatProjectDocumentation(rawDocumentation)
+        : null;
+      const documentText = [
+        `Project Title: ${project.title}`,
+        `Description: ${project.description}`,
+        `Tech Stack: ${techStack}`,
+        documentation ? `Documentation:\n${documentation}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n\n");
+      const chunks = chunkProjectDocument(documentText);
 
-      const { embedding } = await embed({
-        model: google.textEmbeddingModel("gemini-embedding-2"),
-        value: textToEmbed,
-      });
+      for (const [chunkIndex, chunk] of chunks.entries()) {
+        const { embedding } = await embed({
+          model: google.textEmbeddingModel("gemini-embedding-2"),
+          value: chunk,
+        });
 
-      await supabase.from("documents").insert({
-        content: textToEmbed,
-        embedding: embedding,
-        metadata: { source: "projects", id: project.id },
-      });
+        await supabase.from("documents").insert({
+          content: chunk,
+          embedding: embedding,
+          metadata: {
+            source: "project",
+            project_id: project.id,
+            slug: project.slug,
+            chunk_index: chunkIndex,
+          },
+        });
+      }
     }
   }
 

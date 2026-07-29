@@ -31,7 +31,7 @@ export default async function AdminDashboard({
   // Get total count
   const { count } = await supabase
     .from("projects")
-    .select("*", { count: "exact", head: true });
+    .select("id", { count: "exact", head: true });
     
   const totalProjects = count || 0;
   const totalPages = Math.ceil(totalProjects / limit);

@@ -31,7 +31,7 @@ export default async function AdminProjectsPage({
   // Get total count
   const { count } = await supabase
     .from("projects")
-    .select("*", { count: "exact", head: true });
+    .select("id", { count: "exact", head: true });
     
   const totalProjects = count || 0;
   const totalPages = Math.ceil(totalProjects / limit);
@@ -39,7 +39,9 @@ export default async function AdminProjectsPage({
   // Get paginated projects
   const { data: projects } = await supabase
     .from("projects")
-    .select("*")
+    .select(
+      "id, title, slug, description, tech_stack, demo_url, github_url, image_url, gallery_images, category, timeline, status"
+    )
     .order("id", { ascending: false })
     .range(offset, offset + limit - 1);
 
