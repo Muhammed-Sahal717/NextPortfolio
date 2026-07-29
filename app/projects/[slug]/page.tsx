@@ -1,13 +1,14 @@
 import { supabase } from "@/lib/supabaseClient";
-import { FiArrowLeft } from "react-icons/fi";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import ProjectCarousel from "@/components/projects/ProjectCarousel";
-import ProjectHeader from "@/components/projects/details/ProjectHeader";
-import ProjectSidebar from "@/components/projects/details/ProjectSidebar";
 import { ThemeToggle } from "@/components/navbar/ThemeToggle";
+import ProjectNavigation from "@/components/projects/details/ProjectNavigation";
+import ProjectHero from "@/components/projects/details/ProjectHero";
+import ProjectBrowserShowcase from "@/components/projects/details/ProjectBrowserShowcase";
+import ProjectContentRenderer from "@/components/projects/details/ProjectContentRenderer";
+import ProjectBottomCTA from "@/components/projects/details/ProjectBottomCTA";
+import ProjectInfoPanel from "@/components/projects/details/ProjectInfoPanel";
 import {
   formatProjectDocumentation,
   getProjectDocumentation,
@@ -27,7 +28,7 @@ export async function generateMetadata({
     .eq("slug", slug)
     .single();
   return {
-    title: project ? project.title : "Project Not Found",
+    title: project ? `${project.title} | Sahal's Portfolio` : "Project Not Found",
     description: project?.description,
   };
 }
@@ -74,7 +75,7 @@ export default async function ProjectPage({
     ? formatProjectDocumentation(documentation)
     : null;
 
-  // Combine all images for the carousel
+  // Combine all images for the browser showcase / carousel
   const mainImages = extractUrls(project.image_url);
   const galleryImages = extractUrls(project.gallery_images);
   const allProjectImages = Array.from(
@@ -82,68 +83,106 @@ export default async function ProjectPage({
   );
 
   return (
-    <main className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground pb-32">
-      {/* 1. SIMPLE TOP NAV */}
-      <div className="fixed top-0 left-0 w-full z-[1000] bg-background border-b border-dashed border-zinc-200 dark:border-zinc-800 shadow-md">
-        <div className="mx-auto flex h-16 max-w-[100rem] items-center justify-between px-6 lg:px-16">
+    <main className="min-h-screen bg-background text-foreground font-sans selection:bg-emerald-500/20 selection:text-emerald-500 pb-32">
+      {/* 1. TOP NAV BAR */}
+      <div className="fixed top-0 left-0 w-full z-[1000] bg-background/80 backdrop-blur-md border-b border-border/60 shadow-sm">
+        <div className="mx-auto flex h-16 max-w-[100rem] items-center justify-between px-4 sm:px-6 lg:px-12">
           <Link
             href="/#projects"
-            className="group flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="group flex items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
-            <FiArrowLeft className="transition-transform group-hover:-translate-x-1" />{" "}
-            Back to Projects
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <span>Back to Projects</span>
           </Link>
-          
-          <div className="flex items-center">
+
+          <div className="flex items-center gap-3">
             <ThemeToggle />
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-[100rem] px-6 pt-32 lg:px-16">
-        {/* SINGLE BOARD WRAPPER */}
-        <div className="border border-border rounded-[2rem] overflow-hidden bg-card flex flex-col shadow-sm">
+      {/* 2. MAIN THREE-COLUMN LAYOUT CONTAINER */}
+      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-12 pt-28">
+        
+        {/* MOBILE / TABLET HORIZONTAL STICKY CHIPS (Visible <1024px) */}
+        <div className="lg:hidden sticky top-16 z-[900] bg-background/95 backdrop-blur-md py-3 mb-6 border-b border-border/40 overflow-x-auto scrollbar-none flex items-center gap-2">
+          <span className="text-[11px] font-mono text-muted-foreground uppercase shrink-0 mr-1">
+            Sections:
+          </span>
+          {[
+            { id: "overview", label: "Overview" },
+            { id: "problem", label: "Problem" },
+            { id: "solution", label: "Solution" },
+            { id: "features", label: "Features" },
+            { id: "tech-stack", label: "Tech Stack" },
+            { id: "architecture", label: "Architecture" },
+            { id: "database", label: "Database" },
+            { id: "authentication", label: "Authentication" },
+            { id: "challenges", label: "Challenges" },
+            { id: "performance", label: "Performance" },
+            { id: "deployment", label: "Deployment" },
+            { id: "lessons-learned", label: "Lessons Learned" },
+          ].map((sec) => (
+            <a
+              key={sec.id}
+              href={`#${sec.id}`}
+              className="text-xs px-3 py-1 rounded-full bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40 shrink-0 transition-colors"
+            >
+              {sec.label}
+            </a>
+          ))}
+        </div>
+
+        {/* 3-COLUMN DESKTOP GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start">
           
-          {/* 1. HERO HEADER */}
-          <div className="border-b border-border">
-            <ProjectHeader
+          {/* LEFT COLUMN: Sticky Table of Contents (3 Cols on lg / 2.5 on xl) */}
+          <div className="hidden lg:block lg:col-span-3 xl:col-span-3">
+            <ProjectNavigation projectName={project.title} />
+          </div>
+
+          {/* CENTER COLUMN: Main Case Study Content (6 Cols on lg / 6.5 on xl) */}
+          <div className="col-span-12 lg:col-span-6 xl:col-span-6 space-y-8">
+            {/* Hero Header */}
+            <ProjectHero
               title={project.title}
               description={project.description}
               techStack={project.tech_stack}
               demoUrl={project.demo_url}
               githubUrl={project.github_url}
             />
+
+            {/* Browser Showcase / Screenshot Carousel */}
+            <ProjectBrowserShowcase
+              images={allProjectImages}
+              title={project.title}
+              demoUrl={project.demo_url}
+            />
+
+            {/* Structured Content Presentation */}
+            {projectDocumentation && (
+              <ProjectContentRenderer documentation={projectDocumentation} />
+            )}
+
+            {/* Bottom Centered CTA */}
+            <ProjectBottomCTA
+              title={project.title}
+              demoUrl={project.demo_url}
+              githubUrl={project.github_url}
+            />
           </div>
 
-          {/* 2. MAIN GRID (Carousel + Content vs Sidebar) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 bg-transparent relative">
-            {/* LEFT COLUMN: Carousel + Content (8 Cols) */}
-            <div className="lg:col-span-8 border-b lg:border-b-0 lg:border-r border-border flex flex-col">
-              
-              {/* Carousel Section */}
-              <div className="w-full aspect-video relative border-b border-border bg-black overflow-hidden">
-                <ProjectCarousel images={allProjectImages} />
-              </div>
-
-              {projectDocumentation && (
-                <div className="p-8 md:p-12">
-                  <article className="project-markdown">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {projectDocumentation}
-                    </ReactMarkdown>
-                  </article>
-                </div>
-              )}
-            </div>
-
-            {/* RIGHT COLUMN: Sidebar (4 Cols) */}
-            <div className="lg:col-span-4 bg-muted/20">
-              <ProjectSidebar
-                title={project.title}
-                category={project.category}
-                timeline={project.timeline}
-              />
-            </div>
+          {/* RIGHT COLUMN: Sticky Info Panel (3 Cols on lg / 3 on xl) */}
+          <div className="col-span-12 lg:col-span-3 xl:col-span-3">
+            <ProjectInfoPanel
+              title={project.title}
+              category={project.category}
+              timeline={project.timeline}
+              status={project.status}
+              techStack={project.tech_stack}
+              demoUrl={project.demo_url}
+              githubUrl={project.github_url}
+            />
           </div>
         </div>
       </div>
