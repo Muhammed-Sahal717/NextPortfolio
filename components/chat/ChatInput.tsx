@@ -19,7 +19,7 @@ export default function ChatInput({ input, setInput, isLoading, onSubmit }: Chat
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask something..."
-          className="w-full bg-transparent border border-border text-foreground placeholder:text-muted-foreground rounded-full pl-5 pr-12 h-12 font-sans text-sm focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-ring transition-all"
+          className="w-full bg-transparent border border-border text-foreground placeholder:text-muted-foreground rounded-full pl-5 pr-12 h-12 font-sans text-base focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-ring transition-all"
         />
         <Button
           type="submit"

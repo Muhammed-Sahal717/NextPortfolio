@@ -2,12 +2,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { embed } from "ai";
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabaseClient";
-import { generateSystemPrompt } from "@/lib/ai-prompt";
+import { SYSTEM_PROMPT } from "@/lib/ai-prompt";
 import { geminiEmbeddingModel } from "@/lib/gemini";
 
 export const runtime = "edge";
 const MATCH_THRESHOLD = 0.5;
-const MATCH_COUNT = 8;
+const MATCH_COUNT = 4;
 
 type MatchedDocument = {
   content: string;
@@ -129,9 +129,13 @@ export async function POST(req: Request) {
         role: "system",
         parts: [
           {
-            text: generateSystemPrompt(projectContext),
+            text: SYSTEM_PROMPT,
           },
         ],
+      },
+      generationConfig: {
+        temperature: 0.2,
+        topP: 0.8,
       },
     });
 
@@ -146,7 +150,13 @@ export async function POST(req: Request) {
 
     console.log("[Chat API] Sending message...");
 
-    const result = await chat.sendMessageStream(lastMessageContent.trim());
+    const userPromptWithContext = `[RETRIEVED KNOWLEDGE BASE REFERENCE]
+${projectContext}
+
+[USER QUESTION]
+${lastMessageContent.trim()}`;
+
+    const result = await chat.sendMessageStream(userPromptWithContext);
 
     // Stream response
     const stream = new ReadableStream({
@@ -186,12 +196,9 @@ export async function POST(req: Request) {
       error?.status === 429 ||
       error?.status === 400
     ) {
-      const mockMessage = `The AI service is temporarily unavailable due to API key or usage limit issues. Please check your API configuration or try again later.
+      const mockMessage = `I'm experiencing a brief pause right now due to high visitor traffic. Please try asking your question again in a moment!
 
----SUGGESTIONS---
-- What is Sahal's tech stack?
-- Show projects
-- What technologies does Sahal use?`;
+In the meantime, feel free to explore Sahal's featured projects, technical experience, or skills.`;
 
       const stream = new ReadableStream({
         start(controller) {

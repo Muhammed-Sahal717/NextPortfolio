@@ -2,8 +2,8 @@ import { readFile } from "fs/promises";
 import path from "path";
 
 const PROJECT_DOCS_DIR = path.join(process.cwd(), "content", "projects");
-const MAX_CHUNK_LENGTH = 3200;
-const CHUNK_OVERLAP = 300;
+const MAX_CHUNK_LENGTH = 1600;
+const CHUNK_OVERLAP = 200;
 
 export async function getProjectDocumentation(
   slug: string
@@ -45,12 +45,21 @@ export function chunkProjectDocument(text: string): string[] {
     return [];
   }
 
+  // Split content into blocks based on double newlines
+  const blocks = normalized.split(/\n{2,}/);
   const chunks: string[] = [];
-  const paragraphs = normalized.split(/\n{2,}/);
   let current = "";
 
-  for (const paragraph of paragraphs) {
-    const next = current ? `${current}\n\n${paragraph}` : paragraph;
+  for (const block of blocks) {
+    const isHeading = /^#{1,4}\s+/.test(block.trim());
+
+    // If starting a new section heading and current chunk is substantial (> 400 chars), push current chunk
+    if (isHeading && current.length >= 400) {
+      chunks.push(current.trim());
+      current = "";
+    }
+
+    const next = current ? `${current}\n\n${block}` : block;
 
     if (next.length <= MAX_CHUNK_LENGTH) {
       current = next;
@@ -58,21 +67,21 @@ export function chunkProjectDocument(text: string): string[] {
     }
 
     if (current) {
-      chunks.push(current);
+      chunks.push(current.trim());
     }
 
-    if (paragraph.length <= MAX_CHUNK_LENGTH) {
-      current = withOverlap(chunks.at(-1), paragraph);
+    if (block.length <= MAX_CHUNK_LENGTH) {
+      current = withOverlap(chunks.at(-1), block);
       continue;
     }
 
-    const splitParagraphs = splitLongText(paragraph);
-    chunks.push(...splitParagraphs.slice(0, -1));
-    current = splitParagraphs.at(-1) || "";
+    const splitBlocks = splitLongText(block);
+    chunks.push(...splitBlocks.slice(0, -1));
+    current = splitBlocks.at(-1) || "";
   }
 
-  if (current) {
-    chunks.push(current);
+  if (current.trim()) {
+    chunks.push(current.trim());
   }
 
   return chunks;

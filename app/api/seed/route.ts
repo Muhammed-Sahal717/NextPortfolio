@@ -58,22 +58,29 @@ export async function GET(req: Request) {
   // 3. Process Projects
   if (projects) {
     for (const project of projects) {
-      const techStack = Array.isArray(project.tech_stack) ? project.tech_stack.join(", ") : project.tech_stack;
+      const techStack = Array.isArray(project.tech_stack)
+        ? project.tech_stack.join(", ")
+        : project.tech_stack;
       const rawDocumentation = await getProjectDocumentation(project.slug);
       const documentation = rawDocumentation
         ? formatProjectDocumentation(rawDocumentation)
         : null;
-      const documentText = [
-        `Project Title: ${project.title}`,
-        `Description: ${project.description}`,
-        `Tech Stack: ${techStack}`,
-        documentation ? `Documentation:\n${documentation}` : null,
-      ]
-        .filter(Boolean)
-        .join("\n\n");
-      const chunks = chunkProjectDocument(documentText);
 
-      for (const [chunkIndex, chunk] of chunks.entries()) {
+      const projectChunks: string[] = [];
+
+      // Dedicated project overview chunk (ideal for broad queries)
+      const overviewChunk = `[Project: ${project.title}]\nSummary: ${project.description}\nTech Stack: ${techStack}`;
+      projectChunks.push(overviewChunk);
+
+      // Section-aware documentation chunks prefixed with lightweight project context tag
+      if (documentation) {
+        const rawDocChunks = chunkProjectDocument(documentation);
+        for (const docChunk of rawDocChunks) {
+          projectChunks.push(`[Project: ${project.title}]\n${docChunk}`);
+        }
+      }
+
+      for (const [chunkIndex, chunk] of projectChunks.entries()) {
         const { embedding } = await embed({
           model: geminiEmbeddingModel,
           value: chunk,

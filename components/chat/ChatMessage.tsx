@@ -68,16 +68,16 @@ export default function ChatMessage({ message, sendMessage }: ChatMessageProps) 
         
         <Bubble variant={isUser ? "default" : "ghost"} className={!isUser ? "max-w-full" : ""}>
           <BubbleContent className={`
-            leading-relaxed
+            leading-[1.8]
             ${isUser 
-              ? "bg-foreground text-background px-4 py-2.5 rounded-2xl rounded-tr-sm text-[15px]" 
-              : "bg-transparent text-foreground px-1 py-1 text-[15px]"
+              ? "bg-foreground text-background px-4 py-3 rounded-2xl rounded-tr-sm text-[16px] leading-[1.75]" 
+              : "bg-transparent text-foreground px-1 py-1 text-[16px]"
             }
           `}>
             {isUser ? (
               <div className="whitespace-pre-wrap break-words">{answer?.trim()}</div>
             ) : (
-              <div className="prose prose-sm dark:prose-invert prose-zinc max-w-none break-words prose-p:leading-relaxed prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-li:my-0.5 prose-ul:my-2 prose-p:my-2 first:prose-p:mt-0 last:prose-p:mb-0">
+              <div className="prose prose-base dark:prose-invert prose-zinc max-w-none break-words text-[16px] prose-p:leading-[1.85] prose-li:leading-[1.75] prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-li:my-1 prose-ul:my-3 prose-p:my-3.5 first:prose-p:mt-0 last:prose-p:mb-0">
                 <ReactMarkdown>
                   {answer?.trim() || ""}
                 </ReactMarkdown>
