@@ -123,7 +123,7 @@ export default function LiquidNavbar() {
               href="/#home"
               className="flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
             >
-              <div className="w-8 h-8 transition-transform group-hover:scale-110">
+              <div className="flex items-center justify-center transition-transform group-hover:scale-110">
                 <Logo />
               </div>
             </Link>

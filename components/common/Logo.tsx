@@ -1,20 +1,16 @@
-import React from "react";
+import localFont from "next/font/local";
+
+const pilowlava = localFont({
+  src: "../../public/fonts/pilowlava/Pilowlava-Regular.ttf",
+  display: "swap",
+});
 
 export default function Logo({ className = "" }: { className?: string }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      className={`w-full h-full text-foreground ${className}`}
-      fill="none"
+    <span
+      className={`${pilowlava.className} text-3xl md:text-4xl font-normal leading-none tracking-tight select-none text-green-500 dark:text-green-400 ${className}`}
     >
-      <path 
-        d="M 384 128 H 200 A 64 64 0 0 0 200 256 H 312 A 64 64 0 0 1 312 384 H 128" 
-        stroke="currentColor" 
-        strokeWidth="72" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-      />
-    </svg>
+      S
+    </span>
   );
 }

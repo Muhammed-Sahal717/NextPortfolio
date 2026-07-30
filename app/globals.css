@@ -7,6 +7,7 @@
   --color-foreground: var(--theme-white);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-nohemi: var(--font-nohemi);
 
   /* Mapping standard Tailwind colors to our theme variables */
   --color-black: var(--theme-black);
@@ -161,6 +162,10 @@
   html,
   body {
     @apply bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-nohemi), var(--font-outfit), sans-serif;
   }
 }
 
