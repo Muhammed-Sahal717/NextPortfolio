@@ -81,6 +81,7 @@ export default function ContactForm() {
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             placeholder="hello@example.com"
+            className="bg-background/80 dark:bg-zinc-900/80 border-zinc-300 dark:border-zinc-800 focus-visible:ring-2 focus-visible:ring-green-500/20 focus-visible:border-green-500 dark:focus-visible:border-green-400 transition-all duration-300 shadow-xs"
           />
         </div>
 
@@ -93,7 +94,7 @@ export default function ContactForm() {
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             placeholder="Tell me about your project..."
-            className="resize-none"
+            className="resize-none bg-background/80 dark:bg-zinc-900/80 border-zinc-300 dark:border-zinc-800 focus-visible:ring-2 focus-visible:ring-green-500/20 focus-visible:border-green-500 dark:focus-visible:border-green-400 transition-all duration-300 shadow-xs"
           />
         </div>
 

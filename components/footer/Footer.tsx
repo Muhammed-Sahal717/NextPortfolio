@@ -36,11 +36,43 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-background text-foreground relative border-t border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col pt-24 pb-12"
+      className="bg-background text-foreground relative border-t border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col pt-24 pb-12 overflow-hidden"
       id="contact"
     >
+      {/* --- VISUALLY STUNNING ANIMATED BACKGROUND SYSTEM --- */}
+      {/* 1. SVG Radial Dot Grid Pattern */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-40 dark:opacity-30 text-zinc-400 dark:text-zinc-600"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+          backgroundSize: '24px 24px',
+          maskImage: 'radial-gradient(ellipse 75% 65% at 50% 40%, black 20%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 40%, black 20%, transparent 80%)',
+        }}
+      />
+
+      {/* 2. Sleek Top Accent Glowing Line */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-green-500/40 dark:via-green-400/50 to-transparent z-10 pointer-events-none" />
+
+      {/* 3. Primary Glowing Ambient Orb (Pulsing Center) */}
       <motion.div
-        className="w-full max-w-2xl mx-auto px-6 flex flex-col items-center text-center gap-12"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35rem] h-[22rem] sm:w-[50rem] sm:h-[30rem] rounded-full bg-gradient-to-tr from-green-500/15 via-emerald-500/20 to-lime-400/10 dark:from-green-500/25 dark:via-emerald-400/20 dark:to-lime-400/15 blur-[120px] pointer-events-none z-0"
+        animate={{
+          scale: [1, 1.08, 1],
+          opacity: [0.7, 0.95, 0.7],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* 4. Top Gradient for seamless blend with content above */}
+      <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-background to-transparent z-0 pointer-events-none" />
+
+      <motion.div
+        className="w-full max-w-2xl mx-auto px-6 flex flex-col items-center text-center gap-12 relative z-10"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, margin: "-50px" }}
@@ -91,7 +123,7 @@ export default function Footer() {
 
       {/* Bottom Horizontal Bar */}
       <motion.div
-        className="w-full max-w-[100rem] mx-auto mt-32 px-6 lg:px-16"
+        className="w-full max-w-[100rem] mx-auto mt-32 px-6 lg:px-16 relative z-10"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, margin: "-10px" }}
