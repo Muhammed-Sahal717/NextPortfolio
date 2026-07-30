@@ -87,39 +87,64 @@ export async function POST(req: Request) {
       );
     }
 
-    // 1. Generate an embedding for the user's question
-    console.log("[Chat API] Embedding user query for RAG...");
-    const { embedding } = await embed({
-      model: geminiEmbeddingModel,
-      value: lastMessageContent.trim(),
-    });
+    const trimmedMessage = lastMessageContent.trim();
+    const isCasualGreeting =
+      /^(hi|hello|hey|greetings|howdy|what's up|how are you|good morning|good evening|good afternoon)(\s+.*)?$/i.test(
+        trimmedMessage
+      ) && trimmedMessage.length < 35;
 
-    // 2. Search Supabase for the most relevant documents
-    console.log("[Chat API] Searching vector database...");
-    let matchedDocs: MatchedDocument[] | null = null;
+    let projectContext = "User greeted casually. Respond warmly and welcome them as Sahal's AI assistant.";
 
-    try {
-      const { data, error } = await supabase.rpc("match_documents", {
-        query_embedding: embedding,
-        match_threshold: MATCH_THRESHOLD,
-        match_count: MATCH_COUNT,
-      }).abortSignal(AbortSignal.timeout(3000));
+    // 1. Only query RAG vector embeddings if NOT a simple casual greeting
+    if (!isCasualGreeting) {
+      console.log("[Chat API] Embedding user query for RAG...");
+      let embedding: number[] | null = null;
 
-      if (error) {
-        console.error("[Chat API] RPC Error:", error);
-      } else {
-        matchedDocs = data;
+      try {
+        const embedResult = await embed({
+          model: geminiEmbeddingModel,
+          value: trimmedMessage,
+        });
+        embedding = embedResult.embedding;
+      } catch (embedErr) {
+        console.warn("[Chat API] Vector embedding network issue, proceeding without RAG context:", embedErr);
       }
-    } catch (dbError) {
-      console.error("[Chat API] Supabase connection failed:", dbError);
+
+      // 2. Search Supabase for the most relevant documents if embedding succeeded
+      if (embedding) {
+        console.log("[Chat API] Searching vector database...");
+        let matchedDocs: MatchedDocument[] | null = null;
+
+        try {
+          const { data, error } = await supabase
+            .rpc("match_documents", {
+              query_embedding: embedding,
+              match_threshold: MATCH_THRESHOLD,
+              match_count: MATCH_COUNT,
+            })
+            .abortSignal(AbortSignal.timeout(3000));
+
+          if (error) {
+            console.error("[Chat API] RPC Error:", error);
+          } else {
+            matchedDocs = data;
+          }
+        } catch (dbError) {
+          console.error("[Chat API] Supabase connection failed:", dbError);
+        }
+
+        console.log(`[Chat API] Found ${matchedDocs?.length || 0} relevant documents`);
+
+        if (matchedDocs && matchedDocs.length > 0) {
+          projectContext = matchedDocs.map(formatMatchedDocument).join("\n\n");
+        } else {
+          projectContext =
+            "No relevant RAG context was retrieved for this question. Say that you do not have enough indexed information to answer confidently, then suggest asking about Sahal's projects, skills, or experience.";
+        }
+      }
+    } else {
+      console.log("[Chat API] Casual greeting detected; skipping RAG embedding lookup.");
     }
-
-    console.log(`[Chat API] Found ${matchedDocs?.length || 0} relevant documents`);
-
-    // 3. Build context only from the mathematically relevant documents
-    const projectContext = matchedDocs && matchedDocs.length > 0
-      ? matchedDocs.map(formatMatchedDocument).join("\n\n")
-      : "No relevant RAG context was retrieved for this question. Say that you do not have enough indexed information to answer confidently, then suggest asking about Sahal's projects, skills, or experience.";
 
     console.log("[Chat API] Initializing Gemini model...");
 
@@ -154,7 +179,7 @@ export async function POST(req: Request) {
 ${projectContext}
 
 [USER QUESTION]
-${lastMessageContent.trim()}`;
+${trimmedMessage}`;
 
     const result = await chat.sendMessageStream(userPromptWithContext);
 
@@ -187,18 +212,26 @@ ${lastMessageContent.trim()}`;
   } catch (error: any) {
     console.error("Chat API Error:", error);
 
-    // Clean professional fallback
-    if (
-      error?.message?.includes("429") ||
-      error?.message?.includes("quota") ||
-      error?.message?.includes("API key expired") ||
-      error?.message?.includes("API_KEY_INVALID") ||
+    const errorMessage = error?.message || "";
+    const isNetworkOrQuotaError =
+      errorMessage.includes("429") ||
+      errorMessage.includes("quota") ||
+      errorMessage.includes("API key expired") ||
+      errorMessage.includes("API_KEY_INVALID") ||
+      errorMessage.includes("EAI_AGAIN") ||
+      errorMessage.includes("getaddrinfo") ||
+      errorMessage.includes("ENOTFOUND") ||
+      errorMessage.includes("ECONNRESET") ||
+      errorMessage.includes("fetch failed") ||
+      errorMessage.includes("Cannot connect to API") ||
       error?.status === 429 ||
-      error?.status === 400
-    ) {
-      const mockMessage = `I'm experiencing a brief pause right now due to high visitor traffic. Please try asking your question again in a moment!
+      error?.status === 400 ||
+      error?.reason === "maxRetriesExceeded";
 
-In the meantime, feel free to explore Sahal's featured projects, technical experience, or skills.`;
+    if (isNetworkOrQuotaError) {
+      const mockMessage = `I'm experiencing a brief connection issue with the AI network right now. Please check your connection or try asking your question again in a moment!
+
+In the meantime, feel free to explore Sahal's featured projects, technical experience, and skills directly on the portfolio.`;
 
       const stream = new ReadableStream({
         start(controller) {
