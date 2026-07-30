@@ -4,10 +4,6 @@
 
 A production-ready developer portfolio built with **Next.js 16 (App Router)**. This platform is designed to showcase projects, skills, and professional experience with a heavy focus on performance, modern UI patterns, and practical AI integration.
 
-## Problem
-
-Traditional developer portfolios often lack interactivity and fail to deeply engage visitors or recruiters. Finding specific details about a developer's precise role in a project, their tech stack preferences, or deep professional experience usually requires reading through walls of static text or navigating complex, disjointed layouts.
-
 ## Solution
 
 To solve this, I developed an interactive, AI-powered portfolio. It features a custom context-aware assistant capable of answering highly specific questions about my experience and projects in real-time. This is built on top of a highly optimized, visually striking user interface that provides an exceptional user experience even before the AI is engaged.

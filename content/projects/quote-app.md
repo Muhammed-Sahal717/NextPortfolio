@@ -2,10 +2,6 @@
 
 A modern, responsive React application that fetches and displays random quotes. Built with Vite and React.
 
-## Problem
-
-Finding inspiring or relevant quotes for presentations, social media, or personal motivation can often be time-consuming and tedious.
-
 ## Solution
 
 A simple, elegant web interface that allows users to instantly generate random quotes, filter them by length, and copy them to their clipboard with a single click.
