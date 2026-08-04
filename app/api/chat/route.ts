@@ -1,9 +1,8 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { embed } from "ai";
+import { embed, streamText, type ModelMessage } from "ai";
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabaseClient";
 import { SYSTEM_PROMPT } from "@/lib/ai-prompt";
-import { geminiEmbeddingModel } from "@/lib/gemini";
+import { geminiEmbeddingModel, geminiModel } from "@/lib/gemini";
 
 export const runtime = "edge";
 const MATCH_THRESHOLD = 0.5;
@@ -21,12 +20,15 @@ type MatchedDocument = {
   similarity?: number;
 };
 
+type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 // Ensure the API key is available
 const apiKey =
   process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
   process.env.GEMINI_API_KEY;
-
-const genAI = new GoogleGenerativeAI(apiKey || "");
 
 // Basic in-memory rate limiting (per edge node isolate)
 const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
@@ -146,63 +148,32 @@ export async function POST(req: Request) {
       console.log("[Chat API] Casual greeting detected; skipping RAG embedding lookup.");
     }
 
-    console.log("[Chat API] Initializing Gemini model...");
-
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
-      systemInstruction: {
-        role: "system",
-        parts: [
-          {
-            text: SYSTEM_PROMPT,
-          },
-        ],
-      },
-      generationConfig: {
-        temperature: 0.2,
-        topP: 0.8,
-      },
-    });
-
-    // Build chat history
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const history = messages.slice(0, -1).map((m: any) => ({
-      role: m.role === "user" ? "user" : "model",
-      parts: [{ text: m.content }],
-    }));
-
-    const chat = model.startChat({ history });
-
-    console.log("[Chat API] Sending message...");
-
     const userPromptWithContext = `[RETRIEVED KNOWLEDGE BASE REFERENCE]
 ${projectContext}
 
 [USER QUESTION]
 ${trimmedMessage}`;
 
-    const result = await chat.sendMessageStream(userPromptWithContext);
-
-    // Stream response
-    const stream = new ReadableStream({
-      async start(controller) {
-        const encoder = new TextEncoder();
-        try {
-          for await (const chunk of result.stream) {
-            const text = chunk.text();
-            if (text) {
-              controller.enqueue(encoder.encode(text));
-            }
-          }
-          controller.close();
-        } catch (err) {
-          console.error("Stream error:", err);
-          controller.error(err);
-        }
+    const modelMessages: ModelMessage[] = [
+      ...messages.slice(0, -1).map((m: ChatMessage) => ({
+        role: m.role,
+        content: m.content,
+      })),
+      {
+        role: "user",
+        content: userPromptWithContext,
       },
+    ];
+
+    console.log("[Chat API] Sending message...");
+
+    const result = streamText({
+      model: geminiModel,
+      system: SYSTEM_PROMPT,
+      messages: modelMessages,
     });
 
-    return new Response(stream, {
+    return result.toTextStreamResponse({
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
       },
